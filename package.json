@@ -1,0 +1,56 @@
+{
+  "name": "pnw",
+  "version": "0.1.0",
+  "private": true,
+  "prisma": {
+    "seed": "bun run prisma/seed.ts"
+  },
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "node ./node_modules/next/dist/bin/next build",
+    "build:node": "node ./node_modules/next/dist/bin/next build",
+    "build:bun": "bunx next build",
+    "ci:verify": "bun run lint && bun run build:bun && bun run build:node",
+    "start": "next start",
+    "lint": "next lint",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "bun run prisma/seed.ts",
+    "db:studio": "prisma studio"
+  },
+  "dependencies": {
+    "@clerk/nextjs": "^6.7.4",
+    "@hookform/resolvers": "^5.2.2",
+    "@prisma/client": "^5.22.0",
+    "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-label": "^2.1.8",
+    "@radix-ui/react-slot": "^1.2.4",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.468.0",
+    "motion": "^11.11.17",
+    "next": "15.1.6",
+    "next-themes": "^0.4.6",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.71.1",
+    "sonner": "^2.0.7",
+    "svix": "^1.85.0",
+    "tailwind-merge": "^2.6.0",
+    "vaul": "^1.1.2",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.2",
+    "eslint": "^9.17.0",
+    "eslint-config-next": "15.1.6",
+    "postcss": "^8.4.49",
+    "prisma": "^5.22.0",
+    "tailwindcss": "^3.4.16",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5.7.2"
+  }
+}

@@ -1,0 +1,169 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum MemberType {
+  MEMBER
+  GUEST
+}
+
+model User {
+  id            String     @id @default(cuid())
+  clerkId       String     @unique
+  email         String     @unique
+  firstName     String?
+  lastName      String?
+  memberType    MemberType @default(GUEST)
+  zoneId        String?
+  zone          Zone?      @relation(fields: [zoneId], references: [id])
+  isApproved    Boolean    @default(false)
+  emailPrefs    Json?
+  whatsappOptIn Boolean    @default(false)
+  whatsappPhone String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  incidents     Incident[]
+  eventRsvps    EventRsvp[]
+}
+
+model Incident {
+  id          String   @id @default(cuid())
+  type        String
+  location    String
+  dateTime    DateTime
+  zoneId      String?
+  zone        Zone?    @relation(fields: [zoneId], references: [id])
+  reportedBy  String?
+  createdById String?
+  createdBy   User?    @relation(fields: [createdById], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model Zone {
+  id             String    @id @default(cuid())
+  name           String
+  postcodePrefix String?
+  mapUrl         String?
+  members        User[]
+  incidents      Incident[]
+}
+
+model Event {
+  id        String      @id @default(cuid())
+  title     String
+  location  String
+  startAt   DateTime
+  endAt     DateTime?
+  content   String?
+  createdAt DateTime    @default(now())
+  rsvps     EventRsvp[]
+}
+
+model EventRsvp {
+  id        String   @id @default(cuid())
+  eventId   String
+  event     Event    @relation(fields: [eventId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([eventId, userId])
+}
+
+model DocumentCategory {
+  id   String     @id @default(cuid())
+  name String
+  docs Document[]
+}
+
+model Document {
+  id         String           @id @default(cuid())
+  name       String
+  categoryId String
+  category   DocumentCategory @relation(fields: [categoryId], references: [id])
+  fileUrl    String
+  createdAt  DateTime         @default(now())
+}
+
+model CommitteeMember {
+  id    String  @id @default(cuid())
+  role  String
+  name  String
+  phone String?
+  email String?
+  order Int
+}
+
+model EmergencyContact {
+  id      String @id @default(cuid())
+  service String
+  number  String
+  order   Int
+}
+
+model Sponsor {
+  id       String  @id @default(cuid())
+  name     String
+  content  String?
+  linkUrl  String?
+  order    Int
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  message   String   @db.Text
+  createdAt DateTime @default(now())
+}
+
+model SafetyTip {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  category  String
+  summary   String?  @db.Text
+  content   String   @db.Text
+  order     Int      @default(0)
+  updatedAt DateTime @updatedAt
+}
+
+model VolunteerInterest {
+  id            String   @id @default(cuid())
+  name          String
+  email         String
+  phone         String?
+  roleInterest  String
+  zoneId        String?
+  availability  String?  @db.Text
+  message       String?  @db.Text
+  createdAt     DateTime @default(now())
+}
+
+model VacationWatch {
+  id                  String   @id @default(cuid())
+  name                String
+  address             String
+  contactPhone        String
+  awayFrom            DateTime
+  awayUntil           DateTime
+  emergencyContact    String?
+  specialInstructions String?  @db.Text
+  createdAt           DateTime @default(now())
+}
+
+model SchemeInquiry {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  address   String?
+  message   String?  @db.Text
+  createdAt DateTime @default(now())
+}

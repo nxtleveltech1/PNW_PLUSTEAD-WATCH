@@ -1,0 +1,94 @@
+import Link from "next/link";
+import { HeartHandshake, Landmark, Shield } from "lucide-react";
+import { Footer } from "@/components/layout/footer";
+import { Header } from "@/components/layout/header";
+import { Button } from "@/components/ui/button";
+
+export default function DonatePage() {
+  return (
+    <div className="flex min-h-screen flex-col">
+      <Header />
+      <main id="main" className="page-main">
+        <div className="page-hero">
+          <p className="eyebrow">Funding and Support</p>
+          <h1 className="section-heading mt-2">
+            <span className="headline-gradient">Support Frontline Community Safety</span>
+          </h1>
+          <p className="section-subheading">
+            Donations help maintain patrol coordination, CCTV operations, communication tooling, and volunteer
+            readiness for Plumstead.
+          </p>
+        </div>
+
+        <section className="mt-10 grid gap-5 lg:grid-cols-[1.2fr_1fr]">
+          <article className="panel overflow-hidden">
+            <div className="h-2 bg-gradient-to-r from-primary via-primary/70 to-accent" />
+            <div className="panel-header">
+              <p className="inline-flex items-center gap-2 font-display text-xl font-semibold">
+                <Landmark className="h-5 w-5 text-primary" />
+                Donation Banking Details
+              </p>
+            </div>
+            <div className="space-y-4 px-6 py-6">
+              <div className="rounded-xl bg-muted/45 px-5 py-4 font-mono text-sm">
+                <p className="text-muted-foreground">Account Name</p>
+                <p className="text-base font-semibold text-foreground">Plumstead Neighbourhood Watch</p>
+                <p className="mt-3 text-muted-foreground">Bank</p>
+                <p className="text-base font-semibold text-foreground">FNB</p>
+                <p className="mt-3 text-muted-foreground">Account Number</p>
+                <p className="text-base font-semibold text-foreground">631 463 987 05</p>
+                <p className="mt-3 text-muted-foreground">Branch Code</p>
+                <p className="text-base font-semibold text-foreground">255355</p>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Reference your street name or surname to help us reconcile contributions quickly.
+              </p>
+            </div>
+          </article>
+
+          <article className="panel bg-gradient-to-br from-background via-primary/5 to-accent/10 p-6">
+            <p className="inline-flex items-center gap-2 font-display text-xl font-semibold">
+              <HeartHandshake className="h-5 w-5 text-primary" />
+              Where Funding Goes
+            </p>
+            <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+              <li>Patrol and response coordination</li>
+              <li>Community surveillance and monitoring coverage</li>
+              <li>Incident communications and outreach materials</li>
+              <li>Volunteer training and operations support</li>
+            </ul>
+            <div className="critical-strip mt-5">
+              Every contribution helps maintain faster, safer local response capacity.
+            </div>
+          </article>
+        </section>
+
+        <section className="mt-10 grid gap-5 md:grid-cols-2">
+          <article className="panel bg-gradient-to-b from-background to-primary/5 p-6">
+            <p className="inline-flex items-center gap-2 font-display text-xl font-semibold">
+              <Shield className="h-5 w-5 text-primary" />
+              Sponsor Partnerships
+            </p>
+            <p className="mt-3 text-sm text-muted-foreground">
+              Businesses can support patrol logistics, outreach programs, and safety campaigns while
+              increasing local visibility.
+            </p>
+            <Button asChild className="mt-4">
+              <Link href="/sponsors">View sponsors</Link>
+            </Button>
+          </article>
+          <article className="panel bg-gradient-to-b from-background to-accent/5 p-6">
+            <p className="font-display text-xl font-semibold">Need formal donation confirmation?</p>
+            <p className="mt-3 text-sm text-muted-foreground">
+              Contact the committee and include the transfer date and reference to receive confirmation.
+            </p>
+            <Button asChild variant="outline" className="mt-4">
+              <Link href="/contact">Contact committee</Link>
+            </Button>
+          </article>
+        </section>
+      </main>
+      <Footer />
+    </div>
+  );
+}
