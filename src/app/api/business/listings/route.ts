@@ -1,3 +1,4 @@
+import type { Prisma } from "@prisma/client";
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest } from "next/server";
 import { prisma } from "@/lib/db";
@@ -11,7 +12,7 @@ export async function GET(req: NextRequest) {
     search: searchParams.get("search") ?? undefined,
   });
 
-  const where: Parameters<typeof prisma.businessListing.findMany>[0]["where"] = {
+  const where: Prisma.BusinessListingWhereInput = {
     status: "APPROVED",
   };
 
