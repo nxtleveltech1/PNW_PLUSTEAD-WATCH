@@ -11,14 +11,15 @@
     "build": "node ./node_modules/next/dist/bin/next build",
     "build:node": "node ./node_modules/next/dist/bin/next build",
     "build:bun": "bunx next build",
-    "ci:verify": "bun run lint && bun run build:bun && bun run build:node",
+    "ci:verify": "bun run lint && bun run test && bun run build:bun && bun run build:node",
     "start": "next start",
     "lint": "next lint",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
     "db:seed": "bun run prisma/seed.ts",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "test": "bun test"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.7.4",
