@@ -14,22 +14,26 @@ enum MemberType {
 }
 
 model User {
-  id            String     @id @default(cuid())
-  clerkId       String     @unique
-  email         String     @unique
-  firstName     String?
-  lastName      String?
-  memberType    MemberType @default(GUEST)
-  zoneId        String?
-  zone          Zone?      @relation(fields: [zoneId], references: [id])
-  isApproved    Boolean    @default(false)
-  emailPrefs    Json?
-  whatsappOptIn Boolean    @default(false)
-  whatsappPhone String?
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  incidents     Incident[]
-  eventRsvps    EventRsvp[]
+  id                  String               @id @default(cuid())
+  clerkId             String               @unique
+  email               String               @unique
+  firstName           String?
+  lastName            String?
+  memberType          MemberType           @default(GUEST)
+  zoneId              String?
+  zone                Zone?                @relation(fields: [zoneId], references: [id])
+  isApproved          Boolean              @default(false)
+  emailPrefs          Json?
+  whatsappOptIn       Boolean              @default(false)
+  whatsappPhone       String?
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  incidents           Incident[]
+  eventRsvps          EventRsvp[]
+  businessListings    BusinessListing[]
+  businessMessages    BusinessMessage[]
+  businessEventRsvps  BusinessEventRsvp[]
+  businessReferrals   BusinessReferral[]
 }
 
 model Incident {
@@ -46,12 +50,13 @@ model Incident {
 }
 
 model Zone {
-  id             String    @id @default(cuid())
-  name           String
-  postcodePrefix String?
-  mapUrl         String?
-  members        User[]
-  incidents      Incident[]
+  id              String           @id @default(cuid())
+  name            String
+  postcodePrefix  String?
+  mapUrl          String?
+  members         User[]
+  incidents       Incident[]
+  businessListings BusinessListing[]
 }
 
 model Event {
@@ -166,4 +171,87 @@ model SchemeInquiry {
   address   String?
   message   String?  @db.Text
   createdAt DateTime @default(now())
+}
+
+enum BusinessListingStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum BusinessCategory {
+  RETAIL
+  SERVICES
+  FOOD
+  HEALTH
+  OTHER
+}
+
+model BusinessListing {
+  id          String               @id @default(cuid())
+  name        String
+  description String               @db.Text
+  category    BusinessCategory
+  address     String?
+  phone       String?
+  email       String
+  websiteUrl  String?
+  logoUrl     String?
+  zoneId      String?
+  zone        Zone?                @relation(fields: [zoneId], references: [id])
+  status      BusinessListingStatus @default(PENDING)
+  createdById String?
+  createdBy   User?                @relation(fields: [createdById], references: [id])
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+  messages    BusinessMessage[]
+  events      BusinessEvent[]
+  referrals   BusinessReferral[]
+}
+
+model BusinessMessage {
+  id        String         @id @default(cuid())
+  listingId String
+  listing   BusinessListing @relation(fields: [listingId], references: [id])
+  senderId  String
+  sender    User           @relation(fields: [senderId], references: [id])
+  body      String         @db.Text
+  readAt    DateTime?
+  createdAt DateTime       @default(now())
+}
+
+model BusinessEvent {
+  id          String               @id @default(cuid())
+  title       String
+  description String?              @db.Text
+  location    String
+  startAt    DateTime
+  endAt      DateTime?
+  listingId  String?
+  listing    BusinessListing?      @relation(fields: [listingId], references: [id])
+  createdAt  DateTime             @default(now())
+  rsvps      BusinessEventRsvp[]
+}
+
+model BusinessEventRsvp {
+  id        String       @id @default(cuid())
+  eventId   String
+  event     BusinessEvent @relation(fields: [eventId], references: [id])
+  userId    String
+  user      User         @relation(fields: [userId], references: [id])
+  createdAt DateTime     @default(now())
+
+  @@unique([eventId, userId])
+}
+
+model BusinessReferral {
+  id             String         @id @default(cuid())
+  listingId     String
+  listing       BusinessListing @relation(fields: [listingId], references: [id])
+  referrerId    String
+  referrer      User           @relation(fields: [referrerId], references: [id])
+  referredName  String
+  referredEmail String
+  message       String?        @db.Text
+  createdAt     DateTime       @default(now())
 }

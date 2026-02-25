@@ -82,6 +82,59 @@ export const membershipProfileSchema = z
     path: ["whatsappPhone"],
   });
 
+export const businessCategoryEnum = z.enum(["RETAIL", "SERVICES", "FOOD", "HEALTH", "OTHER"]);
+
+export const businessListingSchema = z.object({
+  name: z.string().trim().min(2, "Business name required"),
+  description: z.string().trim().min(20, "Description must be at least 20 characters"),
+  category: businessCategoryEnum,
+  address: optionalText,
+  phone: optionalText,
+  email: z.string().trim().email("Valid email required"),
+  websiteUrl: z
+    .string()
+    .trim()
+    .optional()
+    .nullable()
+    .refine((v) => !v || v === "" || /^https?:\/\//.test(v), "Enter a valid URL"),
+  zoneId: z.string().trim().optional().nullable(),
+});
+
+export const businessMessageSchema = z.object({
+  listingId: z.string().trim().min(1, "Listing required"),
+  body: z.string().trim().min(10, "Message must be at least 10 characters"),
+});
+
+export const businessEventSchema = z
+  .object({
+    title: z.string().trim().min(2, "Title required"),
+    description: optionalText,
+    location: z.string().trim().min(2, "Location required"),
+    startAt: z.string().datetime({ message: "Invalid start date" }),
+    endAt: z.string().datetime({ message: "Invalid end date" }).optional().nullable(),
+    listingId: z.string().trim().optional().nullable(),
+  })
+  .refine(
+    (data) =>
+      !data.endAt ||
+      !data.startAt ||
+      new Date(data.endAt) > new Date(data.startAt),
+    { message: "End must be after start", path: ["endAt"] }
+  );
+
+export const businessReferralSchema = z.object({
+  listingId: z.string().trim().min(1, "Listing required"),
+  referredName: z.string().trim().min(2, "Name required"),
+  referredEmail: z.string().trim().email("Valid email required"),
+  message: optionalText,
+});
+
+export const businessListingsSearchParamsSchema = z.object({
+  category: businessCategoryEnum.optional(),
+  zone: z.string().trim().optional(),
+  search: z.string().trim().optional(),
+});
+
 export type ContactMessageInput = z.input<typeof contactMessageSchema>;
 export type IncidentReportInput = z.input<typeof incidentReportSchema>;
 export type VolunteerInterestInput = z.input<typeof volunteerInterestSchema>;
@@ -89,3 +142,8 @@ export type VacationWatchInput = z.input<typeof vacationWatchSchema>;
 export type SchemeInquiryInput = z.input<typeof schemeInquirySchema>;
 export type RegistrationPreparationInput = z.input<typeof registrationPreparationSchema>;
 export type MembershipProfileInput = z.input<typeof membershipProfileSchema>;
+export type BusinessListingInput = z.input<typeof businessListingSchema>;
+export type BusinessMessageInput = z.input<typeof businessMessageSchema>;
+export type BusinessEventInput = z.input<typeof businessEventSchema>;
+export type BusinessReferralInput = z.input<typeof businessReferralSchema>;
+export type BusinessListingsSearchParamsInput = z.input<typeof businessListingsSearchParamsSchema>;
