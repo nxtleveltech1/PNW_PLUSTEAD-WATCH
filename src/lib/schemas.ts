@@ -71,9 +71,21 @@ export const registerSearchParamsSchema = z.object({
   zone: z.string().trim().optional(),
 });
 
+export const membershipProfileSchema = z
+  .object({
+    zoneId: z.string().nullable(),
+    whatsappOptIn: z.boolean(),
+    whatsappPhone: z.string().trim().nullable(),
+  })
+  .refine((data) => !data.whatsappOptIn || (data.whatsappPhone && data.whatsappPhone.length > 0), {
+    message: "WhatsApp number required when opting in",
+    path: ["whatsappPhone"],
+  });
+
 export type ContactMessageInput = z.input<typeof contactMessageSchema>;
 export type IncidentReportInput = z.input<typeof incidentReportSchema>;
 export type VolunteerInterestInput = z.input<typeof volunteerInterestSchema>;
 export type VacationWatchInput = z.input<typeof vacationWatchSchema>;
 export type SchemeInquiryInput = z.input<typeof schemeInquirySchema>;
 export type RegistrationPreparationInput = z.input<typeof registrationPreparationSchema>;
+export type MembershipProfileInput = z.input<typeof membershipProfileSchema>;

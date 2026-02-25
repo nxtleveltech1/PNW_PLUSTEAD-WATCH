@@ -68,7 +68,11 @@ export function MobileNav() {
                     <Link href="/dashboard">Dashboard</Link>
                   </Button>
                   <div className="flex justify-center">
-                    <UserButton afterSignOutUrl="/" />
+                    <UserButton
+                    afterSignOutUrl="/"
+                    userProfileUrl="/user-profile"
+                    userProfileMode="navigation"
+                  />
                   </div>
                 </SignedIn>
               </>

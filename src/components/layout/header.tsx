@@ -80,7 +80,11 @@ export function Header() {
                 <Button asChild variant="ghost" size="sm">
                   <Link href="/dashboard">Dashboard</Link>
                 </Button>
-                <UserButton afterSignOutUrl="/" />
+                <UserButton
+                  afterSignOutUrl="/"
+                  userProfileUrl="/user-profile"
+                  userProfileMode="navigation"
+                />
               </SignedIn>
             </>
           ) : (
