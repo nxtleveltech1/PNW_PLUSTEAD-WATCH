@@ -8,6 +8,8 @@ import { BusinessDirectoryFilters } from "./business-directory-filters";
 import { Building2, ExternalLink, MapPin, MessageSquare } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
+export const dynamic = "force-dynamic";
+
 const CATEGORY_LABELS: Record<string, string> = {
   RETAIL: "Retail",
   SERVICES: "Services",
