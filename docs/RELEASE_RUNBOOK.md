@@ -31,8 +31,16 @@
   - auth sign-in/sign-up
   - registration complete
   - report incident
-  - RSVP toggle
+  - RSVP toggle (events)
   - all public routes render
+  - **Business feature:**
+    - `/business` directory renders
+    - `/business/submit` (auth) — submit listing
+    - `/business/[id]` — listing detail, message CTA
+    - `/business/messages` (auth) — inbox for listing owners
+    - `/business/events` — events list
+    - `/business/events/[id]` — event detail, RSVP toggle
+    - `/business/referrals` (auth) — referral form
 - Capture required evidence in `docs/EVIDENCE_MATRIX.md`.
 
 ## 5. Production Release

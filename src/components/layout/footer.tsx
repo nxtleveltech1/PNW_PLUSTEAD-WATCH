@@ -5,6 +5,7 @@ import { Phone } from "lucide-react";
 const opsLinks = [
   { href: "/incidents", label: "Incidents" },
   { href: "/events", label: "Events" },
+  { href: "/business", label: "Business" },
   { href: "/find", label: "Find Zone" },
   { href: "/volunteer", label: "Volunteer" },
   { href: "/safety-tips", label: "Safety Tips" },

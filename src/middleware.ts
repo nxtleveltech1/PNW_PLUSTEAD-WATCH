@@ -7,6 +7,9 @@ const isProtectedRoute = createRouteMatcher([
   "/user-profile(.*)",
   "/admin(.*)",
   "/api/private(.*)",
+  "/business/submit",
+  "/business/messages",
+  "/business/referrals",
 ]);
 
 const hasClerk = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;

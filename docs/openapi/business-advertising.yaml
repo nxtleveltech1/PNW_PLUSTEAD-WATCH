@@ -1,0 +1,344 @@
+openapi: 3.0.3
+info:
+  title: PNW Business Advertising API
+  description: API for business listings, messages, events, and referrals
+  version: 1.0.0
+
+paths:
+  /api/business/listings:
+    get:
+      summary: List approved business listings
+      operationId: listListings
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+            enum: [RETAIL, SERVICES, FOOD, HEALTH, OTHER]
+        - name: zone
+          in: query
+          schema:
+            type: string
+        - name: search
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of approved listings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BusinessListing"
+    post:
+      summary: Submit a new business listing
+      operationId: createListing
+      security:
+        - clerkAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BusinessListingCreate"
+      responses:
+        "201":
+          description: Listing created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BusinessListing"
+        "400":
+          description: Validation error
+        "401":
+          description: Unauthorized
+
+  /api/business/listings/{id}:
+    get:
+      summary: Get a single listing
+      operationId: getListing
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Listing details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BusinessListing"
+        "404":
+          description: Not found
+
+  /api/business/messages:
+    get:
+      summary: Get messages for user's listings
+      operationId: getMessages
+      security:
+        - clerkAuth: []
+      responses:
+        "200":
+          description: List of messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BusinessMessage"
+        "401":
+          description: Unauthorized
+    post:
+      summary: Send message to a listing
+      operationId: sendMessage
+      security:
+        - clerkAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BusinessMessageCreate"
+      responses:
+        "201":
+          description: Message sent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BusinessMessage"
+        "400":
+          description: Validation error
+        "401":
+          description: Unauthorized
+        "404":
+          description: Listing not found
+
+  /api/business/events:
+    get:
+      summary: List business events
+      operationId: listEvents
+      responses:
+        "200":
+          description: List of events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BusinessEvent"
+
+  /api/business/events/{id}/rsvp:
+    post:
+      summary: RSVP to an event
+      operationId: rsvpEvent
+      security:
+        - clerkAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: RSVP toggled
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  removed:
+                    type: boolean
+        "401":
+          description: Unauthorized
+        "404":
+          description: Event not found
+
+  /api/business/referrals:
+    post:
+      summary: Submit a referral
+      operationId: createReferral
+      security:
+        - clerkAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BusinessReferralCreate"
+      responses:
+        "201":
+          description: Referral created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BusinessReferral"
+        "400":
+          description: Validation error
+        "401":
+          description: Unauthorized
+        "404":
+          description: Listing not found
+
+components:
+  securitySchemes:
+    clerkAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Bearer token from Clerk
+
+  schemas:
+    BusinessListing:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+          enum: [RETAIL, SERVICES, FOOD, HEALTH, OTHER]
+        address:
+          type: string
+          nullable: true
+        phone:
+          type: string
+          nullable: true
+        email:
+          type: string
+        websiteUrl:
+          type: string
+          nullable: true
+        zoneId:
+          type: string
+          nullable: true
+        status:
+          type: string
+          enum: [PENDING, APPROVED, REJECTED]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    BusinessListingCreate:
+      type: object
+      required: [name, description, category, email]
+      properties:
+        name:
+          type: string
+          minLength: 2
+        description:
+          type: string
+          minLength: 20
+        category:
+          type: string
+          enum: [RETAIL, SERVICES, FOOD, HEALTH, OTHER]
+        address:
+          type: string
+          nullable: true
+        phone:
+          type: string
+          nullable: true
+        email:
+          type: string
+          format: email
+        websiteUrl:
+          type: string
+          format: uri
+          nullable: true
+        zoneId:
+          type: string
+          nullable: true
+
+    BusinessMessage:
+      type: object
+      properties:
+        id:
+          type: string
+        listingId:
+          type: string
+        senderId:
+          type: string
+        body:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+
+    BusinessMessageCreate:
+      type: object
+      required: [listingId, body]
+      properties:
+        listingId:
+          type: string
+        body:
+          type: string
+          minLength: 10
+
+    BusinessEvent:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+          nullable: true
+        location:
+          type: string
+        startAt:
+          type: string
+          format: date-time
+        endAt:
+          type: string
+          format: date-time
+          nullable: true
+        listingId:
+          type: string
+          nullable: true
+
+    BusinessReferral:
+      type: object
+      properties:
+        id:
+          type: string
+        listingId:
+          type: string
+        referrerId:
+          type: string
+        referredName:
+          type: string
+        referredEmail:
+          type: string
+        message:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+
+    BusinessReferralCreate:
+      type: object
+      required: [listingId, referredName, referredEmail]
+      properties:
+        listingId:
+          type: string
+        referredName:
+          type: string
+          minLength: 2
+        referredEmail:
+          type: string
+          format: email
+        message:
+          type: string
+          nullable: true

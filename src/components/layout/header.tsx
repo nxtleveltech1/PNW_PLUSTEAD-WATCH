@@ -10,6 +10,7 @@ const hasClerk = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 const navLinks = [
   { href: "/incidents", label: "Incidents" },
   { href: "/events", label: "Events" },
+  { href: "/business", label: "Business" },
   { href: "/user-profile", label: "Account" },
   { href: "/find", label: "Find Zone" },
   { href: "/safety-tips", label: "Safety Tips" },

@@ -1,9 +1,10 @@
 import Link from "next/link";
+import { auth } from "@clerk/nextjs/server";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { prisma } from "@/lib/db";
 import { BusinessDirectoryFilters } from "./business-directory-filters";
-import { Building2, ExternalLink, MapPin } from "lucide-react";
+import { Building2, ExternalLink, MapPin, MessageSquare } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -20,6 +21,7 @@ export default async function BusinessDirectoryPage({
   searchParams: Promise<{ category?: string; zone?: string; search?: string }>;
 }) {
   const params = await searchParams;
+  const { userId } = await auth();
   const where: Parameters<typeof prisma.businessListing.findMany>[0]["where"] = {
     status: "APPROVED",
   };
@@ -52,6 +54,23 @@ export default async function BusinessDirectoryPage({
           <p className="section-subheading">
             Discover and connect with local businesses that support the Plumstead community. List your business, network with residents, and grow together.
           </p>
+          <div className="mt-4 flex flex-wrap gap-4">
+            <Link
+              href="/business/events"
+              className="text-sm font-semibold text-primary hover:underline"
+            >
+              View events
+            </Link>
+            {userId && (
+              <Link
+                href="/business/messages"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
+              >
+                <MessageSquare className="h-4 w-4" />
+                Messages
+              </Link>
+            )}
+          </div>
         </div>
 
         <BusinessDirectoryFilters zones={zones} currentCategory={params.category} currentZone={params.zone} search={params.search} />

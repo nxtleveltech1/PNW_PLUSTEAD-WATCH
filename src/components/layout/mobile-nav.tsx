@@ -19,6 +19,7 @@ const navLinks = [
   { href: "/user-profile", label: "Account" },
   { href: "/incidents", label: "Incidents" },
   { href: "/events", label: "Events" },
+  { href: "/business", label: "Business" },
   { href: "/find", label: "Find Zone" },
   { href: "/safety-tips", label: "Safety Tips" },
   { href: "/volunteer", label: "Volunteer" },
