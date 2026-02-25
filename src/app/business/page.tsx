@@ -1,3 +1,4 @@
+import type { Prisma } from "@prisma/client";
 import Link from "next/link";
 import { auth } from "@clerk/nextjs/server";
 import { Header } from "@/components/layout/header";
@@ -22,7 +23,7 @@ export default async function BusinessDirectoryPage({
 }) {
   const params = await searchParams;
   const { userId } = await auth();
-  const where: Parameters<typeof prisma.businessListing.findMany>[0]["where"] = {
+  const where: Prisma.BusinessListingWhereInput = {
     status: "APPROVED",
   };
 
