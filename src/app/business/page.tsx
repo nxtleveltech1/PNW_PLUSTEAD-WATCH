@@ -5,6 +5,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { prisma } from "@/lib/db";
 import { BusinessDirectoryFilters } from "./business-directory-filters";
+import { BusinessDbUnavailable } from "./db-unavailable";
 import { Building2, ExternalLink, MapPin, MessageSquare } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
@@ -38,14 +39,20 @@ export default async function BusinessDirectoryPage({
     ];
   }
 
-  const [listings, zones] = await Promise.all([
-    prisma.businessListing.findMany({
-      where,
-      include: { zone: { select: { id: true, name: true } } },
-      orderBy: { createdAt: "desc" },
-    }),
-    prisma.zone.findMany({ orderBy: { name: "asc" } }),
-  ]);
+  let listings;
+  let zones;
+  try {
+    [listings, zones] = await Promise.all([
+      prisma.businessListing.findMany({
+        where,
+        include: { zone: { select: { id: true, name: true } } },
+        orderBy: { createdAt: "desc" },
+      }),
+      prisma.zone.findMany({ orderBy: { name: "asc" } }),
+    ]);
+  } catch {
+    return <BusinessDbUnavailable />;
+  }
 
   return (
     <div className="flex min-h-screen flex-col">

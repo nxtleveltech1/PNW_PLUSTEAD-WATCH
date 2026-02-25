@@ -6,6 +6,7 @@ import { auth } from "@clerk/nextjs/server";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { prisma } from "@/lib/db";
+import { BusinessDbUnavailable } from "../db-unavailable";
 import { Button } from "@/components/ui/button";
 import { MessageForm } from "./message-form";
 import { Building2, ExternalLink, MapPin, Mail, Phone } from "lucide-react";
@@ -26,10 +27,15 @@ export default async function BusinessListingDetailPage({
   const { id } = await params;
   const { userId } = await auth();
 
-  const listing = await prisma.businessListing.findFirst({
-    where: { id, status: "APPROVED" },
-    include: { zone: { select: { id: true, name: true } } },
-  });
+  let listing;
+  try {
+    listing = await prisma.businessListing.findFirst({
+      where: { id, status: "APPROVED" },
+      include: { zone: { select: { id: true, name: true } } },
+    });
+  } catch {
+    return <BusinessDbUnavailable />;
+  }
 
   if (!listing) notFound();
 

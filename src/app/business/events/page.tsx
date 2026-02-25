@@ -4,15 +4,21 @@ import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { prisma } from "@/lib/db";
+import { BusinessDbUnavailable } from "../db-unavailable";
 import { Button } from "@/components/ui/button";
 import { Calendar, MapPin } from "lucide-react";
 
 export default async function BusinessEventsPage() {
-  const events = await prisma.businessEvent.findMany({
-    include: { listing: { select: { id: true, name: true } } },
-    orderBy: { startAt: "asc" },
-    take: 50,
-  });
+  let events;
+  try {
+    events = await prisma.businessEvent.findMany({
+      include: { listing: { select: { id: true, name: true } } },
+      orderBy: { startAt: "asc" },
+      take: 50,
+    });
+  } catch {
+    return <BusinessDbUnavailable />;
+  }
 
   return (
     <div className="flex min-h-screen flex-col">

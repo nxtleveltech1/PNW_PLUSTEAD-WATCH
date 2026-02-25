@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { prisma } from "@/lib/db";
+import { BusinessDbUnavailable } from "../db-unavailable";
 import { Button } from "@/components/ui/button";
 import { ReferralForm } from "./referral-form";
 
@@ -13,10 +14,15 @@ export default async function BusinessReferralsPage({
   searchParams: Promise<{ listingId?: string }>;
 }) {
   const params = await searchParams;
-  const listings = await prisma.businessListing.findMany({
-    where: { status: "APPROVED" },
-    orderBy: { name: "asc" },
-  });
+  let listings;
+  try {
+    listings = await prisma.businessListing.findMany({
+      where: { status: "APPROVED" },
+      orderBy: { name: "asc" },
+    });
+  } catch {
+    return <BusinessDbUnavailable />;
+  }
 
   const preselectedListing = params.listingId
     ? listings.find((l) => l.id === params.listingId)

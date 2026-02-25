@@ -4,11 +4,17 @@ import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { prisma } from "@/lib/db";
+import { BusinessDbUnavailable } from "../db-unavailable";
 import { Button } from "@/components/ui/button";
 import { BusinessListingForm } from "./business-listing-form";
 
 export default async function BusinessSubmitPage() {
-  const zones = await prisma.zone.findMany({ orderBy: { name: "asc" } });
+  let zones;
+  try {
+    zones = await prisma.zone.findMany({ orderBy: { name: "asc" } });
+  } catch {
+    return <BusinessDbUnavailable />;
+  }
 
   return (
     <div className="flex min-h-screen flex-col">

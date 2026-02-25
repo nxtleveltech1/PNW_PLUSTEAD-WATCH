@@ -4,11 +4,17 @@ import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { getBusinessMessagesForUser } from "../actions";
+import { BusinessDbUnavailable } from "../db-unavailable";
 import { Button } from "@/components/ui/button";
 import { MessageSquare } from "lucide-react";
 
 export default async function BusinessMessagesPage() {
-  const messages = await getBusinessMessagesForUser();
+  let messages;
+  try {
+    messages = await getBusinessMessagesForUser();
+  } catch {
+    return <BusinessDbUnavailable />;
+  }
 
   return (
     <div className="flex min-h-screen flex-col">

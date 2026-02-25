@@ -6,6 +6,7 @@ import { auth } from "@clerk/nextjs/server";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { prisma } from "@/lib/db";
+import { BusinessDbUnavailable } from "../../db-unavailable";
 import { Button } from "@/components/ui/button";
 import { BusinessEventRsvpButton } from "./rsvp-button";
 
@@ -17,22 +18,31 @@ export default async function BusinessEventDetailPage({
   const { id } = await params;
   const { userId } = await auth();
 
-  const event = await prisma.businessEvent.findUnique({
-    where: { id },
-    include: { listing: { select: { id: true, name: true } } },
-  });
+  let event;
+  try {
+    event = await prisma.businessEvent.findUnique({
+      where: { id },
+      include: { listing: { select: { id: true, name: true } } },
+    });
+  } catch {
+    return <BusinessDbUnavailable />;
+  }
 
   if (!event) notFound();
 
   let user = null;
   let hasRsvped = false;
   if (userId) {
-    user = await prisma.user.findUnique({ where: { clerkId: userId } });
-    if (user) {
-      const rsvp = await prisma.businessEventRsvp.findUnique({
-        where: { eventId_userId: { eventId: id, userId: user.id } },
-      });
-      hasRsvped = !!rsvp;
+    try {
+      user = await prisma.user.findUnique({ where: { clerkId: userId } });
+      if (user) {
+        const rsvp = await prisma.businessEventRsvp.findUnique({
+          where: { eventId_userId: { eventId: id, userId: user.id } },
+        });
+        hasRsvped = !!rsvp;
+      }
+    } catch {
+      // Tables may not exist; user stays null, hasRsvped stays false
     }
   }
 
