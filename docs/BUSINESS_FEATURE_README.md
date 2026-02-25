@@ -16,14 +16,22 @@ Self-service business directory with in-app messaging, events, and referrals for
 
 ## Database
 
-Run migration when DB is reachable:
+Migration file exists at `prisma/migrations/20250225000000_add_business_advertising/migration.sql`.
+
+When DB is reachable, run:
 
 ```bash
 bun run db:generate
-bunx prisma migrate dev --name add_business_advertising
+bunx prisma migrate deploy
 ```
 
-Or use `db:push` for development:
+Or for development (creates migration history):
+
+```bash
+bunx prisma migrate dev
+```
+
+Alternatively use `db:push` (no migration history):
 
 ```bash
 bun run db:push
