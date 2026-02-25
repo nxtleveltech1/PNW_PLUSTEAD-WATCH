@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Menu } from "lucide-react";
+import { Menu, User } from "lucide-react";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,6 +16,7 @@ const hasClerk = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
 const navLinks = [
   { href: "/dashboard", label: "Dashboard" },
+  { href: "/user-profile", label: "Account" },
   { href: "/incidents", label: "Incidents" },
   { href: "/events", label: "Events" },
   { href: "/find", label: "Find Zone" },
@@ -69,10 +70,18 @@ export function MobileNav() {
                   </Button>
                   <div className="flex justify-center">
                     <UserButton
-                    afterSignOutUrl="/"
-                    userProfileUrl="/user-profile"
-                    userProfileMode="navigation"
-                  />
+                      afterSignOutUrl="/"
+                      userProfileUrl="/user-profile"
+                      userProfileMode="navigation"
+                    >
+                      <UserButton.MenuItems>
+                        <UserButton.Link
+                          label="Account"
+                          labelIcon={<User className="h-4 w-4" />}
+                          href="/user-profile"
+                        />
+                      </UserButton.MenuItems>
+                    </UserButton>
                   </div>
                 </SignedIn>
               </>

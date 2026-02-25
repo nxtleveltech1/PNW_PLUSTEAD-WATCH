@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { AlertTriangle, Phone } from "lucide-react";
+import { AlertTriangle, Phone, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MobileNav } from "./mobile-nav";
 
@@ -10,6 +10,7 @@ const hasClerk = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 const navLinks = [
   { href: "/incidents", label: "Incidents" },
   { href: "/events", label: "Events" },
+  { href: "/user-profile", label: "Account" },
   { href: "/find", label: "Find Zone" },
   { href: "/safety-tips", label: "Safety Tips" },
   { href: "/volunteer", label: "Volunteer" },
@@ -84,7 +85,15 @@ export function Header() {
                   afterSignOutUrl="/"
                   userProfileUrl="/user-profile"
                   userProfileMode="navigation"
-                />
+                >
+                  <UserButton.MenuItems>
+                    <UserButton.Link
+                      label="Account"
+                      labelIcon={<User className="h-4 w-4" />}
+                      href="/user-profile"
+                    />
+                  </UserButton.MenuItems>
+                </UserButton>
               </SignedIn>
             </>
           ) : (
