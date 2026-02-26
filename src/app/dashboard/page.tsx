@@ -11,7 +11,10 @@ export default async function DashboardPage() {
   const { userId } = await auth();
   if (!userId) redirect("/sign-in");
 
-  const user = await prisma.user.findUnique({ where: { clerkId: userId }, include: { zone: true } });
+  const user = await prisma.user.findUnique({
+    where: { clerkId: userId },
+    include: { zone: true },
+  });
   const [incidents, events, rsvps] = await Promise.all([
     prisma.incident.findMany({ orderBy: { dateTime: "desc" }, take: 5 }),
     prisma.event.findMany({
@@ -116,6 +119,14 @@ export default async function DashboardPage() {
               ))}
             </div>
           </section>
+        )}
+
+        {user?.role === "ADMIN" && (
+          <div className="mt-8">
+            <Button asChild>
+              <Link href="/admin">Admin Console</Link>
+            </Button>
+          </div>
         )}
 
         <div className="mt-12 flex flex-wrap gap-4">

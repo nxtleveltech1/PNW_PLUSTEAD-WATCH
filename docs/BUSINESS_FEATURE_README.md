@@ -43,7 +43,16 @@ See `docs/openapi/business-advertising.yaml` for the OpenAPI spec.
 
 ## Admin
 
-Listings are created with `status: PENDING`. To approve, update via Prisma or a future admin UI:
+Admin UI at `/admin` (requires `User.role === "ADMIN"`). To promote the first admin:
+
+```ts
+await prisma.user.update({
+  where: { email: "admin@example.com" },
+  data: { role: "ADMIN" },
+});
+```
+
+Listings are created with `status: PENDING`. Approve via Admin Console or Prisma:
 
 ```ts
 await prisma.businessListing.update({

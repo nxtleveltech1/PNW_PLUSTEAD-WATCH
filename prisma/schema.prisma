@@ -13,6 +13,11 @@ enum MemberType {
   GUEST
 }
 
+enum UserRole {
+  MEMBER
+  ADMIN
+}
+
 model User {
   id                  String               @id @default(cuid())
   clerkId             String               @unique
@@ -20,6 +25,7 @@ model User {
   firstName           String?
   lastName            String?
   memberType          MemberType           @default(GUEST)
+  role                UserRole             @default(MEMBER)
   zoneId              String?
   zone                Zone?                @relation(fields: [zoneId], references: [id])
   isApproved          Boolean              @default(false)

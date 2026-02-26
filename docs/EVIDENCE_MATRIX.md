@@ -37,3 +37,7 @@ This matrix tracks required visual and interaction evidence for every route and 
 | `/disclaimer` | pending | pending | pending | Legal layout |
 | `/sign-in` | pending | pending | pending | Auth shell |
 | `/sign-up` | pending | pending | pending | Auth shell |
+| `/admin` | pending | pending | pending | Admin overview, role guard |
+| `/admin/incidents` | pending | pending | pending | Incidents table (TanStack Table) |
+| `/admin/business` | pending | pending | pending | Business listing approvals |
+| `/admin/messages` | pending | pending | pending | Contact messages list |

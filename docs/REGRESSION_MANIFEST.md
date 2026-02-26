@@ -14,12 +14,14 @@
 | Start scheme inquiry | `/start-scheme` | `submitSchemeInquiry` | Record stored in `SchemeInquiry` |
 | Safety tip browse | `/safety-tips` -> `[slug]` | Prisma read | Category list and details render |
 | Find zone routing | `/find` | Client postcode logic | Match routes to `/register?zone=...` else `/start-scheme` |
+| Admin console | `/admin` | `requireAdmin`, `User.role === "ADMIN"` | Admin can view incidents, approve business listings, view contact messages |
 
 ## Auth and Security
 
 | Area | Check |
 |---|---|
 | Clerk middleware | Protected routes (`/dashboard`, `/admin`, `/api/private`) require auth |
+| Admin role guard | `requireAdmin()` in admin layout | Non-admin users redirected to `/dashboard` |
 | Clerk webhook | user.created, user.updated, user.deleted sync user model |
 | Server actions | auth required actions redirect unauthenticated users |
 
