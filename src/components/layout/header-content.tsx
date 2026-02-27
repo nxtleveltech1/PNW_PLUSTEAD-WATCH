@@ -85,9 +85,6 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
                 </Button>
               </SignedOut>
               <SignedIn>
-                <Button asChild variant="ghost" size="sm">
-                  <Link href="/dashboard">Dashboard</Link>
-                </Button>
                 <UserAvatarDropdown />
               </SignedIn>
             </>

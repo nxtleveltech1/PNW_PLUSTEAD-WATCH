@@ -21,7 +21,7 @@ export default async function ProfilePage() {
         firstName={clerkUser.firstName}
         lastName={clerkUser.lastName}
         email={clerkUser.primaryEmailAddress?.emailAddress ?? ""}
-        imageUrl={clerkUser.imageUrl}
+        imageUrl={clerkUser.imageUrl ?? ""}
       />
     </div>
   );

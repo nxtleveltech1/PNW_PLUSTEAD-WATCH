@@ -19,13 +19,17 @@ export async function requireAdmin() {
 }
 
 export async function isAdmin(): Promise<boolean> {
-  const { userId } = await auth();
-  if (!userId) return false;
+  try {
+    const { userId } = await auth();
+    if (!userId) return false;
 
-  const user = await prisma.user.findUnique({
-    where: { clerkId: userId },
-    select: { role: true },
-  });
+    const user = await prisma.user.findUnique({
+      where: { clerkId: userId },
+      select: { role: true },
+    });
 
-  return user?.role === "ADMIN";
+    return user?.role === "ADMIN";
+  } catch {
+    return false;
+  }
 }

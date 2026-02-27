@@ -72,9 +72,6 @@ export function MobileNav({ showAdmin = false }: { showAdmin?: boolean }) {
                   </Button>
                 </SignedOut>
                 <SignedIn>
-                  <Button asChild variant="outline" className="w-full justify-center">
-                    <Link href="/dashboard">Dashboard</Link>
-                  </Button>
                   <div className="flex justify-center">
                     <UserAvatarDropdown />
                   </div>
