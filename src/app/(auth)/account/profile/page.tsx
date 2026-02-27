@@ -6,7 +6,12 @@ export default async function ProfilePage() {
   const { userId } = await auth();
   if (!userId) redirect("/sign-in");
 
-  const clerkUser = await currentUser();
+  let clerkUser = null;
+  try {
+    clerkUser = await currentUser();
+  } catch {
+    redirect("/sign-in");
+  }
   if (!clerkUser) redirect("/sign-in");
 
   return (

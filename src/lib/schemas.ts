@@ -98,7 +98,12 @@ export const registerSearchParamsSchema = z.object({
 
 export const profileUpdateSchema = z.object({
   firstName: z.string().trim().optional().nullable(),
-  lastName: z.string().trim().min(2, "Last name must be at least 2 characters").optional().nullable(),
+  lastName: z
+    .string()
+    .trim()
+    .optional()
+    .nullable()
+    .refine((v) => !v || v.length >= 2, "Last name must be at least 2 characters"),
 });
 
 export const membershipProfileSchema = z

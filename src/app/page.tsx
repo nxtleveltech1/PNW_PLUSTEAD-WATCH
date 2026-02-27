@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { AnimateSection, AnimateItem } from "@/components/ui/animate-section";
-import { HeroContent } from "@/components/home/hero-content";
+import { HeroClient } from "@/components/home/hero-client";
 import { prisma } from "@/lib/db";
 import { Phone, Shield, Calendar, AlertTriangle } from "lucide-react";
 
@@ -47,7 +47,7 @@ export default async function HomePage() {
           <div className="absolute inset-0 hero-veil" />
           <div className="absolute -left-20 top-24 h-56 w-56 rounded-full bg-primary/30 blur-3xl" aria-hidden />
           <div className="absolute -right-24 bottom-24 h-64 w-64 rounded-full bg-accent/20 blur-3xl" aria-hidden />
-          <HeroContent />
+          <HeroClient />
         </section>
 
         {/* Emergency alert: prominent, urgent */}
