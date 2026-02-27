@@ -19,6 +19,7 @@
     "db:migrate": "prisma migrate dev",
     "db:seed": "bun run prisma/seed.ts",
     "db:studio": "prisma studio",
+    "download-legacy-docs": "bun run scripts/download-legacy-docs.ts",
     "test": "bun test"
   },
   "dependencies": {

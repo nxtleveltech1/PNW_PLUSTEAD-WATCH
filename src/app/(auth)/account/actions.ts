@@ -63,8 +63,8 @@ export async function updateMembershipProfile(data: MembershipProfileInput) {
       zoneId: parsed.data.zoneId,
       streetId: parsed.data.streetId ?? null,
       houseNumber: parsed.data.houseNumber ?? null,
-      hideFromNeighbours: parsed.data.hideFromNeighbours ?? false,
-      patrolOptIn: parsed.data.patrolOptIn ?? false,
+      hideFromNeighbours: parsed.data.hideFromNeighbours,
+      patrolOptIn: parsed.data.patrolOptIn,
       secondaryContactName: parsed.data.secondaryContactName ?? null,
       secondaryContactPhone: parsed.data.secondaryContactPhone ?? null,
       secondaryContactEmail:

@@ -19,14 +19,14 @@ import { toast } from "sonner";
 
 type Schema = z.infer<typeof emailPrefsSchema>;
 
-const prefLabels: Record<keyof Schema, string> = {
+const prefLabels: Partial<Record<keyof Schema, string>> = {
   newsItems: "News items",
   events: "Events",
   incidentsInZone: "Incidents in your zone",
   incidentsOtherZones: "Incidents from other zones",
   affiliatedWatches: "Incidents from affiliated watches",
   adHoc: "Ad-hoc emails",
-  frequency: "Frequency",
+  frequency: "Delivery frequency",
 };
 
 type SettingsFormProps = {

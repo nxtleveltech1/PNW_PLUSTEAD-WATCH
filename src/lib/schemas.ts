@@ -69,6 +69,7 @@ export const emailPrefsSchema = z.object({
   affiliatedFreq: z.enum(["immediately", "weekly", "monthly"]).optional(),
   adHoc: z.boolean().optional(),
   adHocFreq: z.enum(["immediately", "weekly", "monthly"]).optional(),
+  frequency: z.enum(["immediately", "weekly", "monthly"]).optional(),
 });
 
 export const registrationPreparationSchema = z.object({
@@ -105,8 +106,8 @@ export const membershipProfileSchema = z
     zoneId: z.string().nullable(),
     streetId: z.string().nullable().optional(),
     houseNumber: z.string().trim().nullable().optional(),
-    hideFromNeighbours: z.boolean().optional().default(false),
-    patrolOptIn: z.boolean().optional().default(false),
+    hideFromNeighbours: z.boolean(),
+    patrolOptIn: z.boolean(),
     secondaryContactName: z.string().trim().nullable().optional(),
     secondaryContactPhone: z.string().trim().nullable().optional(),
     secondaryContactEmail: z.union([z.string().trim().email(), z.literal("")]).optional().nullable(),
