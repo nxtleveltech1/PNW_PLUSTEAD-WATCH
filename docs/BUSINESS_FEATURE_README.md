@@ -43,13 +43,13 @@ See `docs/openapi/business-advertising.yaml` for the OpenAPI spec.
 
 ## Admin
 
-Admin UI at `/admin` (requires `User.role === "ADMIN"`). To promote the first admin:
+Admin UI at `/admin` (requires `User.role === "ADMIN"`). Admins see the Admin link in the main nav.
 
+**Auto-promote:** Set `ADMIN_EMAILS` (comma-separated) in env. The Clerk webhook promotes these emails to ADMIN on user.created/user.updated. Default includes `gambew@gmail.com`.
+
+**Manual promote:** `bun run scripts/promote-admin.ts` (edit email in script) or Prisma:
 ```ts
-await prisma.user.update({
-  where: { email: "admin@example.com" },
-  data: { role: "ADMIN" },
-});
+await prisma.user.update({ where: { email: "admin@example.com" }, data: { role: "ADMIN" } });
 ```
 
 Listings are created with `status: PENDING`. Approve via Admin Console or Prisma:

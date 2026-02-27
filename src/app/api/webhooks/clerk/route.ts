@@ -33,12 +33,17 @@ export async function POST(req: Request) {
     return Response.json({ error: "Invalid signature" }, { status: 400 });
   }
 
+  const adminEmails = (process.env.ADMIN_EMAILS ?? "gambew@gmail.com")
+    .split(",")
+    .map((e) => e.trim().toLowerCase());
+
   if (evt.type === "user.created") {
     const { id, first_name, last_name, email_addresses, primary_email_address_id } = evt.data;
     const primaryEmail = email_addresses?.find((e) => e.id === primary_email_address_id)?.email_address;
     if (!primaryEmail) {
       return Response.json({ error: "No email" }, { status: 400 });
     }
+    const isAdmin = adminEmails.includes(primaryEmail.toLowerCase());
     await prisma.user.upsert({
       where: { clerkId: id },
       create: {
@@ -46,23 +51,27 @@ export async function POST(req: Request) {
         email: primaryEmail,
         firstName: first_name ?? null,
         lastName: last_name ?? null,
+        ...(isAdmin && { role: "ADMIN" }),
       },
       update: {
         email: primaryEmail,
         firstName: first_name ?? null,
         lastName: last_name ?? null,
+        ...(isAdmin && { role: "ADMIN" }),
       },
     });
   } else if (evt.type === "user.updated") {
     const { id, first_name, last_name, email_addresses, primary_email_address_id } = evt.data;
     const primaryEmail = email_addresses?.find((e) => e.id === primary_email_address_id)?.email_address;
     if (primaryEmail) {
+      const isAdmin = adminEmails.includes(primaryEmail.toLowerCase());
       await prisma.user.updateMany({
         where: { clerkId: id },
         data: {
           email: primaryEmail,
           firstName: first_name ?? null,
           lastName: last_name ?? null,
+          ...(isAdmin && { role: "ADMIN" }),
         },
       });
     }
