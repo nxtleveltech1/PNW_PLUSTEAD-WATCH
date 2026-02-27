@@ -118,6 +118,9 @@ export default async function BusinessListingDetailPage({
               <div className="mt-8 flex flex-wrap gap-4 border-t border-border/60 pt-6">
                 <MessageForm listingId={listing.id} listingName={listing.name} />
                 <Button asChild variant="outline">
+                  <Link href={`/business/${listing.id}/request-intro`}>Request intro</Link>
+                </Button>
+                <Button asChild variant="outline">
                   <Link href={`/business/referrals?listingId=${listing.id}`}>
                     Refer a friend
                   </Link>
@@ -130,7 +133,7 @@ export default async function BusinessListingDetailPage({
                 <Link href="/sign-in" className="font-semibold text-primary hover:underline">
                   Sign in
                 </Link>{" "}
-                to message this business or refer a friend.
+                to message this business, request an intro, or refer a friend.
               </div>
             )}
           </div>

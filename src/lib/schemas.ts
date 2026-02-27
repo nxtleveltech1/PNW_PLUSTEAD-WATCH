@@ -178,6 +178,11 @@ export const businessListingsSearchParamsSchema = z.object({
   search: z.string().trim().optional(),
 });
 
+export const businessIntroRequestSchema = z.object({
+  targetListingId: z.string().trim().min(1, "Listing required"),
+  message: z.string().trim().min(20, "Message must be at least 20 characters"),
+});
+
 export type ContactMessageInput = z.input<typeof contactMessageSchema>;
 export type IncidentReportInput = z.input<typeof incidentReportSchema>;
 export type VolunteerInterestInput = z.input<typeof volunteerInterestSchema>;
@@ -192,3 +197,4 @@ export type BusinessMessageInput = z.input<typeof businessMessageSchema>;
 export type BusinessEventInput = z.input<typeof businessEventSchema>;
 export type BusinessReferralInput = z.input<typeof businessReferralSchema>;
 export type BusinessListingsSearchParamsInput = z.input<typeof businessListingsSearchParamsSchema>;
+export type BusinessIntroRequestInput = z.input<typeof businessIntroRequestSchema>;

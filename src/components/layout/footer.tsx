@@ -18,6 +18,7 @@ const orgLinks = [
   { href: "/help", label: "Help" },
   { href: "/donate", label: "Donate" },
   { href: "/sponsors", label: "Sponsors" },
+  { href: "mailto:info@plumsteadwatch.org.za?subject=Website%20advertising", label: "Advertise" },
 ];
 
 const legalLinks = [

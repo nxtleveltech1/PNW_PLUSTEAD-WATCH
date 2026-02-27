@@ -9,10 +9,12 @@ import {
   businessMessageSchema,
   businessEventSchema,
   businessReferralSchema,
+  businessIntroRequestSchema,
   type BusinessListingInput,
   type BusinessMessageInput,
   type BusinessEventInput,
   type BusinessReferralInput,
+  type BusinessIntroRequestInput,
 } from "@/lib/schemas";
 
 type BusinessErrorCode =
@@ -21,7 +23,9 @@ type BusinessErrorCode =
   | "LISTING_NOT_FOUND"
   | "EVENT_NOT_FOUND"
   | "UNAUTHORIZED"
-  | "DB_ERROR";
+  | "DB_ERROR"
+  | "INTRO_REQUEST_EXISTS"
+  | "INTRO_REQUEST_NOT_FOUND";
 
 export async function submitBusinessListing(
   input: BusinessListingInput
@@ -217,4 +221,96 @@ export async function getBusinessMessagesForUser() {
     orderBy: { createdAt: "desc" },
   });
   return messages;
+}
+
+export async function createIntroRequest(
+  input: BusinessIntroRequestInput
+): Promise<ActionResult<{ id: string }, BusinessErrorCode>> {
+  const { userId } = await auth();
+  if (!userId) redirect("/sign-in");
+
+  const user = await prisma.user.findUnique({ where: { clerkId: userId } });
+  if (!user) return fail("USER_NOT_FOUND", "User not found. Please complete registration.");
+
+  const parsed = businessIntroRequestSchema.safeParse(input);
+  if (!parsed.success) {
+    return fail("VALIDATION_ERROR", parsed.error.issues[0]?.message ?? "Invalid request.");
+  }
+
+  const listing = await prisma.businessListing.findFirst({
+    where: { id: parsed.data.targetListingId, status: "APPROVED" },
+  });
+  if (!listing) return fail("LISTING_NOT_FOUND", "Listing not found or not approved.");
+
+  const existing = await prisma.businessIntroRequest.findFirst({
+    where: {
+      requesterId: user.id,
+      targetListingId: listing.id,
+      status: "PENDING",
+    },
+  });
+  if (existing) return fail("INTRO_REQUEST_EXISTS", "You already have a pending intro request for this business.");
+
+  try {
+    const intro = await prisma.businessIntroRequest.create({
+      data: {
+        requesterId: user.id,
+        targetListingId: listing.id,
+        message: parsed.data.message,
+      },
+    });
+    return ok({ id: intro.id });
+  } catch {
+    return fail("DB_ERROR", "Unable to submit intro request right now. Please try again.");
+  }
+}
+
+export async function respondToIntroRequest(
+  introId: string,
+  accept: boolean
+): Promise<ActionResult<undefined, BusinessErrorCode>> {
+  const { userId } = await auth();
+  if (!userId) redirect("/sign-in");
+
+  const user = await prisma.user.findUnique({ where: { clerkId: userId } });
+  if (!user) return fail("USER_NOT_FOUND", "User not found.");
+
+  const intro = await prisma.businessIntroRequest.findUnique({
+    where: { id: introId },
+    include: { targetListing: { select: { createdById: true } } },
+  });
+  if (!intro) return fail("INTRO_REQUEST_NOT_FOUND", "Intro request not found.");
+  if (intro.targetListing.createdById !== user.id) {
+    return fail("UNAUTHORIZED", "You can only respond to intro requests for your own listings.");
+  }
+  if (intro.status !== "PENDING") return fail("VALIDATION_ERROR", "This request has already been responded to.");
+
+  try {
+    await prisma.businessIntroRequest.update({
+      where: { id: introId },
+      data: { status: accept ? "ACCEPTED" : "DECLINED" },
+    });
+    return ok();
+  } catch {
+    return fail("DB_ERROR", "Unable to update. Please try again.");
+  }
+}
+
+export async function getBusinessIntroRequestsForUser() {
+  const { userId } = await auth();
+  if (!userId) return [];
+
+  const user = await prisma.user.findUnique({ where: { clerkId: userId } });
+  if (!user) return [];
+
+  return prisma.businessIntroRequest.findMany({
+    where: {
+      targetListing: { createdById: user.id },
+    },
+    include: {
+      targetListing: { select: { id: true, name: true } },
+      requester: { select: { firstName: true, lastName: true, email: true } },
+    },
+    orderBy: { createdAt: "desc" },
+  });
 }

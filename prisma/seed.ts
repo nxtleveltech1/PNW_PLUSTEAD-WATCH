@@ -96,13 +96,14 @@ async function main() {
     return cat;
   }
   const [forms, policies, newsletter, financials, news, debitOrder, oobaSolar] = await Promise.all([
-    getOrCreateDocCat("Forms"),
-    getOrCreateDocCat("Policies"),
-    getOrCreateDocCat("Newsletter Archive"),
-    getOrCreateDocCat("Financials"),
-    getOrCreateDocCat("News"),
-    getOrCreateDocCat("Debit Order Instruction"),
-    getOrCreateDocCat("Ooba Solar"),
+      getOrCreateDocCat("Forms"),
+      getOrCreateDocCat("Policies"),
+      getOrCreateDocCat("Newsletter Archive"),
+      getOrCreateDocCat("Financials"),
+      getOrCreateDocCat("News"),
+      getOrCreateDocCat("Debit Order Instruction"),
+      getOrCreateDocCat("Ooba Solar"),
+      getOrCreateDocCat("Local Business Advertising"),
   ]);
 
   const legacyDocNames = [
@@ -142,11 +143,25 @@ async function main() {
   if (sponsorCount === 0) {
     await prisma.sponsor.createMany({
       data: [
-        { name: "ADT Security", content: "Security services partner", linkUrl: "https://www.adt.co.za", order: 1 },
-        { name: "Combat Force", content: "Community security support", linkUrl: "https://combatforce.co.za", order: 2 },
-        { name: "Zone Security Services", content: "Neighbourhood security", linkUrl: null, order: 3 },
+        { name: "ADT Security", content: "Security services partner", linkUrl: "https://www.adt.co.za", tier: "PREMIUM", order: 1 },
+        { name: "Combat Force", content: "Community security support", linkUrl: "https://combatforce.co.za", tier: "PREMIUM", order: 2 },
+        { name: "Zone Security Services", content: "Neighbourhood security", linkUrl: null, tier: "PARTNER", order: 3 },
+        { name: "Tammy Frankland", content: "Camera Project sponsor", linkUrl: null, tier: "SUPPORTER", order: 4 },
+        { name: "Lance Gordon", content: "Camera Project sponsor", linkUrl: null, tier: "SUPPORTER", order: 5 },
+        { name: "Ooba Solar", content: "Save 25% on electricity — solar partner", linkUrl: "https://www.ooba.co.za", tier: "PARTNER", order: 6 },
       ],
     });
+  } else {
+    const legacySponsorNames = ["Tammy Frankland", "Lance Gordon", "Ooba Solar"];
+    const existing = await prisma.sponsor.findMany({ where: { name: { in: legacySponsorNames } }, select: { name: true } });
+    const existingNames = new Set(existing.map((s) => s.name));
+    const toAdd: { name: string; content: string; linkUrl: string | null; tier: "PREMIUM" | "PARTNER" | "SUPPORTER"; order: number }[] = [];
+    if (!existingNames.has("Tammy Frankland")) toAdd.push({ name: "Tammy Frankland", content: "Camera Project sponsor", linkUrl: null, tier: "SUPPORTER", order: 100 });
+    if (!existingNames.has("Lance Gordon")) toAdd.push({ name: "Lance Gordon", content: "Camera Project sponsor", linkUrl: null, tier: "SUPPORTER", order: 101 });
+    if (!existingNames.has("Ooba Solar")) toAdd.push({ name: "Ooba Solar", content: "Save 25% on electricity — solar partner", linkUrl: "https://www.ooba.co.za", tier: "PARTNER", order: 102 });
+    if (toAdd.length > 0) await prisma.sponsor.createMany({ data: toAdd });
+    await prisma.sponsor.updateMany({ where: { name: "ADT Security" }, data: { tier: "PREMIUM" } });
+    await prisma.sponsor.updateMany({ where: { name: "Combat Force" }, data: { tier: "PREMIUM" } });
   }
 
   const safetyTipCount = await prisma.safetyTip.count();

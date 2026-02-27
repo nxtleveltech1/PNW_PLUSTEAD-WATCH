@@ -48,6 +48,7 @@ model User {
   businessMessages       BusinessMessage[]
   businessEventRsvps     BusinessEventRsvp[]
   businessReferrals      BusinessReferral[]
+  businessIntroRequests  BusinessIntroRequest[]
 }
 
 model Incident {
@@ -139,11 +140,19 @@ model EmergencyContact {
   order   Int
 }
 
+enum SponsorTier {
+  PREMIUM
+  PARTNER
+  SUPPORTER
+}
+
 model Sponsor {
-  id       String  @id @default(cuid())
+  id       String      @id @default(cuid())
   name     String
   content  String?
   linkUrl  String?
+  logoUrl  String?
+  tier     SponsorTier @default(PARTNER)
   order    Int
 }
 
@@ -227,6 +236,7 @@ model BusinessListing {
   zoneId      String?
   zone        Zone?                @relation(fields: [zoneId], references: [id])
   status      BusinessListingStatus @default(PENDING)
+  featured    Boolean              @default(false)
   createdById String?
   createdBy   User?                @relation(fields: [createdById], references: [id])
   createdAt   DateTime             @default(now())
@@ -234,6 +244,7 @@ model BusinessListing {
   messages    BusinessMessage[]
   events      BusinessEvent[]
   referrals   BusinessReferral[]
+  introRequests BusinessIntroRequest[]
 }
 
 model BusinessMessage {
@@ -281,4 +292,21 @@ model BusinessReferral {
   referredEmail String
   message       String?        @db.Text
   createdAt     DateTime       @default(now())
+}
+
+enum BusinessIntroRequestStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+}
+
+model BusinessIntroRequest {
+  id             String                    @id @default(cuid())
+  requesterId    String
+  requester      User                      @relation(fields: [requesterId], references: [id])
+  targetListingId String
+  targetListing  BusinessListing           @relation(fields: [targetListingId], references: [id])
+  message        String                    @db.Text
+  status         BusinessIntroRequestStatus @default(PENDING)
+  createdAt      DateTime                  @default(now())
 }

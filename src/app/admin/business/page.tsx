@@ -13,6 +13,7 @@ export default async function AdminBusinessPage() {
     category: l.category,
     email: l.email,
     status: l.status,
+    featured: l.featured,
     createdAt: l.createdAt.toISOString(),
   }));
 

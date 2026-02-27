@@ -86,7 +86,7 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
                 </Button>
               </SignedOut>
               <SignedIn>
-                <UserAvatarDropdown />
+                <UserAvatarDropdown showAdmin={showAdmin} />
               </SignedIn>
             </>
           ) : (

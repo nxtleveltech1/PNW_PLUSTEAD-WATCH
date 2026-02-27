@@ -1,6 +1,6 @@
 "use client";
 
-import { approveBusinessListing, rejectBusinessListing, toggleBusinessFeatured } from "../actions";
+import { approveMember, rejectMember } from "./actions";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -19,30 +19,27 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ArrowDown, ArrowUp, ArrowUpDown, Star } from "lucide-react";
+import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import { useState } from "react";
 
-export type ListingRow = {
+export type MemberRow = {
   id: string;
   name: string;
-  category: string;
   email: string;
-  status: string;
-  featured: boolean;
+  zone: string | null;
+  street: string | null;
+  houseNumber: string | null;
+  isApproved: boolean;
   createdAt: string;
 };
 
-const columns: ColumnDef<ListingRow>[] = [
+const columns: ColumnDef<MemberRow>[] = [
   {
     accessorKey: "name",
     header: "Name",
     cell: ({ row }) => (
       <span className="font-medium">{row.getValue("name")}</span>
     ),
-  },
-  {
-    accessorKey: "category",
-    header: "Category",
   },
   {
     accessorKey: "email",
@@ -57,31 +54,23 @@ const columns: ColumnDef<ListingRow>[] = [
     ),
   },
   {
-    accessorKey: "featured",
-    header: "Featured",
+    accessorKey: "zone",
+    header: "Zone",
+    cell: ({ row }) => row.getValue("zone") ?? "—",
+  },
+  {
+    accessorKey: "address",
+    header: "Address",
     cell: ({ row }) => {
-      const status = row.original.status;
-      if (status !== "APPROVED") return <span className="text-muted-foreground">—</span>;
-      const featured = row.original.featured;
-      return (
-        <form action={toggleBusinessFeatured.bind(null, row.original.id)}>
-          <button
-            type="submit"
-            className={`inline-flex items-center gap-1 rounded px-2 py-1 text-xs font-medium transition-colors ${
-              featured ? "bg-primary/20 text-primary" : "bg-muted text-muted-foreground hover:bg-muted/80"
-            }`}
-            title={featured ? "Remove from featured" : "Add to featured"}
-          >
-            <Star className={`h-3.5 w-3.5 ${featured ? "fill-current" : ""}`} />
-            {featured ? "Yes" : "No"}
-          </button>
-        </form>
-      );
+      const street = row.original.street;
+      const house = row.original.houseNumber;
+      if (!street && !house) return "—";
+      return [house, street].filter(Boolean).join(" ") ?? "—";
     },
   },
   {
     accessorKey: "createdAt",
-    header: "Submitted",
+    header: "Registered",
     cell: ({ row }) =>
       new Date(row.getValue("createdAt") as string).toLocaleDateString(
         "en-ZA",
@@ -93,26 +82,25 @@ const columns: ColumnDef<ListingRow>[] = [
     header: () => <span className="sr-only">Actions</span>,
     enableSorting: false,
     cell: ({ row }) => {
-      const status = row.original.status;
-      if (status !== "PENDING") {
-        return (
-          <Badge variant={status === "APPROVED" ? "default" : "secondary"}>
-            {status}
-          </Badge>
-        );
-      }
+      const isApproved = row.original.isApproved;
       return (
-        <div className="flex justify-end gap-2">
-          <form action={approveBusinessListing.bind(null, row.original.id)}>
-            <Button type="submit" size="sm" variant="default">
-              Approve
-            </Button>
-          </form>
-          <form action={rejectBusinessListing.bind(null, row.original.id)}>
-            <Button type="submit" size="sm" variant="outline">
-              Reject
-            </Button>
-          </form>
+        <div className="flex items-center justify-end gap-2">
+          {isApproved ? (
+            <Badge variant="default">Approved</Badge>
+          ) : (
+            <>
+              <form action={approveMember.bind(null, row.original.id)}>
+                <Button type="submit" size="sm" variant="default">
+                  Approve
+                </Button>
+              </form>
+              <form action={rejectMember.bind(null, row.original.id)}>
+                <Button type="submit" size="sm" variant="outline">
+                  Reject
+                </Button>
+              </form>
+            </>
+          )}
         </div>
       );
     },
@@ -123,7 +111,10 @@ function SortableHeader({
   column,
   children,
 }: {
-  column: { getIsSorted: () => false | "asc" | "desc"; getToggleSortingHandler: () => ((e: unknown) => void) | undefined };
+  column: {
+    getIsSorted: () => false | "asc" | "desc";
+    getToggleSortingHandler: () => ((e: unknown) => void) | undefined;
+  };
   children: React.ReactNode;
 }) {
   const sort = column.getIsSorted();
@@ -145,13 +136,13 @@ function SortableHeader({
   );
 }
 
-export function BusinessApprovalsTable({ listings }: { listings: ListingRow[] }) {
+export function MembersApprovalsTable({ members }: { members: MemberRow[] }) {
   const [sorting, setSorting] = useState<SortingState>([
     { id: "createdAt", desc: true },
   ]);
 
   const table = useReactTable({
-    data: listings,
+    data: members,
     columns,
     state: { sorting },
     onSortingChange: setSorting,
@@ -207,7 +198,7 @@ export function BusinessApprovalsTable({ listings }: { listings: ListingRow[] })
                 colSpan={columns.length}
                 className="h-24 text-center text-muted-foreground"
               >
-                No listings.
+                No members yet.
               </TableCell>
             </TableRow>
           )}

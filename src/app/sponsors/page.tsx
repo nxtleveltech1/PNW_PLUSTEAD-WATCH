@@ -27,8 +27,27 @@ export default async function SponsorsPage() {
             {sponsors.map((sponsor) => (
               <article key={sponsor.id} className="panel">
                 <div className="panel-header">
-                  <p className="font-display text-lg font-semibold">{sponsor.name}</p>
-                  {sponsor.content && <p className="mt-2 text-sm text-muted-foreground">{sponsor.content}</p>}
+                  <div className="flex items-start gap-3">
+                    {sponsor.logoUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={sponsor.logoUrl}
+                        alt={sponsor.name}
+                        width={64}
+                        height={64}
+                        className="rounded-lg object-contain"
+                      />
+                    ) : null}
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2">
+                        <p className="font-display text-lg font-semibold">{sponsor.name}</p>
+                        <span className="rounded-full bg-primary/20 px-2 py-0.5 text-xs font-medium text-primary">
+                          {sponsor.tier}
+                        </span>
+                      </div>
+                      {sponsor.content && <p className="mt-2 text-sm text-muted-foreground">{sponsor.content}</p>}
+                    </div>
+                  </div>
                 </div>
                 <div className="px-6 py-5">
                   {sponsor.linkUrl ? (

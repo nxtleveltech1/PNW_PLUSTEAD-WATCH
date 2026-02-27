@@ -23,3 +23,19 @@ export async function rejectBusinessListing(id: string) {
   revalidatePath("/admin");
   revalidatePath("/admin/business");
 }
+
+export async function toggleBusinessFeatured(id: string) {
+  await requireAdmin();
+  const listing = await prisma.businessListing.findUnique({
+    where: { id },
+    select: { featured: true },
+  });
+  if (!listing) return;
+  await prisma.businessListing.update({
+    where: { id },
+    data: { featured: !listing.featured },
+  });
+  revalidatePath("/admin");
+  revalidatePath("/admin/business");
+  revalidatePath("/business");
+}

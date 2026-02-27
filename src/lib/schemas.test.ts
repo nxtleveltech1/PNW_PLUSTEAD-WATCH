@@ -5,6 +5,7 @@ import {
   businessEventSchema,
   businessReferralSchema,
   businessListingsSearchParamsSchema,
+  businessIntroRequestSchema,
 } from "./schemas";
 
 describe("businessListingSchema", () => {
@@ -163,6 +164,32 @@ describe("businessListingsSearchParamsSchema", () => {
   test("rejects invalid category", () => {
     const result = businessListingsSearchParamsSchema.safeParse({
       category: "INVALID",
+    });
+    expect(result.success).toBe(false);
+  });
+});
+
+describe("businessIntroRequestSchema", () => {
+  test("accepts valid intro request", () => {
+    const result = businessIntroRequestSchema.safeParse({
+      targetListingId: "clx123",
+      message: "I would like to discuss a partnership opportunity with your business.",
+    });
+    expect(result.success).toBe(true);
+  });
+
+  test("rejects short message", () => {
+    const result = businessIntroRequestSchema.safeParse({
+      targetListingId: "clx123",
+      message: "Hi",
+    });
+    expect(result.success).toBe(false);
+  });
+
+  test("rejects empty listing id", () => {
+    const result = businessIntroRequestSchema.safeParse({
+      targetListingId: "",
+      message: "I would like to connect with your business for a potential collaboration.",
     });
     expect(result.success).toBe(false);
   });

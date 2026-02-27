@@ -88,7 +88,7 @@ export function ProfileForm({
     <div className="space-y-8">
       <div className="flex items-center gap-6">
         <Avatar className="h-20 w-20">
-          <AvatarImage src={imageUrl} alt="Profile" />
+          <AvatarImage src={user?.imageUrl ?? imageUrl} alt="Profile" />
           <AvatarFallback className="bg-primary/10 text-primary text-lg font-semibold">
             {initials}
           </AvatarFallback>

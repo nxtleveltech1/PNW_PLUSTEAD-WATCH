@@ -17,6 +17,8 @@ import { updateMembershipProfile } from "@/app/(auth)/account/actions";
 import { membershipProfileSchema } from "@/lib/schemas";
 import type { MemberType } from "@prisma/client";
 import { toast } from "sonner";
+import { MembershipCard } from "@/components/account/membership-card";
+import { MembershipCardDownload } from "@/components/account/membership-card-download";
 
 type Schema = z.infer<typeof membershipProfileSchema>;
 
@@ -25,6 +27,8 @@ type Street = { id: string; name: string; zoneId: string };
 
 type UserWithZone = {
   id: string;
+  firstName: string | null;
+  lastName: string | null;
   memberType: MemberType;
   zoneId: string | null;
   zone: { id: string; name: string } | null;
@@ -90,6 +94,18 @@ export function MembershipForm({
     );
   }
 
+  const isEligibleForCard =
+    user.memberType === "MEMBER" && user.isApproved;
+  const downloadFileName = [
+    "pnw-membership",
+    user.firstName,
+    user.lastName,
+  ]
+    .filter(Boolean)
+    .join("-")
+    .toLowerCase()
+    .replace(/\s+/g, "-");
+
   return (
     <div className="space-y-6">
       <div className="space-y-2">
@@ -98,6 +114,27 @@ export function MembershipForm({
           Manage your zone, address, and notification preferences.
         </p>
       </div>
+
+      {isEligibleForCard ? (
+        <div className="space-y-4">
+          <p className="text-sm font-medium">Your digital membership card</p>
+          <MembershipCardDownload fileName={downloadFileName}>
+            <MembershipCard
+              firstName={user.firstName}
+              lastName={user.lastName}
+              zone={user.zone}
+              street={user.street}
+              houseNumber={user.houseNumber}
+            />
+          </MembershipCardDownload>
+        </div>
+      ) : (
+        <p className="text-sm text-muted-foreground">
+          {user.memberType === "GUEST"
+            ? "Guest registration does not include a membership card."
+            : "Your membership is pending approval. The digital card will appear once approved."}
+        </p>
+      )}
 
       <div className="rounded-lg border bg-muted/30 p-4 text-sm">
         <p className="font-medium">Member type</p>

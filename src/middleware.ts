@@ -11,6 +11,7 @@ const isProtectedRoute = createRouteMatcher([
   "/business/submit",
   "/business/messages",
   "/business/referrals",
+  "/business/(.*)/request-intro",
 ]);
 
 const hasClerk = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
