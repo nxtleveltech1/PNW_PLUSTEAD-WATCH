@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { Header } from "@/components/layout/header";
+import { HeaderClient } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle } from "lucide-react";
@@ -26,7 +26,7 @@ export default function BusinessError({
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Header />
+      <HeaderClient />
       <main id="main" className="page-main">
         <div className="panel max-w-2xl border-accent/30 bg-alert-muted/50 p-8">
           <div className="flex items-start gap-4">

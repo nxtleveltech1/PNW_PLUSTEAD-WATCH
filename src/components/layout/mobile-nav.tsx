@@ -14,7 +14,7 @@ import {
 
 const hasClerk = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
-const navLinks = [
+const allNavLinks = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/admin", label: "Admin" },
   { href: "/user-profile", label: "Account" },
@@ -30,7 +30,11 @@ const navLinks = [
   { href: "/contact", label: "Contact" },
 ];
 
-export function MobileNav() {
+export function MobileNav({ showAdmin = false }: { showAdmin?: boolean }) {
+  const navLinks = showAdmin
+    ? allNavLinks
+    : allNavLinks.filter((l) => l.href !== "/admin");
+
   return (
     <Drawer direction="right">
       <DrawerTrigger asChild>

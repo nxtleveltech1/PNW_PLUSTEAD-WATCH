@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/db";
-import { BusinessApprovals } from "./business-approvals";
+import { BusinessApprovalsTable } from "./business-approvals-table";
 
 export default async function AdminBusinessPage() {
   const listings = await prisma.businessListing.findMany({
@@ -26,7 +26,7 @@ export default async function AdminBusinessPage() {
         Approve or reject self-service business submissions. Pending listings appear first.
       </p>
       <div className="mt-6">
-        <BusinessApprovals listings={[...pending, ...others]} />
+        <BusinessApprovalsTable listings={[...pending, ...others]} />
       </div>
     </section>
   );

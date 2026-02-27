@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { auth } from "@clerk/nextjs/server";
-import { Header } from "@/components/layout/header";
+import { Header } from "@/components/layout/header-server";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { prisma } from "@/lib/db";

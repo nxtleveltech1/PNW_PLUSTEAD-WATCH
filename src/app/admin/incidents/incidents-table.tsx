@@ -4,9 +4,13 @@ import Link from "next/link";
 import {
   flexRender,
   getCoreRowModel,
+  getSortedRowModel,
   useReactTable,
   type ColumnDef,
+  type SortingState,
 } from "@tanstack/react-table";
+import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
+import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -23,6 +27,32 @@ export type IncidentRow = {
   dateTime: string;
   zoneName: string | null;
 };
+
+function SortableHeader({
+  column,
+  children,
+}: {
+  column: { getIsSorted: () => false | "asc" | "desc"; getToggleSortingHandler: () => ((e: unknown) => void) | undefined };
+  children: React.ReactNode;
+}) {
+  const sort = column.getIsSorted();
+  return (
+    <button
+      type="button"
+      className="flex items-center gap-1 hover:text-foreground"
+      onClick={column.getToggleSortingHandler()}
+    >
+      {children}
+      {sort === "asc" ? (
+        <ArrowUp className="h-4 w-4" />
+      ) : sort === "desc" ? (
+        <ArrowDown className="h-4 w-4" />
+      ) : (
+        <ArrowUpDown className="h-4 w-4 opacity-50" />
+      )}
+    </button>
+  );
+}
 
 const columns: ColumnDef<IncidentRow>[] = [
   {
@@ -61,10 +91,17 @@ const columns: ColumnDef<IncidentRow>[] = [
 ];
 
 export function IncidentsTable({ data }: { data: IncidentRow[] }) {
+  const [sorting, setSorting] = useState<SortingState>([
+    { id: "dateTime", desc: true },
+  ]);
+
   const table = useReactTable({
     data,
     columns,
+    state: { sorting },
+    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
   });
 
   return (
@@ -77,7 +114,13 @@ export function IncidentsTable({ data }: { data: IncidentRow[] }) {
                 <TableHead key={header.id}>
                   {header.isPlaceholder
                     ? null
-                    : flexRender(header.column.columnDef.header, header.getContext())}
+                    : header.column.getCanSort() ? (
+                        <SortableHeader column={header.column}>
+                          {flexRender(header.column.columnDef.header, header.getContext())}
+                        </SortableHeader>
+                      ) : (
+                        flexRender(header.column.columnDef.header, header.getContext())
+                      )}
                 </TableHead>
               ))}
             </TableRow>

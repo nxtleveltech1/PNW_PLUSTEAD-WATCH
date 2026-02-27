@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ExternalLink, Handshake } from "lucide-react";
 import { Footer } from "@/components/layout/footer";
-import { Header } from "@/components/layout/header";
+import { Header } from "@/components/layout/header-server";
 import { prisma } from "@/lib/db";
 import { Button } from "@/components/ui/button";
 

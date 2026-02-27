@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Header } from "@/components/layout/header";
+import { Header } from "@/components/layout/header-server";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import {

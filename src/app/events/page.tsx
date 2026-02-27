@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Header } from "@/components/layout/header";
+import { Header } from "@/components/layout/header-server";
 import { Footer } from "@/components/layout/footer";
 import { prisma } from "@/lib/db";
 import { Calendar, MapPin } from "lucide-react";

@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import Link from "next/link";
-import { Header } from "@/components/layout/header";
+import { Header } from "@/components/layout/header-server";
 import { Footer } from "@/components/layout/footer";
 import { getBusinessMessagesForUser } from "../actions";
 import { BusinessDbUnavailable } from "../db-unavailable";

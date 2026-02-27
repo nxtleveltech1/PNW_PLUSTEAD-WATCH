@@ -1,5 +1,5 @@
 import { Footer } from "@/components/layout/footer";
-import { Header } from "@/components/layout/header";
+import { Header } from "@/components/layout/header-server";
 import { prisma } from "@/lib/db";
 import { Mail, Phone, Shield } from "lucide-react";
 

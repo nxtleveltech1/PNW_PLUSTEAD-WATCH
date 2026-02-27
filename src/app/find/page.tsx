@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Header } from "@/components/layout/header";
+import { Header } from "@/components/layout/header-server";
 import { Footer } from "@/components/layout/footer";
 import { FindZoneForm } from "./find-zone-form";
 import { prisma } from "@/lib/db";

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Shield } from "lucide-react";
 import { Footer } from "@/components/layout/footer";
-import { Header } from "@/components/layout/header";
+import { Header } from "@/components/layout/header-server";
 import { prisma } from "@/lib/db";
 
 const CATEGORY_LABELS: Record<string, string> = {

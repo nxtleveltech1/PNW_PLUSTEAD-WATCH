@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { HeartHandshake, Landmark, Shield } from "lucide-react";
 import { Footer } from "@/components/layout/footer";
-import { Header } from "@/components/layout/header";
+import { Header } from "@/components/layout/header-server";
 import { Button } from "@/components/ui/button";
 
 export default function DonatePage() {
