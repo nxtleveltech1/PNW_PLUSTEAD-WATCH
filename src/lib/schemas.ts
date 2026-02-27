@@ -71,6 +71,21 @@ export const registerSearchParamsSchema = z.object({
   zone: z.string().trim().optional(),
 });
 
+export const profileUpdateSchema = z.object({
+  firstName: z.string().trim().optional().nullable(),
+  lastName: z.string().trim().min(2, "Last name must be at least 2 characters").optional().nullable(),
+});
+
+export const emailPrefsSchema = z.object({
+  newsItems: z.boolean().optional(),
+  events: z.boolean().optional(),
+  incidentsInZone: z.boolean().optional(),
+  incidentsOtherZones: z.boolean().optional(),
+  affiliatedWatches: z.boolean().optional(),
+  adHoc: z.boolean().optional(),
+  frequency: z.enum(["immediately", "weekly", "monthly"]).optional(),
+});
+
 export const membershipProfileSchema = z
   .object({
     zoneId: z.string().nullable(),
@@ -141,6 +156,8 @@ export type VolunteerInterestInput = z.input<typeof volunteerInterestSchema>;
 export type VacationWatchInput = z.input<typeof vacationWatchSchema>;
 export type SchemeInquiryInput = z.input<typeof schemeInquirySchema>;
 export type RegistrationPreparationInput = z.input<typeof registrationPreparationSchema>;
+export type ProfileUpdateInput = z.input<typeof profileUpdateSchema>;
+export type EmailPrefsInput = z.input<typeof emailPrefsSchema>;
 export type MembershipProfileInput = z.input<typeof membershipProfileSchema>;
 export type BusinessListingInput = z.input<typeof businessListingSchema>;
 export type BusinessMessageInput = z.input<typeof businessMessageSchema>;

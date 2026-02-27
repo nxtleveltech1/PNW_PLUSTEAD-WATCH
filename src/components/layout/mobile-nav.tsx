@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, User } from "lucide-react";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { Menu } from "lucide-react";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
+import { UserAvatarDropdown } from "@/components/user/user-avatar-dropdown";
 import {
   Drawer,
   DrawerContent,
@@ -17,7 +18,7 @@ const hasClerk = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 const allNavLinks = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/admin", label: "Admin" },
-  { href: "/user-profile", label: "Account" },
+  { href: "/account", label: "Account" },
   { href: "/incidents", label: "Incidents" },
   { href: "/events", label: "Events" },
   { href: "/business", label: "Business" },
@@ -75,19 +76,7 @@ export function MobileNav({ showAdmin = false }: { showAdmin?: boolean }) {
                     <Link href="/dashboard">Dashboard</Link>
                   </Button>
                   <div className="flex justify-center">
-                    <UserButton
-                      afterSignOutUrl="/"
-                      userProfileUrl="/user-profile"
-                      userProfileMode="navigation"
-                    >
-                      <UserButton.MenuItems>
-                        <UserButton.Link
-                          label="Account"
-                          labelIcon={<User className="h-4 w-4" />}
-                          href="/user-profile"
-                        />
-                      </UserButton.MenuItems>
-                    </UserButton>
+                    <UserAvatarDropdown />
                   </div>
                 </SignedIn>
               </>

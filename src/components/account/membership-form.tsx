@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { updateMembershipProfile } from "./actions";
+import { updateMembershipProfile } from "@/app/(auth)/account/actions";
 import { membershipProfileSchema } from "@/lib/schemas";
 import type { MemberType } from "@prisma/client";
 import { toast } from "sonner";
@@ -32,7 +32,7 @@ type UserWithZone = {
   isApproved: boolean;
 };
 
-export function MembershipPage({
+export function MembershipForm({
   user,
   zones,
 }: {
@@ -71,7 +71,7 @@ export function MembershipPage({
   }
 
   return (
-    <div className="space-y-6 p-4">
+    <div className="space-y-6">
       <div className="space-y-2">
         <h2 className="font-display text-lg font-semibold">PNW Membership</h2>
         <p className="text-sm text-muted-foreground">
@@ -89,7 +89,9 @@ export function MembershipPage({
           </>
         )}
         <p className="mt-2 font-medium">Status</p>
-        <p className="text-muted-foreground">{user.isApproved ? "Approved" : "Pending approval"}</p>
+        <p className="text-muted-foreground">
+          {user.isApproved ? "Approved" : "Pending approval"}
+        </p>
       </div>
 
       <Form {...form}>
@@ -133,7 +135,9 @@ export function MembershipPage({
                     onChange={(e) => field.onChange(e.target.checked)}
                   />
                 </FormControl>
-                <FormLabel className="font-normal">Opt in to WhatsApp updates</FormLabel>
+                <FormLabel className="font-normal">
+                  Opt in to WhatsApp updates
+                </FormLabel>
                 <FormMessage />
               </FormItem>
             )}

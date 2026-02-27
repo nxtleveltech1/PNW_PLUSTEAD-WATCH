@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { AlertTriangle, Phone, User } from "lucide-react";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { AlertTriangle, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { UserAvatarDropdown } from "@/components/user/user-avatar-dropdown";
 import { MobileNav } from "./mobile-nav";
 
 const hasClerk = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
@@ -12,7 +13,7 @@ const allNavLinks = [
   { href: "/events", label: "Events" },
   { href: "/business", label: "Business" },
   { href: "/admin", label: "Admin" },
-  { href: "/user-profile", label: "Account" },
+  { href: "/account", label: "Account" },
   { href: "/find", label: "Find Zone" },
   { href: "/safety-tips", label: "Safety Tips" },
   { href: "/volunteer", label: "Volunteer" },
@@ -87,19 +88,7 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
                 <Button asChild variant="ghost" size="sm">
                   <Link href="/dashboard">Dashboard</Link>
                 </Button>
-                <UserButton
-                  afterSignOutUrl="/"
-                  userProfileUrl="/user-profile"
-                  userProfileMode="navigation"
-                >
-                  <UserButton.MenuItems>
-                    <UserButton.Link
-                      label="Account"
-                      labelIcon={<User className="h-4 w-4" />}
-                      href="/user-profile"
-                    />
-                  </UserButton.MenuItems>
-                </UserButton>
+                <UserAvatarDropdown />
               </SignedIn>
             </>
           ) : (

@@ -5,7 +5,7 @@ import { Header } from "@/components/layout/header-server";
 import { Footer } from "@/components/layout/footer";
 import { prisma } from "@/lib/db";
 import { Button } from "@/components/ui/button";
-import { Calendar, AlertTriangle, FileText } from "lucide-react";
+import { Calendar, AlertTriangle, FileText, Settings, User } from "lucide-react";
 
 export default async function DashboardPage() {
   const { userId } = await auth();
@@ -130,6 +130,18 @@ export default async function DashboardPage() {
         )}
 
         <div className="mt-12 flex flex-wrap gap-4">
+          <Button asChild variant="outline">
+            <Link href="/account">
+              <User className="mr-2 h-4 w-4" />
+              Account
+            </Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link href="/account/settings">
+              <Settings className="mr-2 h-4 w-4" />
+              Settings
+            </Link>
+          </Button>
           <Button asChild variant="outline">
             <Link href="/documents">
               <FileText className="mr-2 h-4 w-4" />
