@@ -19,6 +19,7 @@ const allNavLinks = [
   { href: "/volunteer", label: "Volunteer" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
+  { href: "/help", label: "Help" },
 ];
 
 export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {

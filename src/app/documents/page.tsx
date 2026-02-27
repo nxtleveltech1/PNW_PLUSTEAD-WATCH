@@ -1,13 +1,25 @@
+import { Suspense } from "react";
 import { Header } from "@/components/layout/header-server";
 import { Footer } from "@/components/layout/footer";
 import { prisma } from "@/lib/db";
 import { FileText } from "lucide-react";
+import { DocumentsFilter } from "./documents-filter";
 
-export default async function DocumentsPage() {
+export default async function DocumentsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string }>;
+}) {
+  const { category: categoryId } = await searchParams;
   const categories = await prisma.documentCategory.findMany({
     include: { docs: true },
     orderBy: { name: "asc" },
   });
+
+  const filteredCategories = categoryId
+    ? categories.filter((c) => c.id === categoryId)
+    : categories;
+  const defaultCategoryId = categories[0]?.id ?? null;
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -18,13 +30,20 @@ export default async function DocumentsPage() {
           <h1 className="section-heading mt-2">Operational Documents and Forms</h1>
           <p className="section-subheading">Downloads arranged by category for members and residents.</p>
         </div>
+        {categories.length > 0 && (
+          <Suspense fallback={null}>
+            <div className="mt-8">
+              <DocumentsFilter categories={categories} defaultCategoryId={defaultCategoryId} />
+            </div>
+          </Suspense>
+        )}
         <div className="mt-12 space-y-10">
-          {categories.length === 0 ? (
+          {filteredCategories.length === 0 ? (
             <div className="rounded-xl border border-dashed border-border bg-muted/20 py-16 text-center text-muted-foreground">
-              No documents yet.
+              {categoryId ? "No documents in this category." : "No documents yet."}
             </div>
           ) : (
-            categories.map((cat) => (
+            filteredCategories.map((cat) => (
               <section key={cat.id}>
                 <h2 className="font-display text-lg font-semibold text-foreground">{cat.name}</h2>
                 <div className="mt-4 space-y-2">

@@ -1,13 +1,37 @@
 import { PrismaClient } from "@prisma/client";
+import { STREET_NAMES } from "../src/data/streets";
+import { ZONE_POLYGONS } from "../src/data/zone-polygons";
 
 const prisma = new PrismaClient();
 
 async function main() {
   let zone = await prisma.zone.findFirst({ where: { name: "Plumstead" } });
   if (!zone) {
-    zone = await prisma.zone.create({ data: { name: "Plumstead", postcodePrefix: "7800" } });
-  } else if (!zone.postcodePrefix) {
-    await prisma.zone.update({ where: { id: zone.id }, data: { postcodePrefix: "7800" } });
+    zone = await prisma.zone.create({
+      data: {
+        name: "Plumstead",
+        postcodePrefix: "7800",
+        boundary: ZONE_POLYGONS as object,
+      },
+    });
+  } else {
+    const updates: { postcodePrefix?: string; boundary?: object } = {};
+    if (!zone.postcodePrefix) updates.postcodePrefix = "7800";
+    if (!zone.boundary) updates.boundary = ZONE_POLYGONS as object;
+    if (Object.keys(updates).length > 0) {
+      await prisma.zone.update({ where: { id: zone.id }, data: updates });
+    }
+  }
+
+  const streetCount = await prisma.street.count();
+  if (streetCount === 0) {
+    await prisma.street.createMany({
+      data: STREET_NAMES.map((name, i) => ({
+        name,
+        zoneId: zone!.id,
+        order: i,
+      })),
+    });
   }
 
   const incidentCount = await prisma.incident.count();
@@ -66,20 +90,52 @@ async function main() {
     });
   }
 
-  const docCatCount = await prisma.documentCategory.count();
-  if (docCatCount === 0) {
-    const forms = await prisma.documentCategory.create({ data: { name: "Forms" } });
-    const policies = await prisma.documentCategory.create({ data: { name: "Policies" } });
-    const newsletter = await prisma.documentCategory.create({ data: { name: "Newsletter Archive" } });
-    await prisma.document.createMany({
-      data: [
-        { name: "Membership Application Form", categoryId: forms.id, fileUrl: "/documents/membership-form.pdf" },
-        { name: "Guest Registration Form", categoryId: forms.id, fileUrl: "/documents/guest-form.pdf" },
-        { name: "Terms of Use", categoryId: policies.id, fileUrl: "/terms" },
-        { name: "Privacy Policy", categoryId: policies.id, fileUrl: "/privacy" },
-        { name: "Newsletter January 2026", categoryId: newsletter.id, fileUrl: "/documents/newsletter-jan-2026.pdf" },
-      ],
-    });
+  async function getOrCreateDocCat(name: string) {
+    let cat = await prisma.documentCategory.findFirst({ where: { name } });
+    if (!cat) cat = await prisma.documentCategory.create({ data: { name } });
+    return cat;
+  }
+  const [forms, policies, newsletter, financials, news, debitOrder, oobaSolar] = await Promise.all([
+    getOrCreateDocCat("Forms"),
+    getOrCreateDocCat("Policies"),
+    getOrCreateDocCat("Newsletter Archive"),
+    getOrCreateDocCat("Financials"),
+    getOrCreateDocCat("News"),
+    getOrCreateDocCat("Debit Order Instruction"),
+    getOrCreateDocCat("Ooba Solar"),
+  ]);
+
+  const legacyDocNames = [
+    "SAGA Media Release Jan 2026",
+    "Financials Year End March 2025",
+    "Debit Order Form",
+    "Ooba Solar - Save 25% on Electricity",
+  ];
+  const existingDocs = await prisma.document.findMany({ where: { name: { in: legacyDocNames } }, select: { name: true } });
+  const existingNames = new Set(existingDocs.map((d) => d.name));
+  if (existingNames.size < legacyDocNames.length) {
+    const toCreate = [
+      { name: "SAGA Media Release Jan 2026", categoryId: news.id, fileUrl: "/documents/legacy/SAGA_Release_26_January_2026.pdf" },
+      { name: "Financials Year End March 2025", categoryId: financials.id, fileUrl: "/documents/legacy/March_2025.pdf" },
+      { name: "Debit Order Form", categoryId: debitOrder.id, fileUrl: "/documents/legacy/Netcash_EFT_Mandate___Plumstead_Neighbourhood_Watch.pdf" },
+      { name: "Ooba Solar - Save 25% on Electricity", categoryId: oobaSolar.id, fileUrl: "/documents/legacy/Ooba_flyer_with_QR_link_Copy.pdf" },
+    ].filter((d) => !existingNames.has(d.name));
+    if (toCreate.length > 0) await prisma.document.createMany({ data: toCreate });
+  }
+
+  const baseDocCount = await prisma.document.count();
+  if (baseDocCount < 5) {
+    const baseDocs = [
+      { name: "Membership Application Form", categoryId: forms.id, fileUrl: "/documents/membership-form.pdf" },
+      { name: "Guest Registration Form", categoryId: forms.id, fileUrl: "/documents/guest-form.pdf" },
+      { name: "Terms of Use", categoryId: policies.id, fileUrl: "/terms" },
+      { name: "Privacy Policy", categoryId: policies.id, fileUrl: "/privacy" },
+      { name: "Newsletter January 2026", categoryId: newsletter.id, fileUrl: "/documents/newsletter-jan-2026.pdf" },
+    ];
+    const existing = await prisma.document.findMany({ where: { name: { in: baseDocs.map((d) => d.name) } }, select: { name: true } });
+    const existingSet = new Set(existing.map((d) => d.name));
+    const toAdd = baseDocs.filter((d) => !existingSet.has(d.name));
+    if (toAdd.length > 0) await prisma.document.createMany({ data: toAdd });
   }
 
   const sponsorCount = await prisma.sponsor.count();

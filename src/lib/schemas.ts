@@ -55,9 +55,33 @@ export const schemeInquirySchema = z.object({
   message: optionalText,
 });
 
+export const emailPrefsSchema = z.object({
+  receiveEmail: z.boolean().optional(),
+  newsItems: z.boolean().optional(),
+  newsFreq: z.enum(["immediately", "weekly", "monthly"]).optional(),
+  events: z.boolean().optional(),
+  eventsFreq: z.enum(["immediately", "weekly", "monthly"]).optional(),
+  incidentsInZone: z.boolean().optional(),
+  incidentsZoneFreq: z.enum(["immediately", "weekly", "monthly"]).optional(),
+  incidentsOtherZones: z.boolean().optional(),
+  incidentsOtherFreq: z.enum(["immediately", "weekly", "monthly"]).optional(),
+  affiliatedWatches: z.boolean().optional(),
+  affiliatedFreq: z.enum(["immediately", "weekly", "monthly"]).optional(),
+  adHoc: z.boolean().optional(),
+  adHocFreq: z.enum(["immediately", "weekly", "monthly"]).optional(),
+});
+
 export const registrationPreparationSchema = z.object({
   zoneId: z.string().nullable(),
   memberType: z.enum(["MEMBER", "GUEST"]),
+  streetId: z.string().nullable().optional(),
+  houseNumber: z.string().trim().nullable().optional(),
+  hideFromNeighbours: z.boolean().optional().default(false),
+  patrolOptIn: z.boolean().optional().default(false),
+  secondaryContactName: z.string().trim().nullable().optional(),
+  secondaryContactPhone: z.string().trim().nullable().optional(),
+  secondaryContactEmail: z.union([z.string().trim().email(), z.literal("")]).optional().nullable(),
+  emailPrefs: emailPrefsSchema.optional(),
   whatsappOptIn: z.boolean(),
   whatsappPhone: z.string().trim().nullable(),
 });
@@ -76,19 +100,17 @@ export const profileUpdateSchema = z.object({
   lastName: z.string().trim().min(2, "Last name must be at least 2 characters").optional().nullable(),
 });
 
-export const emailPrefsSchema = z.object({
-  newsItems: z.boolean().optional(),
-  events: z.boolean().optional(),
-  incidentsInZone: z.boolean().optional(),
-  incidentsOtherZones: z.boolean().optional(),
-  affiliatedWatches: z.boolean().optional(),
-  adHoc: z.boolean().optional(),
-  frequency: z.enum(["immediately", "weekly", "monthly"]).optional(),
-});
-
 export const membershipProfileSchema = z
   .object({
     zoneId: z.string().nullable(),
+    streetId: z.string().nullable().optional(),
+    houseNumber: z.string().trim().nullable().optional(),
+    hideFromNeighbours: z.boolean().optional().default(false),
+    patrolOptIn: z.boolean().optional().default(false),
+    secondaryContactName: z.string().trim().nullable().optional(),
+    secondaryContactPhone: z.string().trim().nullable().optional(),
+    secondaryContactEmail: z.union([z.string().trim().email(), z.literal("")]).optional().nullable(),
+    emailPrefs: emailPrefsSchema.optional(),
     whatsappOptIn: z.boolean(),
     whatsappPhone: z.string().trim().nullable(),
   })

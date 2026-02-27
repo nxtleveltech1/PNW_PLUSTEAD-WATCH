@@ -61,6 +61,15 @@ export async function updateMembershipProfile(data: MembershipProfileInput) {
     where: { clerkId: userId },
     data: {
       zoneId: parsed.data.zoneId,
+      streetId: parsed.data.streetId ?? null,
+      houseNumber: parsed.data.houseNumber ?? null,
+      hideFromNeighbours: parsed.data.hideFromNeighbours ?? false,
+      patrolOptIn: parsed.data.patrolOptIn ?? false,
+      secondaryContactName: parsed.data.secondaryContactName ?? null,
+      secondaryContactPhone: parsed.data.secondaryContactPhone ?? null,
+      secondaryContactEmail:
+        parsed.data.secondaryContactEmail === "" ? null : parsed.data.secondaryContactEmail ?? null,
+      emailPrefs: parsed.data.emailPrefs ? (parsed.data.emailPrefs as object) : undefined,
       whatsappOptIn: parsed.data.whatsappOptIn,
       whatsappPhone:
         parsed.data.whatsappOptIn && parsed.data.whatsappPhone

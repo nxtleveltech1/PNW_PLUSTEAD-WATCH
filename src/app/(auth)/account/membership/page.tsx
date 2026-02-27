@@ -7,17 +7,18 @@ export default async function MembershipPage() {
   const { userId } = await auth();
   if (!userId) redirect("/sign-in");
 
-  const [user, zones] = await Promise.all([
+  const [user, zones, streets] = await Promise.all([
     prisma.user.findUnique({
       where: { clerkId: userId },
-      include: { zone: true },
+      include: { zone: true, street: true },
     }),
     prisma.zone.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true } }),
+    prisma.street.findMany({ orderBy: { order: "asc" }, select: { id: true, name: true, zoneId: true } }),
   ]);
 
   return (
     <div className="space-y-6">
-      <MembershipForm user={user} zones={zones} />
+      <MembershipForm user={user} zones={zones} streets={streets} />
     </div>
   );
 }

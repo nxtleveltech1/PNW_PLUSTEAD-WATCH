@@ -12,7 +12,10 @@ export default async function RegisterPage({
   searchParams: Promise<{ zone?: string }>;
 }) {
   const { zone: zoneId } = await parseRegisterSearchParams(searchParams);
-  const zones = await prisma.zone.findMany({ orderBy: { name: "asc" } });
+  const [zones, streets] = await Promise.all([
+    prisma.zone.findMany({ orderBy: { name: "asc" }, include: { streets: { orderBy: { order: "asc" } } } }),
+    prisma.street.findMany({ orderBy: { order: "asc" }, select: { id: true, name: true, zoneId: true } }),
+  ]);
   const defaultZoneId = zoneId && zones.some((z) => z.id === zoneId) ? zoneId : zones[0]?.id;
   return (
     <div className="flex min-h-screen flex-col">
@@ -28,7 +31,7 @@ export default async function RegisterPage({
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <RegisterForm memberType="MEMBER" zones={zones} defaultZoneId={defaultZoneId} />
+            <RegisterForm memberType="MEMBER" zones={zones} streets={streets} defaultZoneId={defaultZoneId} />
           </CardContent>
         </Card>
       </main>

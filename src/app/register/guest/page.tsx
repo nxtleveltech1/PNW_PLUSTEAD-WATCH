@@ -15,7 +15,7 @@ export default async function GuestRegisterPage() {
             <CardDescription>You do not live in the Plumstead area. Complete your details before signing up.</CardDescription>
           </CardHeader>
           <CardContent>
-            <RegisterForm memberType="GUEST" zones={[]} />
+            <RegisterForm memberType="GUEST" zones={[]} streets={[]} />
           </CardContent>
         </Card>
       </main>
