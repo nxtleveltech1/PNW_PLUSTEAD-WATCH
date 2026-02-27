@@ -16,6 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { profileUpdateSchema } from "@/lib/schemas";
 import { updateProfile } from "@/app/(auth)/account/actions";
 import { toast } from "sonner";
@@ -151,7 +152,7 @@ export function ProfileForm({
             )}
           />
           <div>
-            <FormLabel>Email</FormLabel>
+            <Label>Email</Label>
             <Input value={email} disabled className="bg-muted" />
             <p className="mt-1 text-xs text-muted-foreground">
               Email is managed by your account provider.

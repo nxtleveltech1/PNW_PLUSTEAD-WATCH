@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Header } from "@/components/layout/header-server";
 import { Footer } from "@/components/layout/footer";
 import { AccountNav } from "@/components/account/account-nav";
+import { isAdmin } from "@/lib/auth-admin";
 
 const accountNav = [
   { href: "/account/profile", label: "Profile" },
@@ -19,6 +20,7 @@ export default async function AccountLayout({
 }) {
   const { userId } = await auth();
   if (!userId) redirect("/sign-in");
+  const showAdmin = await isAdmin();
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -34,7 +36,7 @@ export default async function AccountLayout({
 
         <div className="mt-12 flex flex-col gap-8 lg:flex-row">
           <aside className="hidden shrink-0 lg:block lg:w-56">
-            <AccountNav />
+            <AccountNav showAdmin={showAdmin} />
           </aside>
 
           <nav
@@ -50,6 +52,14 @@ export default async function AccountLayout({
                 {item.label}
               </Link>
             ))}
+            {showAdmin && (
+              <Link
+                href="/admin"
+                className="shrink-0 rounded-lg border bg-background px-4 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              >
+                Admin
+              </Link>
+            )}
           </nav>
 
           <div className="min-w-0 flex-1 rounded-2xl border bg-card p-6 shadow-[var(--shadow-elevation-1)] md:p-8">

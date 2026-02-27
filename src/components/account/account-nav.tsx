@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard, Settings, Shield, User, Users } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 
 const accountNav = [
   { href: "/account/profile", label: "Profile", icon: User },
@@ -11,7 +12,7 @@ const accountNav = [
   { href: "/account/security", label: "Security", icon: Shield },
 ];
 
-export function AccountNav() {
+export function AccountNav({ showAdmin = false }: { showAdmin?: boolean }) {
   const pathname = usePathname();
 
   return (
@@ -35,6 +36,17 @@ export function AccountNav() {
         );
       })}
       <div className="my-2 h-px bg-border" />
+      {showAdmin && (
+        <Link
+          href="/admin"
+          className={`flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground ${
+            pathname?.startsWith("/admin") ? "bg-primary/10 text-primary" : "text-muted-foreground"
+          }`}
+        >
+          <ShieldCheck className="h-4 w-4 shrink-0" />
+          Admin
+        </Link>
+      )}
       <Link
         href="/dashboard"
         className="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
