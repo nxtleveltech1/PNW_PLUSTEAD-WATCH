@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link href="../css/jquery-ui-1.9.1.custom.min.css" rel="stylesheet" type="text/css" />
+    <link href="../themes/cupertino/jquery.ui.all.css" rel="stylesheet" type="text/css" />
+    <link href="../Theme/skin-win8/ui.easytree.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
+    <script src="../scripts/jquery1.11.0.min.js" type="text/javascript"></script>
+    <script src="../scripts/jquery-ui-1.9.1.custom.min.js" type="text/javascript"></script>
+    <script src="../theme/jquery.easytree.min.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="ui-widget-header ui-corner-tl ui-corner-tr" style="width: 100%; text-align: center;">Member Registration</div>
+    <div class="ui-widget-content" style="height: auto; padding: 10px;">
+
+        <p class="ui-state-highlight">
+            Please note:
+            <label id="lblWarning"></label>
+            reserves the right to refuse your registration for any 
+            reason whatsoever and it is not incumbent upon us to enter into any communications with you thereafter. 
+        </p>
+
+        <p>
+            If you live in the area covered by
+            <label id="lblOrgName1"></label>
+            , then you are eligible for membership. If you have not previously registered you may do so by clicking <a href="../../register.aspx" target="_blank">here</a>.
+        </p>
+
+        <p>
+            If you have previously registered and forgotten your username or password you may retrieve these by clicking 
+    <a href="../../default.aspx" target="_blank">here</a> then clicking the <i>Forgot Password</i> link in the top right hand corner and following 
+    the instructions in the email you are sent.
+        </p>
+
+        <p>If you have any questions or require help regarding your membership or registration status, please contact the <a id="hlMemAdmin" href="#">membership administrator</a>. </p>
+
+        The member registration page is divided up into a number of sections but kept on the same page for your convenience.  The following describe the different sections;
+        <hr />
+        <h2>Your Details</h2>
+       
+         <img src="../images/mreg1.jpg" alt="your details" /><br />
+        <br />
+        In the above image, the following fields are mandatory;<br />
+        <strong>UserID</strong>: An automatically created globally unique identifier the system uses to assist in identifying you. Note: 
+        this field may not be edited once the member has been created.  This field is nopt visible if you are creating a new member.<br />
+        <strong>Username</strong>: A 6 to 20 character name you wish to be known by on the system.  As you type past 6 characters you will be advised if the username is available (not already taken). Note: 
+        this field may not be edited once the member has been created.<br />
+        <strong>Password</strong>: A 6 to 20 password.<br />
+        <strong>Confirm Password</strong>: The password you typed above.<br />
+        <strong>First Name(s)</strong>: Minimum 1 characters.<br />
+        <strong>Last Name</strong>: Minimum 2 characters.<br />
+        <strong>House Number or Name</strong>:<br />
+        <strong>Street</strong>: Select your street from the list provided.  If your street is not listed, do not register and contact the 
+        <a id="hlMemAdmin2" href="#">membership administrator</a> for assistance.<br />
+        <br />
+        The remaining fields, <strong>Image</strong>, <strong>Home Telephone</strong>, <strong>Cellphone</strong>, and <strong>Email Address</strong>
+        are all optional.  However, we strongly advise you to provide an 
+        email address and cellphone number so that we may contact you in the event of an emergency at your registered address.
+
+        <hr />
+        <h2>Additional Contact Details</h2>
+        <img src="../images/mreg2.jpg" alt="additional contact fields" /><br />
+        <br />
+        Additonal contact details are not required and the person you enter here will not receive any communication from us.  The purpose of the 
+        additional contact details are that we, or a neighbour, may contact them in the event of an emergency at your premises and are not able to 
+        contact you.
+        <hr />
+        <h2>Privacy</h2>
+        <img src="../images/mreg3.jpg" alt="privacy" /><br />
+        <p>By default, a limited amount of your registration detail (name, house number, phone, cell, and email) are available to members in your 
+            street in order to allow them to contact you inf there's an emergency at your premises.</p>
+        The privacy setting is there to allow you to hide your membership details from others in your street though we do not recommend you do so.
+
+
+       <hr />
+        <h2>Patrolling</h2>
+        <img src="../images/mreg4.jpg" alt="patrol or not" /><br />
+        <p>If your neighbourhood watch undertakes patrols then selecting this option notifies them that you are prepared to do so.</p>
+        There are certain circumstances under which this is option may not be available;
+        <ol>
+            <li>Your neighbourhood watch may not undertake member patrols.</li>
+            <li>Your neighbourhood watch may require registration or other formal processes to be undertaken before you may patrol.</li>
+        </ol>
+        In the event the patrol checkbox is disabled, please contact your <a id="patadm1" href="#">patrol administrator</a>, to ascertain why.
+
+        <hr />
+        <h2>Website Email Preferences</h2>
+        <img src="../images/mreg5.jpg" alt="email preferences" /><br />
+   <p>It is possible that <label id="lblprefs1"></label> will send emails regularly.</p>  
+        <p>In order to allow you to decide what type of email you receive 
+        and the frequency you receive them, you may set your preferences here.  The mail items should be self-explanatory.</p>
+
+        <p>In the event there is only one zone defined, the radio buttons for <i>Receive Incidents from other zones?</i> will be disabled.</p>
+
+        <label id="lblaorgname"></label> may be affiliated or otherwise just receive automated information from other, usually locally based 
+        neighbourhood watches.  If you wish to receive notification of events sent out by these watches, select the option 
+        under <i>Receive incident notifications from watches affiliated to <label id="lblaorgname2"></label>?</i>
+        
+        
+     <hr />
+        <h2>Finish</h2>
+        <img src="../images/mreg6.jpg" alt="finish" /><br />
+        In order to ensure that a real person (as opposed to an automated system AKA spam bot) is registering, we require that you fill in the 
+        number you see in the CATCHA (an acronym for "Completely Automated Public Turing test to tell Computers and Humans Apart") image.  
+        <p>Once done, click the <i>Finish button</i> and if successful, you will receive a notification 
+        on your screen and an email confirmation (if you entered an email addres) shortly thereafter. </p>
+
+
+    </div>
+    <hr />
+    <div style="float: left">
+        <a id="aCopyright" href="http://www.octoxgroup.com" target="_blank">Copyright
+                    &copy;
+                    <script type="text/javascript">
+                        var today = new Date();
+                        var y0 = today.getFullYear();
+                        document.write("2013 - " + y0 + " Octo-Xpressions Group")
+                    </script>
+        </a><a href="mailto:info@octoxgroup.com">(Contact)</a>
+    </div>
+    <div style="float:right">
+        <a href="glossary.html">Glossary of terms</a>
+    </div>
+</body>
+<script type="text/javascript">
+    var settings
+    $(document).ready(function () {
+        if (window.parent.location.href.indexOf("index.html") === -1) {
+            this.location = "../index.html?memreg"
+        } else {
+            var myVar = setInterval(function () { myTimer() }, 200);
+            function myTimer() {
+                settings = window.parent._settings;
+                $("#lblWarning").text(settings.FullOrgName);
+                $("#lblOrgName1").text(settings.FullOrgName);
+                var memhref = "mailto:" + settings.MembershipMail + "@" + settings.DomainName + "?subject=Membership query"
+                $("#hlMemAdmin").prop("href", memhref);
+                $("#hlMemAdmin2").prop("href", memhref);
+                $("#patadm1").prop("href", "mailto:" + settings.PatrolsMail + "@" + settings.DomainName + "?subject=Patrol query");
+                $("#prefs1").text(settings.AbbreviatedOrgName);
+                $("#lblaorgname").text(settings.AbbreviatedOrgName);
+                $("#lblaorgname2").text(settings.AbbreviatedOrgName);
+
+                if (settings.DomainName != undefined) {
+                    clearInterval(myVar)
+                }
+            }
+        }
+    });      //document ready
+</script>
+
+</html>

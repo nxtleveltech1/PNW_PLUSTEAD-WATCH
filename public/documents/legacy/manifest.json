@@ -1,0 +1,30 @@
+[
+  {
+    "categoryName": "News",
+    "categoryId": 12,
+    "documentName": "SAGA_Release_26_January_2026.pdf",
+    "filename": "SAGA_Release_26_January_2026.pdf",
+    "savedPath": "/documents/legacy/SAGA_Release_26_January_2026.pdf"
+  },
+  {
+    "categoryName": "Financials",
+    "categoryId": 7,
+    "documentName": "March_2025.pdf",
+    "filename": "March_2025.pdf",
+    "savedPath": "/documents/legacy/March_2025.pdf"
+  },
+  {
+    "categoryName": "Ooba Solar",
+    "categoryId": 1036,
+    "documentName": "Ooba_flyer_with_QR_link_Copy.pdf",
+    "filename": "Ooba_flyer_with_QR_link_Copy.pdf",
+    "savedPath": "/documents/legacy/Ooba_flyer_with_QR_link_Copy.pdf"
+  },
+  {
+    "categoryName": "Debit Order Instruction",
+    "categoryId": 1035,
+    "documentName": "Netcash_EFT_Mandate___Plumstead_Neighbourhood_Watch.pdf",
+    "filename": "Netcash_EFT_Mandate___Plumstead_Neighbourhood_Watch.pdf",
+    "savedPath": "/documents/legacy/Netcash_EFT_Mandate___Plumstead_Neighbourhood_Watch.pdf"
+  }
+]

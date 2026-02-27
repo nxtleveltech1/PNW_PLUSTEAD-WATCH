@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link href="../css/jquery-ui-1.9.1.custom.min.css" rel="stylesheet" type="text/css" />
+    <link href="../themes/cupertino/jquery.ui.all.css" rel="stylesheet" type="text/css" />
+    <link href="../Theme/skin-win8/ui.easytree.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
+    <script src="../scripts/jquery1.11.0.min.js" type="text/javascript"></script>
+    <script src="../scripts/jquery-ui-1.9.1.custom.min.js" type="text/javascript"></script>
+    <script src="../theme/jquery.easytree.min.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="ui-widget-header ui-corner-tl ui-corner-tr" style="width: 100%; text-align: center;">Patrol Administration</div>
+    <div class="ui-widget-content" style="height: auto; padding: 10px;">
+
+        <h2>Overview</h2>
+        <ul>
+            <li class="nobullets">
+                <p class="ui-state-highlight">
+                    Note: A patrol zone is a completely seperate entity from a member zone.  A patrol zone may comprise 
+                    one or more member zones.
+                </p>
+                If your organisation runs member patrols, then before you can assign patrol slots you are required to setup
+                 the patrol functionality.  The following steps explain how to do this.<br />
+                <ul>
+                    <li><a href="#A1"><b>Patrol Zone Setup</b></a></li>
+                    <li><a href="#A2"><b>Patrol Types</b></a></li>
+                    <li><a href="#A3"><b>Patrol Resources</b></a></li>
+                    <li><a href="#A4"><b>Email & Documentation Option</b></a></li>
+                </ul>
+            </li>
+        </ul>
+
+
+
+        <h2><a id="A1"></a>Patrol Zone Setup</h2>
+        <ul>
+            <li class="nobullets">Figure 1 - Adding a patrol zone<br />
+                <img src="../images/patrola2.jpg" alt="adding a patrol zone" />
+
+                <p>
+                    In order to setup a patrol zone, you must click the 'Add Patrol Zone' button under the patrol zones tab.  
+                    The image above is what is subsequently presented to you.  The fields are;<br />
+                </p>
+                <ul>
+                    <li><b>Patrol Zone Name</b><br />
+                        Enter the name of the patrol zone - must be unique.
+                    </li>
+                    <li><b>Member Zones</b><br />
+                        Select the member zones that this patrol zone comprises.  Only members within the member zones you choose will be able to book 
+                        patrols in this zone.
+                    </li>
+                    <li><b>Manager(s)</b><br />
+                        Select any patrol managers for this zone.  A patrol manager may book patrols on their members behalf.  You may have as 
+                        many managers as you like but they have to have been placed in the patrol managers role before they are visible in 
+                        this drop down list.
+
+                    </li>
+                    <li><b>Is Special</b><br />
+                                <p class="ui-state-highlight">
+                                    Special patrol zones are zones that can be setup for specific patrol operations, e.g. let's say the local 
+                                    SAPS wish to setup an operation and have requested the local neighbourhood watch assist in traffic control.  
+                                    The patrol administrator may create a special zone (by checking the 'is special' checkbox) which can comprise any number of 
+                                    member zones and will run for a specified period of time whereafter the zone will not be available to book patrols in. <br />
+                                    Members will be able to book patrols in either their patrol zone or the special zone(s) if available.                              
+                                </p>
+                        If selected, the following options become available;
+                        <ul>
+                            <li><b>Runs From</b><br />
+                                Date field that dictates when the patrol zone is active from.
+                            </li>
+                            <li><b>Runs To</b><br />
+                                Date field that dictates when the patrol zone is active to.
+                            </li>
+                            <li><b>Allow Bookings From</b><br />
+                                Date field that dictates from when bookings may be made for this special patrol zone. 
+                            </li>
+                        </ul>
+                    </li>
+                    <li><b>In Use</b><br />
+                        Determines if the patrol zone is available.
+                    </li>
+                    <li>When complete, click the Add button to create your new patrol zone.<br />
+
+                    </li>
+                </ul>
+            </li>
+            <li class="nobullets">To edit a patrol zone click the pencil icon to the right of the zone you wish to edit in the zones table and follow the same 
+                procedure as above.
+            </li>
+        </ul>
+
+
+        <h2><a id="A2"></a>Patrol Types</h2>
+
+        <ul>
+            <li class="nobullets">Figure 2 - Editing a patrol type<br />
+                <img src="../images/patrola3.jpg" alt="editing a patrol type" />
+                <p>
+                    In order to edit a patrol type, you must click the pencil icon to the right of the type you wish to edit in the patrol types table.  
+                    The image above is what is subsequently presented to you.<br />
+                </p>
+                <ul>
+                    <li><b>ID - Read only</b><br />
+                        The database identifier of the patrol type - only seen when editing the type.
+                    </li>
+                    <li><b>Name</b><br />
+                        The name of the patrol type, e.g. Vehicle patrol
+                    </li>
+                    <li><b>Description</b><br />
+                        A description of the patrol type
+                    </li>
+                    <li><b>Designation</b><br />
+                        A 1 to 3 letter abbreviated name for the patrol type.  This is used on the patrol roster so one can see at a glance who is 
+                        patrolling how.
+                    </li>
+                    <li><b>In Use</b><br />
+                        Determines if the patrol type be used when booking a patrol.
+                    </li>
+                </ul>
+            </li>
+            <li class="nobullets">To add a patrol type click the 'Add Patrol Type' link above the patrol type table - not shown - and complete the fields
+                as described above. 
+               
+            </li>
+        </ul>
+
+
+        <h2><a id="A3"></a>Patrol Resources</h2>
+
+        <ul>
+            <li class="nobullets">Figure 3 - Adding a patrol resource<br />
+                <img src="../images/patrola4.jpg" alt="adding a patrol resource" />
+                <p>
+                    In order to setup a patrol resource, you must click the 'Add Patrol Resource' button under the patrol resources tab.  
+                    The image above is what is subsequently presented to you.<br />
+                </p>
+                <ul>
+                    <li><b>Name</b><br />
+                        The name of the patrol resource, e.g. Radio
+                    </li>
+                    <li><b>Description</b><br />
+                        A description of the patrol resource. e.g. Radio for patrol zone 1.
+                    </li>
+                    <li><b>In Use</b><br />
+                        Determines if the resource is made available to book when booking a patrol.
+                    </li>
+                </ul>
+
+
+            </li>
+            <li class="nobullets">To edit a patrol resource click the pencil icon to the right of the resource you wish to edit in the resources table and follow the same 
+                procedure as above.
+            </li>
+        </ul>
+
+
+        <h2><a id="A4"></a>Email & Documentation Option</h2>
+
+        <ul>
+            <li class="nobullets">Figure 4 - Editing email and documentation settings<br />
+                <img src="../images/patrola5.jpg" alt="Editing email and documentation settings" />
+                <p>
+                </p>
+            </li>
+            <li class="nobullets">
+                <ul>
+                    <li><b>Patrol roster email preferences</b><br />
+                        The patrol roster may be emailed at various times for various reasons to one or more patrollers and you
+                        may choose to add additional patroller information to that email to assist the patroller in recognising other patrollers
+                        in their zone.<br />
+                        <p>
+                            The drop down list contains various options you can use to decide what, if any, information is included in the email.
+                        </p>
+                    </li>
+                    <li><b>Send booking info to patroller whenever a booking is added or removed?</b><br />
+                        If selected, whenever a patroller or patrol manager books a member patrol, all exiting future patrol bookings, along with 
+                        any resources that have been booked will be emailed to the patroller.
+                    </li>
+                    <li><b>Send email reminder to patroller 24hrs before their patrol? </b>
+                        <br />
+                        If selected, 24 hours (+/-) the system will send a reminder to the patroller about their upcoming committment.
+                    </li>
+                    <li><b>Patrol documentation category ID:</b><br />
+                        If a documentation category has been setup to for general patrol documentation, enter the  id of the catergory 
+                        here, otherwise leave as 0.
+                    </li>
+                    <li><b>Suspicious vehicles documentation category ID: </b>
+                        <br />
+                        If a documentation category has been setup to for suspicious vehicle documentation, enter the  id of the catergory 
+                        here, otherwise leave as 0.
+                    </li>
+                    <li><b>Suspicious persons documentation category ID: </b>
+                        <br />
+                        If a documentation category has been setup to for suspicious persons documentation, enter the  id of the catergory 
+                        here, otherwise leave as 0.
+
+                    </li>
+                    <li><b>Radio and call sign documentation category ID: </b>
+                        <br />
+                        If a documentation category has been setup to forradio and call sign documentation, enter the  id of the catergory 
+                        here, otherwise leave as 0.
+                    </li>
+                    <li>Click the update button when complete.</li>
+
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <hr />
+    <div style="float: left">
+        <a id="aCopyright" href="http://www.octoxgroup.com" target="_blank">Copyright
+                    &copy;
+                    <script type="text/javascript">
+                        var today = new Date();
+                        var y0 = today.getFullYear();
+                        document.write("2013 - " + y0 + " Octo-Xpressions Group")
+                    </script>
+        </a><a href="mailto:info@octoxgroup.com">(Contact)</a>
+    </div>
+    <div style="float: right">
+        <a href="glossary.html">Glossary of terms</a>
+    </div>
+</body>
+<script type="text/javascript">
+    var settings
+    $(document).ready(function () {
+        if (window.parent.location.href.indexOf("index.html") === -1) {
+            this.location = "../index.html?patrola"
+        } else {
+            var myVar = setInterval(function () { myTimer() }, 200);
+            function myTimer() {
+                settings = window.parent._settings;
+
+                if (settings.DomainName != undefined) {
+                    clearInterval(myVar)
+                }
+            }
+        }
+    });      //document ready
+</script>
+
+</html>
