@@ -18,7 +18,7 @@ export default async function ConversationPage({
   const isRepliable = conversation.type !== "SYSTEM";
 
   return (
-    <section className="flex h-full flex-col">
+    <section className="flex min-h-[400px] flex-col">
       <div className="flex items-center gap-3 border-b pb-3">
         <Link
           href="/account/inbox"
@@ -43,20 +43,24 @@ export default async function ConversationPage({
       {conversation.type === "BUSINESS" && conversation.businessListingId && (
         <Link
           href={`/business/${conversation.businessListingId}`}
-          className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-muted px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
+          className="mt-3 inline-flex w-fit items-center gap-1.5 rounded-lg bg-muted/60 px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
         >
           <Building2 className="h-3.5 w-3.5" />
           {conversation.businessListingName}
         </Link>
       )}
 
-      <div className="flex-1 space-y-3 overflow-y-auto py-4">
+      <div className="flex-1 space-y-3 overflow-y-auto px-1 py-4">
         {conversation.messages.map((msg) => (
           <MessageBubble key={msg.id} message={msg} />
         ))}
       </div>
 
-      {isRepliable && <ReplyForm conversationId={conversation.id} />}
+      {isRepliable && (
+        <div className="pb-1">
+          <ReplyForm conversationId={conversation.id} />
+        </div>
+      )}
     </section>
   );
 }

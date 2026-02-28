@@ -47,8 +47,8 @@ export function ConversationRow({ item }: { item: ConversationListItem }) {
   return (
     <Link
       href={`/account/inbox/${item.id}`}
-      className={`group flex items-start gap-3 rounded-lg border px-4 py-3 transition-colors hover:bg-muted/50 ${
-        item.unread ? "border-primary/20 bg-primary/[0.03]" : "border-border"
+      className={`group flex items-start gap-3.5 rounded-xl border px-4 py-3.5 transition-colors hover:bg-muted/50 ${
+        item.unread ? "border-primary/20 bg-primary/[0.03]" : "border-border/60"
       }`}
     >
       <div
@@ -73,16 +73,14 @@ export function ConversationRow({ item }: { item: ConversationListItem }) {
           </span>
         </div>
 
-        <div className="mt-0.5 flex items-center gap-2">
-          <span className="truncate text-xs text-muted-foreground">{preview}</span>
-        </div>
+        <p className="mt-0.5 truncate text-xs text-muted-foreground">{preview}</p>
 
-        <div className="mt-1 flex items-center gap-2">
-          <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+        <div className="mt-1.5 flex items-center gap-2">
+          <span className="inline-flex items-center rounded-md bg-muted/80 px-1.5 py-0.5 text-[11px] font-medium text-muted-foreground">
             {label}
           </span>
           {item.unread && (
-            <span className="h-2 w-2 rounded-full bg-primary" />
+            <span className="h-1.5 w-1.5 rounded-full bg-primary" />
           )}
         </div>
       </div>

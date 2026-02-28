@@ -54,7 +54,7 @@ export default function ComposePage() {
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 max-w-2xl space-y-4">
           <FormField
             control={form.control}
             name="recipientId"
@@ -98,7 +98,7 @@ export default function ComposePage() {
                 <FormLabel>Message</FormLabel>
                 <FormControl>
                   <textarea
-                    className="flex min-h-[120px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                    className="flex min-h-[120px] w-full resize-y rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                     placeholder="Write your message..."
                     {...field}
                   />

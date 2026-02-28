@@ -26,7 +26,7 @@ export default async function AdminBroadcastPage() {
         Recipients will see it in their inbox.
       </p>
 
-      <div className="mt-6 max-w-xl">
+      <div className="mt-6 max-w-2xl">
         <BroadcastForm zones={zones} sections={uniqueSections} />
       </div>
     </section>

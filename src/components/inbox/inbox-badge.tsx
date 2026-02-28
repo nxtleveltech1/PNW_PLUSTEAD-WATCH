@@ -23,9 +23,9 @@ export function InboxBadge() {
   return (
     <Button variant="ghost" size="icon" className="relative h-9 w-9" asChild>
       <Link href="/account/inbox" aria-label={`Inbox${count > 0 ? ` (${count} unread)` : ""}`}>
-        <Mail className="h-4.5 w-4.5" />
+        <Mail className="h-[18px] w-[18px]" />
         {count > 0 && (
-          <span className="absolute -right-0.5 -top-0.5 flex h-4.5 min-w-4.5 items-center justify-center rounded-full bg-destructive px-1 text-[10px] font-bold text-destructive-foreground">
+          <span className="absolute -right-0.5 -top-0.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-destructive px-1 text-[10px] font-bold text-destructive-foreground">
             {count > 99 ? "99+" : count}
           </span>
         )}

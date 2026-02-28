@@ -77,7 +77,7 @@ export function RecipientSearch({
       </div>
 
       {open && results.length > 0 && (
-        <div className="absolute z-50 mt-1 w-full rounded-md border bg-popover p-1 shadow-md">
+        <div className="absolute z-50 mt-1 max-h-[240px] w-full overflow-y-auto rounded-md border bg-popover p-1 shadow-md">
           {results.map((user) => (
             <button
               key={user.id}
@@ -87,9 +87,9 @@ export function RecipientSearch({
                 setQuery("");
                 setOpen(false);
               }}
-              className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm hover:bg-accent hover:text-accent-foreground"
+              className="flex w-full items-center gap-2.5 rounded-sm px-2 py-2 text-sm hover:bg-accent hover:text-accent-foreground"
             >
-              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
                 {user.name.slice(0, 2).toUpperCase()}
               </div>
               <div className="min-w-0 text-left">

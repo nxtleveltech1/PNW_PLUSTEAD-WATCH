@@ -37,19 +37,21 @@ export default async function InboxPage({
         </Button>
       </div>
 
-      <div className="mt-4">
+      <div className="mt-3">
         <InboxTabs active={params.filter} />
       </div>
 
-      <div className="mt-4 space-y-2">
+      <div className="mt-3 min-h-[200px] space-y-2">
         {conversations.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-12 text-center">
-            <Inbox className="h-10 w-10 text-muted-foreground/40" />
-            <p className="mt-3 text-sm font-medium text-muted-foreground">
-              {filter ? "No messages in this category." : "Your inbox is empty."}
+          <div className="flex flex-col items-center justify-center py-16 text-center">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-muted">
+              <Inbox className="h-6 w-6 text-muted-foreground/50" />
+            </div>
+            <p className="mt-4 text-sm font-medium text-foreground">
+              {filter ? "No messages in this category" : "Your inbox is empty"}
             </p>
-            <p className="mt-1 text-xs text-muted-foreground">
-              Messages from members, system notifications, and announcements will appear here.
+            <p className="mt-1 max-w-[28ch] text-xs text-muted-foreground">
+              Messages from members, notifications, and announcements will appear here.
             </p>
           </div>
         ) : (
