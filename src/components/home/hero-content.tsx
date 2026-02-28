@@ -115,7 +115,7 @@ function HeroMainSlide() {
 function CameraProjectSlide() {
   return (
     <div className="relative flex h-full min-h-[90vh] w-full flex-col items-center justify-center px-6 py-20 text-center md:px-10 lg:px-16">
-      <div className="absolute inset-0 bg-gradient-to-b from-red-900/90 via-red-950/80 to-red-950/90" aria-hidden />
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/95 via-primary/90 to-primary/95" aria-hidden />
       <div className="relative z-10 flex w-full max-w-4xl flex-col items-center gap-8">
         <h2
           className="font-display text-2xl font-bold uppercase tracking-tight text-white md:text-3xl lg:text-4xl"
@@ -124,7 +124,7 @@ function CameraProjectSlide() {
           Neighborhood Watch Security Camera Project
         </h2>
         <p
-          className="font-display text-lg font-bold uppercase tracking-wider text-red-400 md:text-xl"
+          className="font-display text-lg font-bold uppercase tracking-wider text-amber-300 md:text-xl"
           style={{ textShadow: "0 1px 8px rgba(0,0,0,0.4)" }}
         >
           &gt;&gt; Join · Support · Donate &lt;&lt;

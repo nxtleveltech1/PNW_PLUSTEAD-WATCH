@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Shield } from "lucide-react";
-import { Footer } from "@/components/layout/footer";
-import { Header } from "@/components/layout/header-server";
+import { PageShell } from "@/components/layout/page-shell";
+import { PageHero } from "@/components/layout/page-hero";
 import { AnimateSection, AnimateItem } from "@/components/ui/animate-section";
 import { prisma } from "@/lib/db";
 
@@ -26,23 +26,15 @@ export default async function SafetyTipsPage() {
   const categoryKeys = Object.keys(byCategory);
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main id="main" className="page-main">
-        <AnimateSection>
-          <div className="page-hero">
-          <p className="eyebrow">Safety Library</p>
-          <h1 className="section-heading mt-2">
-            <span className="headline-gradient">Operational Safety Guidance</span>
-          </h1>
-          <p className="section-subheading">
-            Practical, local prevention guidance for residents, households, and community patrol volunteers.
-          </p>
-        </div>
-        </AnimateSection>
+    <PageShell>
+      <PageHero
+        eyebrow="Safety Library"
+        title="Operational Safety Guidance"
+        description="Practical, local prevention guidance for residents, households, and community patrol volunteers."
+      />
 
-        {tips.length === 0 ? (
-          <AnimateSection className="mt-10">
+      {tips.length === 0 ? (
+          <AnimateSection className="mt-section">
             <AnimateItem>
               <div className="rounded-2xl border-2 border-dashed border-border bg-muted/20 py-16 text-center text-muted-foreground">
                 No safety tips available yet.
@@ -50,7 +42,7 @@ export default async function SafetyTipsPage() {
             </AnimateItem>
           </AnimateSection>
         ) : (
-          <AnimateSection className="mt-8">
+          <AnimateSection className="mt-section">
             <section className="flex flex-wrap gap-2">
               {categoryKeys.map((category) => (
                 <a
@@ -102,8 +94,6 @@ export default async function SafetyTipsPage() {
             </div>
           </AnimateSection>
         )}
-      </main>
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

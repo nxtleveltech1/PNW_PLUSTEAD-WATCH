@@ -1,10 +1,9 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { auth } from "@clerk/nextjs/server";
-import { Header } from "@/components/layout/header-server";
-import { Footer } from "@/components/layout/footer";
-import { Button } from "@/components/ui/button";
+import { PageShell } from "@/components/layout/page-shell";
+import { BreadcrumbNav } from "@/components/layout/breadcrumb-nav";
 import { prisma } from "@/lib/db";
+import { AnimateSection } from "@/components/ui/animate-section";
 import { RsvpButton } from "./rsvp-button";
 
 export default async function EventDetailPage({
@@ -32,12 +31,14 @@ export default async function EventDetailPage({
   const isFuture = event.startAt >= new Date();
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main id="main" className="page-main">
-        <Button asChild variant="ghost" size="sm" className="-ml-2 mb-6 text-muted-foreground hover:text-foreground">
-          <Link href="/events">&lt;- Back to events</Link>
-        </Button>
+    <PageShell>
+      <AnimateSection>
+        <BreadcrumbNav
+          items={[
+            { label: "Events", href: "/events" },
+            { label: event.title },
+          ]}
+        />
         <article className="panel max-w-3xl">
           <div className="panel-header">
             <h1 className="font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl">
@@ -66,8 +67,7 @@ export default async function EventDetailPage({
           )}
           {!event.content && <div className="px-6 pb-6 pt-4 text-sm text-muted-foreground">No event notes added yet.</div>}
         </article>
-      </main>
-      <Footer />
-    </div>
+      </AnimateSection>
+    </PageShell>
   );
 }

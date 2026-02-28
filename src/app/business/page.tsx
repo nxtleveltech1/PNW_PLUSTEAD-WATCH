@@ -1,8 +1,7 @@
 import type { Prisma } from "@prisma/client";
 import Link from "next/link";
 import { auth } from "@clerk/nextjs/server";
-import { Header } from "@/components/layout/header-server";
-import { Footer } from "@/components/layout/footer";
+import { PageShell } from "@/components/layout/page-shell";
 import { prisma } from "@/lib/db";
 import { BusinessDirectoryFilters } from "./business-directory-filters";
 import { BusinessDbUnavailable } from "./db-unavailable";
@@ -119,10 +118,8 @@ export default async function BusinessNetworkingHubPage({
   const directoryListings = listings.filter((l) => !nonFeaturedIds.has(l.id));
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main id="main" className="page-main">
-        {/* Hero with ambient gradient and headline */}
+    <PageShell>
+      {/* Hero with ambient gradient and headline */}
         <AnimateSection>
           <div className="hero-business px-8 py-10 md:px-10 md:py-12">
             <AnimateItem>
@@ -498,8 +495,6 @@ export default async function BusinessNetworkingHubPage({
             </div>
           </AnimateItem>
         </AnimateSection>
-      </main>
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

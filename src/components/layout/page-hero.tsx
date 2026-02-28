@@ -3,7 +3,7 @@ import { AnimateSection } from "@/components/ui/animate-section";
 interface PageHeroProps {
   eyebrow: string;
   title: string;
-  description: string;
+  description?: string;
   gradient?: boolean;
 }
 
@@ -19,7 +19,7 @@ export function PageHero({ eyebrow, title, description, gradient = true }: PageH
             <span className="text-foreground">{title}</span>
           )}
         </h1>
-        <p className="section-subheading">{description}</p>
+        {description ? <p className="section-subheading">{description}</p> : null}
       </div>
     </AnimateSection>
   );

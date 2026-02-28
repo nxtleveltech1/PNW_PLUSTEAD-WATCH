@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ExternalLink, Handshake } from "lucide-react";
-import { Footer } from "@/components/layout/footer";
-import { Header } from "@/components/layout/header-server";
+import { PageShell } from "@/components/layout/page-shell";
+import { PageHero } from "@/components/layout/page-hero";
 import { prisma } from "@/lib/db";
 import { AnimateSection, AnimateItem } from "@/components/ui/animate-section";
 
@@ -9,23 +9,14 @@ export default async function SponsorsPage() {
   const sponsors = await prisma.sponsor.findMany({ orderBy: { order: "asc" } });
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main id="main" className="page-main">
-        <AnimateSection>
-          <div className="page-hero">
-            <p className="eyebrow">Local Partners</p>
-            <h1 className="section-heading mt-2">
-              <span className="headline-gradient">Sponsors and Security Partners</span>
-            </h1>
-            <p className="section-subheading">
-              Organisations that support operational continuity and neighbourhood safety programs.
-            </p>
-          </div>
-        </AnimateSection>
-
-        {sponsors.length === 0 ? (
-          <AnimateSection className="mt-10">
+    <PageShell>
+      <PageHero
+        eyebrow="Local Partners"
+        title="Sponsors and Security Partners"
+        description="Organisations that support operational continuity and neighbourhood safety programs."
+      />
+      {sponsors.length === 0 ? (
+          <AnimateSection className="mt-section">
             <AnimateItem>
               <div className="rounded-2xl border-2 border-dashed border-border bg-muted/20 py-16 text-center text-muted-foreground">
                 No sponsors listed yet.
@@ -33,7 +24,7 @@ export default async function SponsorsPage() {
             </AnimateItem>
           </AnimateSection>
         ) : (
-          <AnimateSection className="mt-10">
+          <AnimateSection className="mt-section">
             <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {sponsors.map((sponsor) => (
                 <AnimateItem key={sponsor.id}>
@@ -91,7 +82,7 @@ export default async function SponsorsPage() {
           </AnimateSection>
         )}
 
-        <AnimateSection className="mt-10">
+        <AnimateSection className="mt-section">
           <AnimateItem>
             <Link
               href="/contact"
@@ -114,8 +105,6 @@ export default async function SponsorsPage() {
             </Link>
           </AnimateItem>
         </AnimateSection>
-      </main>
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

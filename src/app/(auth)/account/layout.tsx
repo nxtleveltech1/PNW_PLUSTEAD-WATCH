@@ -25,19 +25,14 @@ export default async function AccountLayout({
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-      <main id="main" className="page-main">
-        <div className="mb-block">
-          <h1 className="section-title">Manage your account</h1>
-          <p className="mt-2 text-muted-foreground">Update your profile, membership, and preferences.</p>
-        </div>
-
-        <div className="flex flex-col gap-8 lg:flex-row">
-          <aside className="hidden shrink-0 lg:block lg:w-56">
+      <main id="main" className="page-main page-main-compact">
+        <div className="flex flex-col gap-4 lg:flex-row lg:gap-6">
+          <aside className="hidden shrink-0 lg:block lg:w-52">
             <AccountNav showAdmin={showAdmin} />
           </aside>
 
           <nav
-            className="flex gap-2 overflow-x-auto pb-4 lg:hidden"
+            className="flex gap-2 overflow-x-auto pb-2 lg:hidden"
             aria-label="Account navigation"
           >
             {accountNav.map((item) => (
@@ -59,8 +54,10 @@ export default async function AccountLayout({
             )}
           </nav>
 
-          <div className="card-elevated min-w-0 flex-1 rounded-2xl border-0 bg-card p-6 md:p-8">
-            {children}
+          <div className="min-w-0 flex-1">
+            <div className="card-elevated rounded-2xl border-0 bg-card p-6 md:p-8">
+              {children}
+            </div>
           </div>
         </div>
       </main>

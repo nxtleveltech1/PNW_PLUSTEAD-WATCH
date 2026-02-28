@@ -17,7 +17,7 @@ export function AccountNav({ showAdmin = false }: { showAdmin?: boolean }) {
 
   return (
     <nav
-      className="sticky top-24 space-y-1 rounded-lg border bg-card p-2"
+      className="space-y-1 rounded-lg border bg-card p-2"
       aria-label="Account navigation"
     >
       {accountNav.map((item) => {

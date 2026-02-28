@@ -17,7 +17,7 @@ export default async function ProfilePage() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-display text-xl font-semibold">Profile</h2>
+        <h2 className="block-title">Profile</h2>
         <p className="mt-1 text-sm text-muted-foreground">
           Update your personal information and profile picture.
         </p>

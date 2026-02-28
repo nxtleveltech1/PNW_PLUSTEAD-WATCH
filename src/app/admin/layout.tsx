@@ -24,13 +24,13 @@ export default async function AdminLayout({
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-      <main id="main" className="page-main">
-        <div className="mb-block">
-          <h1 className="section-title">Admin Console</h1>
-          <p className="mt-2 text-muted-foreground">Manage incidents, events, business listings, and contact messages.</p>
+      <main id="main" className="page-main page-main-compact">
+        <div className="mb-4">
+          <h1 className="text-xl font-semibold">Admin Console</h1>
+          <p className="mt-0.5 text-sm text-muted-foreground">Manage incidents, events, business listings, and contact messages.</p>
         </div>
 
-        <div className="flex flex-col gap-8 lg:flex-row">
+        <div className="flex flex-col gap-4 lg:flex-row lg:gap-6">
           <nav
             className="flex shrink-0 flex-wrap gap-2 lg:w-56 lg:flex-col lg:gap-1"
             aria-label="Admin navigation"

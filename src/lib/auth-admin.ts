@@ -24,13 +24,13 @@ async function syncUserFromClerk(clerkId: string) {
       email: primaryEmail,
       firstName: clerkUser.firstName ?? null,
       lastName: clerkUser.lastName ?? null,
-      ...(isAdmin && { role: "ADMIN" as const }),
+      ...(isAdmin && { role: "ADMIN" as const, memberType: "MEMBER" as const, isApproved: true }),
     },
     update: {
       email: primaryEmail,
       firstName: clerkUser.firstName ?? null,
       lastName: clerkUser.lastName ?? null,
-      ...(isAdmin && { role: "ADMIN" as const }),
+      ...(isAdmin && { role: "ADMIN" as const, memberType: "MEMBER" as const, isApproved: true }),
     },
     select: { id: true, role: true, email: true },
   });
@@ -54,7 +54,7 @@ export async function requireAdmin() {
   if (user?.email && adminEmails.includes(user.email.toLowerCase())) {
     const updated = await prisma.user.update({
       where: { clerkId: userId },
-      data: { role: "ADMIN" },
+      data: { role: "ADMIN", memberType: "MEMBER", isApproved: true },
       select: { id: true, role: true },
     });
     return { userId, user: updated };
@@ -83,7 +83,7 @@ export async function isAdmin(): Promise<boolean> {
     if (user?.email && adminEmails.includes(user.email.toLowerCase())) {
       await prisma.user.update({
         where: { clerkId: userId },
-        data: { role: "ADMIN" },
+        data: { role: "ADMIN", memberType: "MEMBER", isApproved: true },
       });
       return true;
     }

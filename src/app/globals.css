@@ -137,6 +137,25 @@
     }
   }
 
+  .page-main-compact {
+    padding-top: 1.5rem;
+    padding-bottom: 3rem;
+  }
+
+  @media (min-width: 768px) {
+    .page-main-compact {
+      padding-top: 2rem;
+      padding-bottom: 4rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .page-main-compact {
+      padding-top: 2.5rem;
+      padding-bottom: 4rem;
+    }
+  }
+
   .page-hero {
     @apply max-w-3xl;
   }
