@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Barcode from "react-barcode";
 import { ShieldCheck, Globe, Mail } from "lucide-react";
+import { ZONE_SECTIONS } from "@/data/zone-polygons";
 
 export type EmergencyContactItem = {
   service: string;
@@ -12,9 +13,10 @@ export type EmergencyContactItem = {
 type SharedCardProps = {
   firstName: string | null;
   lastName: string | null;
-  zone: { name: string } | null;
+  zone: { name: string; postcodePrefix?: string | null } | null;
   street: { name: string } | null;
   houseNumber: string | null;
+  section: string | null;
   memberNumber: number;
   memberSince: Date;
   profileImageUrl: string | null;
@@ -43,18 +45,23 @@ export function MembershipCardFront({
   zone,
   street,
   houseNumber,
+  section,
   memberNumber,
   memberSince,
   profileImageUrl,
 }: SharedCardProps) {
   const fullName =
     [firstName, lastName].filter(Boolean).join(" ") || "Member";
-  const addressParts = [houseNumber, street?.name].filter(Boolean);
-  const addressLine =
-    addressParts.length > 0
-      ? addressParts.join(" ") + (zone?.name ? `, ${zone.name}` : "")
-      : null;
-  const zoneName = zone?.name ?? null;
+  const streetParts = [houseNumber, street?.name].filter(Boolean).join(" ");
+  const locationParts = [
+    streetParts || null,
+    zone?.name ?? null,
+    zone?.postcodePrefix ?? null,
+  ].filter(Boolean);
+  const addressLine = locationParts.length > 0 ? locationParts.join(", ") : null;
+  const sectionInfo = section
+    ? ZONE_SECTIONS.find((s) => s.id === section) ?? null
+    : null;
   const currentYear = new Date().getFullYear();
   const memberNum = formatMemberNumber(memberNumber);
   const joinedLabel = formatJoinedDate(memberSince);
@@ -122,22 +129,25 @@ export function MembershipCardFront({
       </div>
 
       {/* Name + address: right of photo, vertically centered */}
-      <div className="absolute right-[4%] top-[30%] left-[42%] flex flex-col justify-center">
+      <div className="absolute left-[42%] right-[4%] top-[30%] flex flex-col justify-center">
         <h2 className="truncate font-display text-xl font-bold uppercase leading-tight tracking-wide text-white md:text-2xl">
           {fullName}
         </h2>
         {addressLine && (
-          <p className="mt-0.5 truncate text-[11px] leading-snug text-white/70 md:text-sm">
+          <p className="mt-1 text-[11px] font-medium leading-snug text-white/70 md:text-sm">
             {addressLine}
           </p>
         )}
-        {!addressLine && zoneName && (
-          <p className="mt-0.5 text-[11px] text-white/70 md:text-sm">{zoneName}</p>
-        )}
-        {zoneName && addressLine && (
-          <p className="mt-0.5 text-[10px] font-medium text-white/50 md:text-xs">
-            Section: {zoneName}
-          </p>
+        {sectionInfo && (
+          <div className="mt-1.5 flex items-center gap-1.5">
+            <span
+              className="inline-block h-2 w-2 rounded-full"
+              style={{ backgroundColor: sectionInfo.color }}
+            />
+            <span className="text-[9px] font-semibold uppercase tracking-wider text-white/50 md:text-[10px]">
+              {sectionInfo.name}
+            </span>
+          </div>
         )}
       </div>
 

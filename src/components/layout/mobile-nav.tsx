@@ -19,7 +19,7 @@ const operationsLinks = [
   { href: "/incidents", label: "Incidents" },
   { href: "/events", label: "Events" },
   { href: "/business", label: "Business" },
-  { href: "/find", label: "Find Zone" },
+  { href: "/find", label: "Zone Map" },
   { href: "/safety-tips", label: "Safety Tips" },
   { href: "/volunteer", label: "Volunteer" },
   { href: "/documents", label: "Documents" },

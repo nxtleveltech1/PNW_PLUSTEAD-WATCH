@@ -21,7 +21,7 @@ const primaryNavLinks = [
   { href: "/incidents", label: "Incidents" },
   { href: "/events", label: "Events" },
   { href: "/business", label: "Business" },
-  { href: "/find", label: "Find Zone" },
+  { href: "/find", label: "Zone Map" },
 ];
 
 const moreNavLinks = [

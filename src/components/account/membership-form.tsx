@@ -23,6 +23,7 @@ import {
   type EmergencyContactItem,
 } from "@/components/account/membership-card";
 import { MembershipCardDownload } from "@/components/account/membership-card-download";
+import { ZONE_SECTIONS } from "@/data/zone-polygons";
 
 type Schema = z.infer<typeof membershipProfileSchema>;
 
@@ -36,10 +37,11 @@ type UserWithZone = {
   lastName: string | null;
   memberType: MemberType;
   zoneId: string | null;
-  zone: { id: string; name: string } | null;
+  zone: { id: string; name: string; postcodePrefix?: string | null } | null;
   streetId: string | null;
   street: { id: string; name: string } | null;
   houseNumber: string | null;
+  section: string | null;
   hideFromNeighbours: boolean;
   patrolOptIn: boolean;
   secondaryContactName: string | null;
@@ -68,6 +70,7 @@ export function MembershipForm({
     resolver: zodResolver(membershipProfileSchema),
     defaultValues: {
       zoneId: user?.zoneId ?? zones[0]?.id ?? null,
+      section: user?.section ?? null,
       streetId: user?.streetId ?? null,
       houseNumber: user?.houseNumber ?? null,
       hideFromNeighbours: user?.hideFromNeighbours ?? false,
@@ -137,6 +140,7 @@ export function MembershipForm({
                 zone={user.zone}
                 street={user.street}
                 houseNumber={user.houseNumber}
+                section={user.section}
                 memberNumber={user.memberNumber}
                 memberSince={user.createdAt}
                 profileImageUrl={profileImageUrl ?? null}
@@ -150,6 +154,7 @@ export function MembershipForm({
                 zone={user.zone}
                 street={user.street}
                 houseNumber={user.houseNumber}
+                section={user.section}
                 memberNumber={user.memberNumber}
                 memberSince={user.createdAt}
                 profileImageUrl={profileImageUrl ?? null}
@@ -173,6 +178,14 @@ export function MembershipForm({
           <>
             <p className="mt-2 font-medium">Zone</p>
             <p className="text-muted-foreground">{user.zone.name}</p>
+          </>
+        )}
+        {user.section && (
+          <>
+            <p className="mt-2 font-medium">Section</p>
+            <p className="text-muted-foreground">
+              {ZONE_SECTIONS.find((s) => s.id === user.section)?.name ?? user.section}
+            </p>
           </>
         )}
         {user.street && (
@@ -216,6 +229,31 @@ export function MembershipForm({
                         {zones.map((z) => (
                           <option key={z.id} value={z.id}>
                             {z.name}
+                          </option>
+                        ))}
+                      </select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="section"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Section</FormLabel>
+                    <FormControl>
+                      <select
+                        id="section"
+                        className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+                        value={field.value ?? ""}
+                        onChange={(e) => field.onChange(e.target.value || null)}
+                      >
+                        <option value="">Select your section</option>
+                        {ZONE_SECTIONS.map((s) => (
+                          <option key={s.id} value={s.id}>
+                            {s.name}
                           </option>
                         ))}
                       </select>

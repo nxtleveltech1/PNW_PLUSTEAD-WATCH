@@ -143,6 +143,7 @@ export const profileUpdateSchema = z.object({
 export const membershipProfileSchema = z
   .object({
     zoneId: z.string().nullable(),
+    section: z.string().nullable().optional(),
     streetId: z.string().nullable().optional(),
     houseNumber: z.string().trim().nullable().optional(),
     hideFromNeighbours: z.boolean(),

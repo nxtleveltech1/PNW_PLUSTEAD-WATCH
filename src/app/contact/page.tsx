@@ -4,7 +4,6 @@ import { prisma } from "@/lib/db";
 import { Phone, Mail } from "lucide-react";
 import { AnimateSection, AnimateItem } from "@/components/ui/animate-section";
 import { ContactForm } from "./contact-form";
-import { ZoneMap } from "@/components/contact/zone-map";
 
 export default async function ContactPage() {
   const [committee, emergency] = await Promise.all([
@@ -72,18 +71,6 @@ export default async function ContactPage() {
               ))}
             </div>
           </div>
-        </div>
-      </AnimateSection>
-
-      <AnimateSection className="mt-section">
-        <h2 className="section-title">
-          <span className="headline-gradient">Zone map</span>
-        </h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Plumstead is divided into sections. Select a section to highlight it on the map.
-        </p>
-        <div className="mt-6">
-          <ZoneMap />
         </div>
       </AnimateSection>
 

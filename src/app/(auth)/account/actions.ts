@@ -61,6 +61,7 @@ export async function updateMembershipProfile(data: MembershipProfileInput) {
     where: { clerkId: userId },
     data: {
       zoneId: parsed.data.zoneId,
+      section: parsed.data.section ?? null,
       streetId: parsed.data.streetId ?? null,
       houseNumber: parsed.data.houseNumber ?? null,
       hideFromNeighbours: parsed.data.hideFromNeighbours,
