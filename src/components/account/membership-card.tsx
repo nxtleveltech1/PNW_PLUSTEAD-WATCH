@@ -90,111 +90,110 @@ export function MembershipCardFront({
         }}
       />
 
-      <div className="absolute inset-0 flex">
-        {/* Left column: profile photo */}
-        <div className="flex w-[38%] items-start p-4 md:p-5">
-          <div className="relative aspect-square w-full overflow-hidden rounded-xl border border-white/10 bg-white/5 shadow-lg">
-            {profileImageUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={profileImageUrl}
-                alt={fullName}
-                crossOrigin="anonymous"
-                className="h-full w-full object-cover"
-              />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center text-2xl font-bold text-white/40 md:text-3xl">
-                {initials || "?"}
+      {/* Single flex layout filling the card */}
+      <div className="absolute inset-0 flex flex-col p-3 pt-[7px] md:p-4 md:pt-[7px]">
+        {/* Top section: photo + info side by side */}
+        <div className="flex min-h-0 flex-1 gap-3">
+          {/* Profile photo -- constrained to 55% of card height */}
+          <div className="flex w-[35%] shrink-0 items-start pt-1">
+            <div className="relative aspect-square w-full overflow-hidden rounded-xl border border-white/10 bg-white/5 shadow-lg">
+              {profileImageUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={profileImageUrl}
+                  alt={fullName}
+                  crossOrigin="anonymous"
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center text-xl font-bold text-white/40 md:text-2xl">
+                  {initials || "?"}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Right: badge + name + address */}
+          <div className="flex min-w-0 flex-1 flex-col pt-1">
+            <div className="flex justify-end">
+              <div className="flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/15 px-2 py-0.5">
+                <ShieldCheck className="h-3 w-3 text-emerald-400" />
+                <span className="text-[9px] font-bold uppercase tracking-wider text-white/90 md:text-[10px]">
+                  Active Member
+                </span>
+                <span className="text-[9px] font-bold text-white/50 md:text-[10px]">|</span>
+                <span className="text-[9px] font-bold text-white/90 md:text-[10px]">
+                  {currentYear}
+                </span>
               </div>
-            )}
-          </div>
-        </div>
-
-        {/* Right column: member info */}
-        <div className="flex w-[62%] flex-col py-4 pr-4 md:py-5 md:pr-5">
-          {/* Active member badge */}
-          <div className="flex justify-end">
-            <div className="flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/15 px-3 py-1">
-              <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
-              <span className="text-[10px] font-bold uppercase tracking-wider text-white/90 md:text-[11px]">
-                Active Member
-              </span>
-              <span className="text-[10px] font-bold text-white/50 md:text-[11px]">|</span>
-              <span className="text-[10px] font-bold text-white/90 md:text-[11px]">
-                {currentYear}
-              </span>
             </div>
-          </div>
 
-          {/* Name + address */}
-          <div className="mt-auto space-y-1">
-            <h2 className="truncate font-display text-xl font-bold leading-tight text-white md:text-2xl">
-              {fullName}
-            </h2>
-            {addressLine && (
-              <p className="text-xs leading-snug text-white/60 md:text-sm">
-                {addressLine}
-              </p>
-            )}
-            {!addressLine && zoneName && (
-              <p className="text-xs text-white/60 md:text-sm">{zoneName}</p>
-            )}
-            {zoneName && addressLine && (
-              <p className="text-xs font-medium text-white/50">
-                Section: {zoneName}
-              </p>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom bar */}
-      <div className="absolute inset-x-0 bottom-0 px-4 pb-3 md:px-5 md:pb-4">
-        <div className="flex items-end gap-3">
-          {/* PNW logo */}
-          <div className="relative h-14 w-16 shrink-0 md:h-16 md:w-[72px]">
-            <Image
-              src="/images/full%20logo.jpg"
-              alt="PNW"
-              fill
-              className="object-contain object-left-bottom"
-              sizes="72px"
-            />
-          </div>
-
-          {/* Stats strip */}
-          <div className="flex flex-1 overflow-hidden rounded-lg border border-white/10 bg-white/95">
-            <div className="flex-1 px-2.5 py-1.5 md:px-3">
-              <p className="text-[7px] font-semibold uppercase tracking-[0.08em] text-red-600 md:text-[8px]">
-                Member Number
-              </p>
-              <p className="font-mono text-[11px] font-bold leading-tight text-gray-900 md:text-xs">
-                {memberNum}
-              </p>
-            </div>
-            <div className="flex-1 border-l border-gray-200 px-2.5 py-1.5 md:px-3">
-              <p className="text-[7px] font-semibold uppercase tracking-[0.08em] text-gray-500 md:text-[8px]">
-                Joined
-              </p>
-              <p className="font-mono text-[11px] font-bold leading-tight text-gray-900 md:text-xs">
-                {joinedLabel}
-              </p>
-            </div>
-            <div className="flex-1 border-l border-gray-200 px-2.5 py-1.5 md:px-3">
-              <p className="text-[7px] font-semibold uppercase tracking-[0.08em] text-gray-500 md:text-[8px]">
-                Expiry
-              </p>
-              <p className="font-mono text-[11px] font-bold leading-tight text-gray-900 md:text-xs">
-                DEC 31, {currentYear}
-              </p>
+            <div className="mt-auto space-y-0.5">
+              <h2 className="truncate font-display text-lg font-bold leading-tight text-white md:text-xl">
+                {fullName}
+              </h2>
+              {addressLine && (
+                <p className="truncate text-[11px] leading-snug text-white/60 md:text-xs">
+                  {addressLine}
+                </p>
+              )}
+              {!addressLine && zoneName && (
+                <p className="text-[11px] text-white/60 md:text-xs">{zoneName}</p>
+              )}
+              {zoneName && addressLine && (
+                <p className="text-[10px] font-medium text-white/45 md:text-[11px]">
+                  Section: {zoneName}
+                </p>
+              )}
             </div>
           </div>
         </div>
 
-        {/* Tagline */}
-        <p className="mt-1.5 text-center text-[8px] font-bold uppercase tracking-[0.2em] text-white/40 md:text-[9px]">
-          Neighbourhood Watch &bull; Stronger Together
-        </p>
+        {/* Bottom bar: logo + stats + tagline */}
+        <div className="mt-1.5 shrink-0">
+          <div className="flex items-end gap-2">
+            <div className="relative h-10 w-11 shrink-0 md:h-12 md:w-14">
+              <Image
+                src="/images/full%20logo.jpg"
+                alt="PNW"
+                fill
+                className="object-contain object-left-bottom"
+                sizes="56px"
+              />
+            </div>
+
+            <div className="flex flex-1 overflow-hidden rounded-md border border-white/10 bg-white/95">
+              <div className="flex-1 px-1.5 py-1 md:px-2">
+                <p className="text-[6px] font-semibold uppercase tracking-[0.06em] text-red-600 md:text-[7px]">
+                  Member No.
+                </p>
+                <p className="font-mono text-[10px] font-bold leading-tight text-gray-900 md:text-[11px]">
+                  {memberNum}
+                </p>
+              </div>
+              <div className="flex-1 border-l border-gray-200 px-1.5 py-1 md:px-2">
+                <p className="text-[6px] font-semibold uppercase tracking-[0.06em] text-gray-500 md:text-[7px]">
+                  Joined
+                </p>
+                <p className="font-mono text-[10px] font-bold leading-tight text-gray-900 md:text-[11px]">
+                  {joinedLabel}
+                </p>
+              </div>
+              <div className="flex-1 border-l border-gray-200 px-1.5 py-1 md:px-2">
+                <p className="text-[6px] font-semibold uppercase tracking-[0.06em] text-gray-500 md:text-[7px]">
+                  Expiry
+                </p>
+                <p className="font-mono text-[10px] font-bold leading-tight text-gray-900 md:text-[11px]">
+                  DEC {currentYear}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <p className="mt-1 text-center text-[7px] font-bold uppercase tracking-[0.18em] text-white/35 md:text-[8px]">
+            Neighbourhood Watch &bull; Stronger Together
+          </p>
+        </div>
       </div>
     </div>
   );

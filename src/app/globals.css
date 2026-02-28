@@ -29,7 +29,7 @@
     --ring: 220 68% 38%;
     --radius: 0.625rem;
     --alert: 8 85% 50%;
-    --alert-muted: 8 100% 97%;
+    --alert-muted: 8 85% 95%;
     --shadow-elevation-1: 0 2px 8px rgb(24 39 75 / 0.07);
     --shadow-elevation-2: 0 10px 24px rgb(24 39 75 / 0.1);
     --shadow-elevation-3: 0 18px 42px rgb(24 39 75 / 0.14);
@@ -300,7 +300,8 @@
   }
 
   .section-bg-muted {
-    @apply border-t border-border/40 bg-muted/30;
+    @apply border-t border-border/40;
+    background-color: hsl(var(--muted) / 0.45);
   }
 
   .section-bg-accent {
@@ -320,20 +321,23 @@
   .card-event {
     @apply overflow-hidden rounded-xl shadow-[var(--shadow-elevation-1)] transition-all duration-200;
     background-color: hsl(var(--card));
+    border: 1px solid hsl(var(--border) / 0.5);
   }
 
   .card-event:hover {
     @apply -translate-y-0.5;
+    border-color: hsl(var(--primary) / 0.2);
     box-shadow: var(--shadow-elevation-2);
   }
 
   .card-tip {
-    @apply overflow-hidden rounded-xl border border-primary/10 shadow-[var(--shadow-elevation-1)] transition-all duration-200;
+    @apply overflow-hidden rounded-xl shadow-[var(--shadow-elevation-1)] transition-all duration-200;
     background-color: hsl(var(--card));
+    border: 1px solid hsl(var(--primary) / 0.15);
   }
 
   .card-tip:hover {
-    @apply border-primary/25;
+    border-color: hsl(var(--primary) / 0.35);
     box-shadow: var(--shadow-elevation-2);
   }
 
@@ -349,7 +353,7 @@
   }
 
   .section-gradient-muted {
-    background: linear-gradient(180deg, hsl(var(--muted) / 0.35) 0%, hsl(var(--background)) 100%);
+    background-color: hsl(var(--muted) / 0.5);
   }
 
   .card-featured {
@@ -407,12 +411,12 @@
     @apply bg-primary/10 text-primary;
   }
 
-  .footer-shell {
+  .footer-surface {
+    background-color: hsl(var(--muted) / 0.35);
     background-image:
-      linear-gradient(to right, hsl(var(--primary) / 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, hsl(var(--primary) / 0.05) 1px, transparent 1px),
-      linear-gradient(180deg, hsl(var(--background) / 0.86), hsl(var(--background) / 0.72));
-    background-size: 30px 30px, 30px 30px, 100% 100%;
+      linear-gradient(to right, hsl(var(--primary) / 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--primary) / 0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
   }
 
   .footer-eyebrow {
@@ -431,30 +435,30 @@
 
   .card-urgent {
     @apply overflow-hidden rounded-2xl shadow-[var(--shadow-elevation-2)];
-    background: linear-gradient(135deg, hsl(var(--alert-muted)) 0%, hsl(var(--card)) 100%);
-    border: 1px solid hsl(var(--accent) / 0.18);
+    background-color: hsl(var(--alert-muted));
+    border: 1px solid hsl(var(--accent) / 0.25);
     border-top: 3px solid hsl(var(--accent));
   }
 
   .card-warm {
     @apply overflow-hidden rounded-2xl shadow-[var(--shadow-elevation-2)];
-    background: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(var(--primary) / 0.05) 100%);
-    border: 1px solid hsl(var(--primary) / 0.12);
+    background: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(var(--primary) / 0.08) 100%);
+    border: 1px solid hsl(var(--primary) / 0.18);
     border-top: 3px solid hsl(var(--primary));
   }
 
   .phone-cta {
     @apply flex items-center justify-between gap-3 rounded-xl px-5 py-4 font-semibold transition-all duration-200;
-    min-height: 3.5rem;
-    background-color: hsl(var(--card));
-    border: 1px solid hsl(var(--border) / 0.6);
+    min-height: 4.5rem;
+    background-color: hsl(var(--background));
+    border: 1px solid hsl(var(--border));
     box-shadow: var(--shadow-elevation-1);
   }
 
   .phone-cta:hover {
-    border-color: hsl(var(--accent) / 0.4);
+    border-color: hsl(var(--accent) / 0.5);
     box-shadow: var(--shadow-elevation-2);
-    background-color: hsl(var(--alert-muted) / 0.5);
+    background-color: hsl(var(--alert-muted));
   }
 
   .phone-cta:active {
@@ -462,11 +466,19 @@
   }
 
   .phone-cta-number {
-    @apply font-mono text-xl font-bold tracking-wide text-accent;
+    @apply font-mono text-2xl font-bold tracking-wide text-accent;
+  }
+
+  @media (min-width: 768px) {
+    .phone-cta-number {
+      font-size: 1.75rem;
+    }
   }
 
   .detail-row {
-    @apply flex items-baseline justify-between gap-4 border-b border-border/40 py-3;
+    @apply flex items-baseline justify-between gap-4;
+    border-bottom: 1px solid hsl(var(--border) / 0.6);
+    padding: 0.875rem 0;
   }
 
   .detail-row:last-child {

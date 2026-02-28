@@ -8,7 +8,7 @@ import { HeroClient } from "@/components/home/hero-client";
 import { CopyButton } from "@/components/ui/copy-button";
 import { prisma } from "@/lib/db";
 import { EmptyState } from "@/components/ui/empty-state";
-import { Phone, HeartHandshake, Shield, Calendar, AlertTriangle } from "lucide-react";
+import { Phone, HeartHandshake, Calendar, AlertTriangle } from "lucide-react";
 
 export default async function HomePage() {
   const [incidents, events, safetyTips, sponsors] = await Promise.all([
@@ -61,7 +61,7 @@ export default async function HomePage() {
         </section>
 
         {/* Emergency + Support */}
-        <AnimateSection className="section-gradient-muted py-14 lg:py-16">
+        <AnimateSection className="bg-muted/50 py-10 lg:py-12">
           <div className="container">
             <div className="grid gap-6 lg:grid-cols-[1fr_1.15fr] lg:gap-10">
               <AnimateItem>
@@ -152,11 +152,9 @@ export default async function HomePage() {
           </div>
         </AnimateSection>
 
-        <div className="divider-gradient" />
-
         {/* Safety tips teaser */}
         {safetyTips.length > 0 && (
-          <AnimateSection id="safety-tips" className="section-bg-muted py-14 lg:py-16">
+          <AnimateSection id="safety-tips" className="section-bg-muted py-10 lg:py-12">
             <div className="container">
               <AnimateItem className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
                 <div>
@@ -174,25 +172,21 @@ export default async function HomePage() {
                 {safetyTips.map((tip) => (
                   <AnimateItem key={tip.id}>
                     <Link href={`/safety-tips/${tip.slug}`}>
-                      <div className="card-tip group h-full">
-                        <div className="border-b border-border/50 bg-gradient-to-br from-primary/5 to-transparent px-5 py-5">
-                          <div className="flex items-start gap-4">
-                            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
-                              <Shield className="h-5 w-5" />
-                            </span>
-                            <div className="min-w-0">
-                              <p className="font-display text-base font-semibold leading-tight text-foreground transition-colors group-hover:text-primary">
-                                {tip.title}
-                              </p>
-                              <p className="mt-1.5 line-clamp-2 text-sm text-muted-foreground">
-                                {tip.summary ?? tip.content.slice(0, 80)}
-                              </p>
-                            </div>
+                      <div className="card-tip group flex h-full">
+                        <div className="w-1 shrink-0 rounded-l-xl bg-primary transition-colors group-hover:bg-accent" />
+                        <div className="flex flex-1 flex-col">
+                          <div className="flex-1 px-5 py-5">
+                            <p className="font-display text-base font-semibold leading-tight text-foreground transition-colors group-hover:text-primary">
+                              {tip.title}
+                            </p>
+                            <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
+                              {tip.summary ?? tip.content.slice(0, 80)}
+                            </p>
                           </div>
-                        </div>
-                        <div className="flex items-center justify-between px-5 py-3">
-                          <span className="text-sm font-semibold text-primary">Read more</span>
-                          <span className="text-primary opacity-0 transition-opacity group-hover:opacity-100">&rarr;</span>
+                          <div className="flex items-center justify-between border-t border-border/30 px-5 py-3">
+                            <span className="text-sm font-semibold text-primary">Read more</span>
+                            <span className="text-primary opacity-0 transition-opacity group-hover:opacity-100">&rarr;</span>
+                          </div>
                         </div>
                       </div>
                     </Link>
@@ -203,10 +197,9 @@ export default async function HomePage() {
           </AnimateSection>
         )}
 
-        <div className="divider-gradient" />
-
         {/* Upcoming events */}
-        <AnimateSection id="events" className="container py-14 lg:py-16">
+        <AnimateSection id="events" className="py-10 lg:py-12">
+          <div className="container">
           <AnimateItem className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <span className="text-sm font-semibold uppercase tracking-widest text-primary">Community</span>
@@ -264,12 +257,11 @@ export default async function HomePage() {
               ))
             )}
           </div>
+          </div>
         </AnimateSection>
 
-        <div className="divider-gradient" />
-
         {/* Recent incidents */}
-        <AnimateSection id="incidents" className="section-bg-accent py-14 lg:py-16">
+        <AnimateSection id="incidents" className="section-bg-accent py-10 lg:py-12">
           <div className="container">
             <AnimateItem className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
               <div>
@@ -321,8 +313,6 @@ export default async function HomePage() {
 
         {/* Sponsors */}
         {sponsors.length > 0 && (
-          <>
-          <div className="divider-gradient" />
           <AnimateSection id="sponsors" className="bg-background py-10 lg:py-12">
             <div className="container">
               <AnimateItem>
@@ -347,7 +337,6 @@ export default async function HomePage() {
               </AnimateItem>
             </div>
           </AnimateSection>
-          </>
         )}
       </main>
       <Footer />
