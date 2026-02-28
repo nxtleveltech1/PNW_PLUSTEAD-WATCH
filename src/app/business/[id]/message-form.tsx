@@ -12,7 +12,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { sendBusinessMessage } from "../actions";
+import { sendBusinessConversationMessage } from "@/lib/messaging";
 import { businessMessageSchema, type BusinessMessageInput } from "@/lib/schemas";
 
 type Schema = BusinessMessageInput;
@@ -30,12 +30,12 @@ export function MessageForm({
   });
 
   async function onSubmit(values: Schema) {
-    const result = await sendBusinessMessage(values);
+    const result = await sendBusinessConversationMessage(values.listingId, values.body);
     if (!result.ok) {
       toast.error(result.message);
       return;
     }
-    toast.success(`Message sent to ${listingName}.`);
+    toast.success(`Message sent to ${listingName}. They'll see it in their inbox.`);
     form.reset({ listingId, body: "" });
   }
 

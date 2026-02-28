@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth-admin";
 import { prisma } from "@/lib/db";
 import { adminIncidentSchema, type AdminIncidentInput } from "@/lib/schemas";
+import { notifyIncidentInZone } from "@/lib/notify";
 
 export async function createIncident(input: AdminIncidentInput) {
   await requireAdmin();
@@ -20,6 +21,21 @@ export async function createIncident(input: AdminIncidentInput) {
       zoneId: zoneId || undefined,
     },
   });
+
+  if (zoneId) {
+    const zoneMembers = await prisma.user.findMany({
+      where: { zoneId, isApproved: true },
+      select: { id: true },
+    });
+    if (zoneMembers.length > 0) {
+      await notifyIncidentInZone(
+        zoneMembers.map((m) => m.id),
+        type,
+        location
+      );
+    }
+  }
+
   revalidatePath("/admin");
   revalidatePath("/admin/incidents");
   revalidatePath("/incidents");

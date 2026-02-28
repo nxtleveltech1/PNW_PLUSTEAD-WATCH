@@ -70,12 +70,12 @@ export default async function VolunteerPage() {
 
       <AnimateSection className="mt-section">
         <AnimateItem>
-          <Card className="card-elevated max-w-md overflow-hidden border-0 border-t-[3px] border-t-accent">
-            <CardHeader className="p-6">
-              <CardTitle className="block-title">Apply to volunteer</CardTitle>
+          <Card className="card-elevated overflow-hidden border-0 border-t-[3px] border-t-accent">
+            <CardHeader className="p-6 pb-2 sm:p-8 sm:pb-2">
+              <CardTitle className="block-title text-xl">Apply to volunteer</CardTitle>
               <CardDescription>We&apos;ll be in touch to discuss how you can help.</CardDescription>
             </CardHeader>
-            <CardContent className="p-6 pt-0">
+            <CardContent className="p-6 pt-4 sm:p-8 sm:pt-4">
               <VolunteerForm zones={zones} />
             </CardContent>
           </Card>

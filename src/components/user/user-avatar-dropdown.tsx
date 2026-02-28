@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useUser, useClerk } from "@clerk/nextjs";
-import { ChevronDown, LayoutDashboard, LogOut, Settings, ShieldCheck, User } from "lucide-react";
+import { ChevronDown, LayoutDashboard, LogOut, Mail, Settings, ShieldCheck, User } from "lucide-react";
+import { InboxBadge } from "@/components/inbox/inbox-badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -40,6 +41,8 @@ export function UserAvatarDropdown({ showAdmin = false }: { showAdmin?: boolean 
   }
 
   return (
+    <div className="flex items-center gap-1">
+      <InboxBadge />
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="flex items-center gap-2 px-2 py-1.5">
@@ -69,6 +72,12 @@ export function UserAvatarDropdown({ showAdmin = false }: { showAdmin?: boolean 
           </DropdownMenuItem>
         )}
         <DropdownMenuItem asChild>
+          <Link href="/account/inbox" className="flex items-center gap-2 cursor-pointer">
+            <Mail className="h-4 w-4" />
+            Inbox
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
           <Link href="/dashboard" className="flex items-center gap-2 cursor-pointer">
             <LayoutDashboard className="h-4 w-4" />
             Dashboard
@@ -96,5 +105,6 @@ export function UserAvatarDropdown({ showAdmin = false }: { showAdmin?: boolean 
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
+    </div>
   );
 }

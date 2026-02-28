@@ -2,7 +2,7 @@ import Link from "next/link";
 import { requireAdmin } from "@/lib/auth-admin";
 import { Header } from "@/components/layout/header-server";
 import { Footer } from "@/components/layout/footer";
-import { LayoutDashboard, Building2, MessageSquare, AlertTriangle, Users, Calendar, FileText } from "lucide-react";
+import { LayoutDashboard, Building2, Megaphone, MessageSquare, AlertTriangle, Users, Calendar, FileText } from "lucide-react";
 
 const adminNav = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard },
@@ -12,6 +12,7 @@ const adminNav = [
   { href: "/admin/business", label: "Business approvals", icon: Building2 },
   { href: "/admin/members", label: "Member approvals", icon: Users },
   { href: "/admin/messages", label: "Contact messages", icon: MessageSquare },
+  { href: "/admin/broadcast", label: "Broadcast", icon: Megaphone },
 ];
 
 export default async function AdminLayout({

@@ -7,6 +7,7 @@ import { AccountNav } from "@/components/account/account-nav";
 import { isAdmin } from "@/lib/auth-admin";
 
 const accountNav = [
+  { href: "/account/inbox", label: "Inbox" },
   { href: "/account/profile", label: "Profile" },
   { href: "/account/membership", label: "Membership" },
   { href: "/account/settings", label: "Settings" },

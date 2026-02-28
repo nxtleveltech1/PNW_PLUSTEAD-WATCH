@@ -54,7 +54,7 @@ export function VolunteerForm({ zones }: { zones: Zone[] }) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-2">
         <FormField
           control={form.control}
           name="name"
@@ -165,11 +165,11 @@ export function VolunteerForm({ zones }: { zones: Zone[] }) {
           control={form.control}
           name="message"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="sm:col-span-2">
               <FormLabel>Message (optional)</FormLabel>
               <FormControl>
                 <textarea
-                  className="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                  className="flex min-h-[100px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                   placeholder="Tell us more..."
                   value={field.value ?? ""}
                   onChange={(e) => field.onChange(e.target.value)}
@@ -179,7 +179,11 @@ export function VolunteerForm({ zones }: { zones: Zone[] }) {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">Submit</Button>
+        <div className="sm:col-span-2">
+          <Button type="submit" className="w-full sm:w-auto sm:min-w-[200px]">
+            Submit application
+          </Button>
+        </div>
       </form>
     </Form>
   );

@@ -9,7 +9,7 @@ export default async function ZoneMapPage() {
   const [streets, memberCounts] = await Promise.all([
     prisma.street.findMany({
       orderBy: { order: "asc" },
-      select: { name: true },
+      select: { name: true, section: true },
     }),
     prisma.user.groupBy({
       by: ["section"],
@@ -18,7 +18,12 @@ export default async function ZoneMapPage() {
     }),
   ]);
 
-  const streetNames = streets.map((s) => s.name);
+  const streetsBySection: Record<string, string[]> = {};
+  for (const s of streets) {
+    const sec = s.section ?? "unassigned";
+    (streetsBySection[sec] ??= []).push(s.name);
+  }
+
   const memberCountMap = Object.fromEntries(
     memberCounts
       .filter((r) => r.section !== null)
@@ -27,11 +32,12 @@ export default async function ZoneMapPage() {
 
   const sectionStats: Record<string, SectionStats> = {};
   for (const sec of ZONE_SECTIONS) {
+    const secStreets = streetsBySection[sec.id] ?? [];
     sectionStats[sec.id] = {
       id: sec.id,
-      streetCount: streetNames.length,
+      streetCount: secStreets.length,
       memberCount: memberCountMap[sec.id] ?? 0,
-      streets: streetNames,
+      streets: secStreets,
     };
   }
 

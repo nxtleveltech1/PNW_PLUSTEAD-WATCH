@@ -51,6 +51,8 @@ model User {
   businessEventRsvps     BusinessEventRsvp[]
   businessReferrals      BusinessReferral[]
   businessIntroRequests  BusinessIntroRequest[]
+  conversationParticipants ConversationParticipant[]
+  sentInboxMessages        InboxMessage[]           @relation("sentMessages")
 }
 
 model Incident {
@@ -83,6 +85,7 @@ model Street {
   name    String
   zoneId  String
   zone    Zone    @relation(fields: [zoneId], references: [id])
+  section String?
   order   Int     @default(0)
   users   User[]
 
@@ -245,8 +248,9 @@ model BusinessListing {
   updatedAt   DateTime             @updatedAt
   messages    BusinessMessage[]
   events      BusinessEvent[]
-  referrals   BusinessReferral[]
-  introRequests BusinessIntroRequest[]
+  referrals      BusinessReferral[]
+  introRequests  BusinessIntroRequest[]
+  conversations  Conversation[]
 }
 
 model BusinessMessage {
@@ -311,4 +315,53 @@ model BusinessIntroRequest {
   message        String                    @db.Text
   status         BusinessIntroRequestStatus @default(PENDING)
   createdAt      DateTime                  @default(now())
+}
+
+// ── Inbox Messaging ─────────────────────────────────────────────────────
+
+enum ConversationType {
+  DIRECT
+  SYSTEM
+  BUSINESS
+  ADMIN_BROADCAST
+}
+
+model Conversation {
+  id                String                   @id @default(cuid())
+  subject           String?
+  type              ConversationType         @default(DIRECT)
+  businessListingId String?
+  businessListing   BusinessListing?         @relation(fields: [businessListingId], references: [id])
+  createdAt         DateTime                 @default(now())
+  updatedAt         DateTime                 @updatedAt
+  messages          InboxMessage[]
+  participants      ConversationParticipant[]
+}
+
+model ConversationParticipant {
+  id             String       @id @default(cuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User         @relation(fields: [userId], references: [id])
+  lastReadAt     DateTime?
+  isArchived     Boolean      @default(false)
+  isDeleted      Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+
+  @@unique([conversationId, userId])
+  @@index([userId, isDeleted])
+}
+
+model InboxMessage {
+  id             String       @id @default(cuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  senderId       String?
+  sender         User?        @relation("sentMessages", fields: [senderId], references: [id])
+  body           String       @db.Text
+  metadata       Json?
+  createdAt      DateTime     @default(now())
+
+  @@index([conversationId, createdAt])
 }

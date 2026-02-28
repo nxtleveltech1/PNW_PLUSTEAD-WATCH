@@ -3,6 +3,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { MotionConfig } from "motion/react";
 import { Syne, Source_Sans_3 } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
+import { QueryProvider } from "@/components/providers/query-provider";
 import "./globals.css";
 
 const syne = Syne({
@@ -38,10 +39,12 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <MotionConfig reducedMotion="user">
-          {children}
-          <Toaster />
-        </MotionConfig>
+        <QueryProvider>
+          <MotionConfig reducedMotion="user">
+            {children}
+            <Toaster />
+          </MotionConfig>
+        </QueryProvider>
       </body>
     </html>
   );

@@ -233,3 +233,26 @@ export type BusinessEventInput = z.input<typeof businessEventSchema>;
 export type BusinessReferralInput = z.input<typeof businessReferralSchema>;
 export type BusinessListingsSearchParamsInput = z.input<typeof businessListingsSearchParamsSchema>;
 export type BusinessIntroRequestInput = z.input<typeof businessIntroRequestSchema>;
+
+// ── Inbox Messaging ──────────────────────────────────────────────────────
+
+export const composeMessageSchema = z.object({
+  recipientId: z.string().trim().min(1, "Recipient is required"),
+  subject: z.string().trim().min(1, "Subject is required").max(200, "Subject too long"),
+  body: z.string().trim().min(2, "Message must be at least 2 characters").max(5000, "Message too long"),
+});
+export type ComposeMessageInput = z.input<typeof composeMessageSchema>;
+
+export const replyMessageSchema = z.object({
+  conversationId: z.string().trim().min(1, "Conversation is required"),
+  body: z.string().trim().min(2, "Message must be at least 2 characters").max(5000, "Message too long"),
+});
+export type ReplyMessageInput = z.input<typeof replyMessageSchema>;
+
+export const adminBroadcastSchema = z.object({
+  subject: z.string().trim().min(1, "Subject is required").max(200, "Subject too long"),
+  body: z.string().trim().min(2, "Message is required").max(10000, "Message too long"),
+  targetType: z.enum(["all", "zone", "section"]),
+  targetId: z.string().trim().optional(),
+});
+export type AdminBroadcastInput = z.input<typeof adminBroadcastSchema>;

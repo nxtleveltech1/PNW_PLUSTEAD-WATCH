@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Settings, Shield, User, Users } from "lucide-react";
+import { LayoutDashboard, Mail, Settings, Shield, User, Users } from "lucide-react";
 import { ShieldCheck } from "lucide-react";
 
 const accountNav = [
+  { href: "/account/inbox", label: "Inbox", icon: Mail },
   { href: "/account/profile", label: "Profile", icon: User },
   { href: "/account/membership", label: "Membership", icon: Users },
   { href: "/account/settings", label: "Settings", icon: Settings },
