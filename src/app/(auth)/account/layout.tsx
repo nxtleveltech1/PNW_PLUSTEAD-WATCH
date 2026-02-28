@@ -62,7 +62,7 @@ export default async function AccountLayout({
                 href="/admin"
                 className="shrink-0 rounded-lg border bg-background px-4 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
               >
-                Admin
+                Administration
               </Link>
             )}
           </nav>

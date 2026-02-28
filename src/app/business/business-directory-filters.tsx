@@ -13,8 +13,10 @@ import {
 import { Search } from "lucide-react";
 import type { Zone } from "@prisma/client";
 
+const ALL_SENTINEL = "__all__";
+
 const CATEGORIES = [
-  { value: "", label: "All categories" },
+  { value: ALL_SENTINEL, label: "All categories" },
   { value: "RETAIL", label: "Retail" },
   { value: "SERVICES", label: "Services" },
   { value: "FOOD", label: "Food & Dining" },
@@ -39,11 +41,13 @@ export function BusinessDirectoryFilters({
   function updateFilters(updates: { category?: string; zone?: string; search?: string }) {
     const params = new URLSearchParams(searchParams.toString());
     if (updates.category !== undefined) {
-      if (updates.category) params.set("category", updates.category);
+      const v = updates.category === ALL_SENTINEL ? "" : updates.category;
+      if (v) params.set("category", v);
       else params.delete("category");
     }
     if (updates.zone !== undefined) {
-      if (updates.zone) params.set("zone", updates.zone);
+      const v = updates.zone === ALL_SENTINEL ? "" : updates.zone;
+      if (v) params.set("zone", v);
       else params.delete("zone");
     }
     if (updates.search !== undefined) {
@@ -82,7 +86,7 @@ export function BusinessDirectoryFilters({
             Category
           </label>
           <Select
-            value={currentCategory ?? ""}
+            value={currentCategory || ALL_SENTINEL}
             onValueChange={(v) => updateFilters({ category: v })}
           >
             <SelectTrigger id="category" className="h-10">
@@ -101,12 +105,12 @@ export function BusinessDirectoryFilters({
           <label htmlFor="zone" className="mb-1 block text-sm font-medium text-muted-foreground">
             Zone
           </label>
-          <Select value={currentZone ?? ""} onValueChange={(v) => updateFilters({ zone: v })}>
+          <Select value={currentZone || ALL_SENTINEL} onValueChange={(v) => updateFilters({ zone: v })}>
             <SelectTrigger id="zone" className="h-10">
               <SelectValue placeholder="All zones" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All zones</SelectItem>
+              <SelectItem value={ALL_SENTINEL}>All zones</SelectItem>
               {zones.map((z) => (
                 <SelectItem key={z.id} value={z.id}>
                   {z.name}
@@ -121,7 +125,7 @@ export function BusinessDirectoryFilters({
           className="h-10"
           onClick={() => {
             (document.getElementById("search") as HTMLInputElement).value = "";
-            updateFilters({ category: "", zone: "", search: "" });
+            updateFilters({ category: ALL_SENTINEL, zone: ALL_SENTINEL, search: "" });
           }}
         >
           Clear

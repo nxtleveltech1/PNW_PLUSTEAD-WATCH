@@ -44,7 +44,7 @@ export function AccountNav({ showAdmin = false }: { showAdmin?: boolean }) {
           }`}
         >
           <ShieldCheck className="h-4 w-4 shrink-0" />
-          Admin
+          Administration
         </Link>
       )}
       <Link

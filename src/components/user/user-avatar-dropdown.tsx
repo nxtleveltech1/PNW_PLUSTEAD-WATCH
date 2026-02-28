@@ -64,7 +64,7 @@ export function UserAvatarDropdown({ showAdmin = false }: { showAdmin?: boolean 
           <DropdownMenuItem asChild>
             <Link href="/admin" className="flex items-center gap-2 cursor-pointer">
               <ShieldCheck className="h-4 w-4" />
-              Admin
+              Administration
             </Link>
           </DropdownMenuItem>
         )}
