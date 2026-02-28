@@ -1,7 +1,7 @@
-import { SignUp } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
-import { ShieldCheck, CheckCircle2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
+import { SignUpForm } from "@/components/auth/sign-up-form";
 
 export default async function SignUpPage({
   searchParams,
@@ -51,10 +51,10 @@ export default async function SignUpPage({
             neighbourhood watch.
           </h1>
           <p className="mt-4 max-w-[36ch] text-base leading-relaxed text-white/70">
-            Become part of Plumstead&apos;s safety network. Together we keep our streets, families, and businesses safe.
+            Become part of Plumstead&apos;s safety network. Together we keep our
+            streets, families, and businesses safe.
           </p>
 
-          {/* Membership benefits */}
           <ul className="mt-12 space-y-4">
             <BenefitItem text="Real-time incident alerts for your zone" />
             <BenefitItem text="Direct line to neighbourhood coordinators" />
@@ -66,7 +66,8 @@ export default async function SignUpPage({
 
         <div className="relative z-10 border-t border-white/10 px-12 py-5 xl:px-16">
           <p className="text-xs text-white/40">
-            Plumstead Neighbourhood Watch &middot; Free membership &middot; No spam, ever
+            Plumstead Neighbourhood Watch &middot; Free membership &middot; No
+            spam, ever
           </p>
         </div>
       </div>
@@ -96,6 +97,9 @@ export default async function SignUpPage({
               <h2 className="mt-2 font-display text-2xl font-bold tracking-tight text-foreground">
                 Create your account
               </h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Join Plumstead&apos;s safety network in under a minute.
+              </p>
             </div>
 
             {/* Mobile benefits strip */}
@@ -113,31 +117,7 @@ export default async function SignUpPage({
               )}
             </div>
 
-            <SignUp
-              afterSignUpUrl={afterSignUpUrl}
-              appearance={{
-                elements: {
-                  rootBox: "w-full",
-                  card: "shadow-none border-0 bg-transparent p-0 w-full",
-                },
-              }}
-            />
-
-            <div className="rounded-xl border border-border/60 bg-muted/30 p-4">
-              <p className="flex items-center gap-2 text-sm font-semibold text-foreground">
-                <ShieldCheck className="h-4 w-4 text-primary" />
-                Already a member?
-              </p>
-              <p className="mt-1.5 text-sm text-muted-foreground">
-                Sign in and continue from your dashboard.
-              </p>
-              <Link
-                href="/sign-in"
-                className="mt-3 inline-block text-sm font-semibold text-primary hover:underline"
-              >
-                Go to sign in
-              </Link>
-            </div>
+            <SignUpForm afterSignUpUrl={afterSignUpUrl} />
           </div>
         </div>
       </div>
