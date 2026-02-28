@@ -36,7 +36,7 @@ export default async function AboutPage() {
       <AnimateSection className="mt-section">
         <div className="grid gap-6 lg:grid-cols-3">
           <AnimateItem className="lg:col-span-2">
-            <article className="card-elevated flex overflow-hidden rounded-2xl border-0 bg-card">
+            <article className="flex overflow-hidden rounded-2xl bg-card shadow-[var(--shadow-elevation-2)]">
               <div className="w-1.5 shrink-0 rounded-l-2xl bg-gradient-to-b from-primary to-accent" />
               <div className="p-6 md:p-8">
                 <h2 className="block-title">Mission</h2>
@@ -49,7 +49,7 @@ export default async function AboutPage() {
             </article>
           </AnimateItem>
           <AnimateItem>
-            <article className="card-elevated overflow-hidden rounded-2xl border-0 bg-card bg-gradient-to-br from-background to-primary/5 p-6">
+            <article className="overflow-hidden rounded-2xl bg-card shadow-[var(--shadow-elevation-2)] p-6">
               <h2 className="block-title">Operational Facts</h2>
               <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
                 <li>Founded: 2007</li>
@@ -62,20 +62,20 @@ export default async function AboutPage() {
         </div>
       </AnimateSection>
 
-      <AnimateSection className="mt-section section-gradient-primary rounded-2xl px-6 py-8">
+      <AnimateSection className="mt-section">
         <h2 className="section-title">
           <span className="headline-gradient">Partners</span>
         </h2>
-        <div className="mt-6 grid gap-6 md:grid-cols-3">
+        <div className="mt-6 grid gap-5 md:grid-cols-3">
           {partnerItems.map((partner) => (
             <AnimateItem key={partner.title}>
-              <article className="card-elevated overflow-hidden rounded-2xl border-0 bg-card bg-gradient-to-b from-background to-primary/5 p-6">
+              <article className="overflow-hidden rounded-2xl bg-card shadow-[var(--shadow-elevation-1)] transition-shadow duration-200 hover:shadow-[var(--shadow-elevation-2)] p-6">
                 <p className="inline-flex items-center gap-2 font-display text-lg font-semibold">
                   <Shield className="h-4 w-4 text-primary" />
                   {partner.title}
                 </p>
                 <p className="mt-2 text-sm text-muted-foreground">{partner.description}</p>
-                <p className="mt-2 text-sm font-semibold text-primary">{partner.contact}</p>
+                <p className="mt-3 text-sm font-semibold text-primary">{partner.contact}</p>
               </article>
             </AnimateItem>
           ))}
@@ -86,31 +86,28 @@ export default async function AboutPage() {
         <h2 className="section-title">
           <span className="headline-gradient">Executive Committee</span>
         </h2>
-        <div className="mt-6 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-6 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
           {committee.map((member) => (
             <AnimateItem key={member.id}>
-              <article className="card-elevated overflow-hidden rounded-2xl border-0 bg-card">
-                <div className="panel-header bg-gradient-to-r from-primary/10 via-primary/5 to-transparent">
-                  <p className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-primary">
-                    <span className="inline-block h-2 w-2 rounded-full bg-primary" />
-                    {member.role}
-                  </p>
-                  <p className="mt-1 font-display text-lg font-semibold">{member.name}</p>
+              <article className="overflow-hidden rounded-2xl bg-card shadow-[var(--shadow-elevation-1)] transition-shadow duration-200 hover:shadow-[var(--shadow-elevation-2)]">
+                <div className="px-5 pt-5 pb-4">
+                  <span className="role-badge">{member.role}</span>
+                  <p className="mt-2 font-display text-lg font-semibold">{member.name}</p>
                 </div>
-                <div className="space-y-2 px-6 py-5 text-sm">
+                <div className="border-t border-border/30 px-2 py-2">
                   {member.phone && (
                     <a
                       href={`tel:${member.phone.replace(/\s/g, "")}`}
-                      className="flex items-center gap-2 hover:text-primary"
+                      className="contact-link"
                     >
-                      <Phone className="h-4 w-4 text-primary" />
+                      <Phone className="h-4 w-4 shrink-0 text-primary" />
                       {member.phone}
                     </a>
                   )}
                   {member.email && (
-                    <a href={`mailto:${member.email}`} className="flex items-center gap-2 hover:text-primary">
-                      <Mail className="h-4 w-4 text-primary" />
-                      {member.email}
+                    <a href={`mailto:${member.email}`} className="contact-link">
+                      <Mail className="h-4 w-4 shrink-0 text-primary" />
+                      <span className="truncate">{member.email}</span>
                     </a>
                   )}
                 </div>

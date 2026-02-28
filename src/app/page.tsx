@@ -3,18 +3,12 @@ import Link from "next/link";
 import { Header } from "@/components/layout/header-server";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { AnimateSection, AnimateItem } from "@/components/ui/animate-section";
 import { HeroClient } from "@/components/home/hero-client";
+import { CopyButton } from "@/components/ui/copy-button";
 import { prisma } from "@/lib/db";
 import { EmptyState } from "@/components/ui/empty-state";
-import { Phone, Shield, Calendar, AlertTriangle } from "lucide-react";
+import { Phone, HeartHandshake, Shield, Calendar, AlertTriangle } from "lucide-react";
 
 export default async function HomePage() {
   const [incidents, events, safetyTips, sponsors] = await Promise.all([
@@ -66,75 +60,95 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* Emergency + Banking: asymmetric grid */}
+        {/* Emergency + Support */}
         <AnimateSection className="section-gradient-muted py-14 lg:py-16">
           <div className="container">
-          <div className="grid gap-6 lg:grid-cols-2 lg:gap-10">
-            <AnimateItem>
-              <Card className="card-elevated border-l-4 border-l-accent">
-                <CardHeader className="border-b border-border/50 bg-gradient-to-br from-alert-muted/80 to-alert-muted/40 px-6 py-6">
-                  <div className="flex items-center gap-4">
-                    <span className="icon-badge-accent">
-                      <Phone className="h-6 w-6" />
-                    </span>
-                    <div>
-                      <CardTitle className="font-display text-xl text-foreground">
-                        Emergency contacts
-                      </CardTitle>
-                      <CardDescription className="mt-0.5 text-sm">Report incidents and crimes</CardDescription>
+            <div className="grid gap-6 lg:grid-cols-[1fr_1.15fr] lg:gap-10">
+              <AnimateItem>
+                <section className="card-urgent h-full">
+                  <div className="px-6 py-6 md:px-8">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-accent">
+                      Emergency
+                    </p>
+                    <h3 className="mt-1 font-display text-xl font-bold tracking-tight text-foreground">
+                      Report incidents &amp; crimes
+                    </h3>
+                  </div>
+                  <div className="space-y-3 px-6 pb-6 md:px-8 md:pb-8">
+                    <a href="tel:0860002669" className="phone-cta">
+                      <div className="flex items-center gap-3">
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/12 text-accent">
+                          <Phone className="h-5 w-5" />
+                        </span>
+                        <div>
+                          <span className="text-sm text-muted-foreground">CVIC &middot; 24hr Crime Reporting</span>
+                          <span className="phone-cta-number block">0860 002 669</span>
+                        </div>
+                      </div>
+                    </a>
+                    <a href="tel:10111" className="phone-cta">
+                      <div className="flex items-center gap-3">
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/12 text-accent">
+                          <Phone className="h-5 w-5" />
+                        </span>
+                        <div>
+                          <span className="text-sm text-muted-foreground">SAPS Flying Squad</span>
+                          <span className="phone-cta-number block">10111</span>
+                        </div>
+                      </div>
+                    </a>
+                    <p className="pt-1 text-xs text-muted-foreground">
+                      Less reported incidents = fewer resources.{" "}
+                      <Link href="/contact" className="font-semibold text-primary hover:underline">
+                        All emergency numbers
+                      </Link>
+                    </p>
+                  </div>
+                </section>
+              </AnimateItem>
+              <AnimateItem>
+                <article className="card-warm h-full">
+                  <div className="px-6 py-6 md:px-8">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+                      Support
+                    </p>
+                    <h3 className="mt-1 font-display text-xl font-bold tracking-tight text-foreground">
+                      Fund community safety
+                    </h3>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      Plumstead Neighbourhood Watch
+                    </p>
+                  </div>
+                  <div className="px-6 pb-6 md:px-8 md:pb-8">
+                    <dl className="space-y-0">
+                      <div className="detail-row">
+                        <dt>Bank</dt>
+                        <dd>FNB</dd>
+                      </div>
+                      <div className="detail-row">
+                        <dt>Account</dt>
+                        <dd className="flex items-center gap-2">
+                          <span className="font-mono text-lg">631 463 987 05</span>
+                          <CopyButton value="6314639870 5" label="Account number copied" />
+                        </dd>
+                      </div>
+                      <div className="detail-row">
+                        <dt>Branch code</dt>
+                        <dd className="font-mono">255355</dd>
+                      </div>
+                    </dl>
+                    <div className="mt-6 flex items-center gap-3">
+                      <Button asChild size="lg" className="btn-glow flex-1 font-semibold">
+                        <Link href="/donate">
+                          <HeartHandshake className="mr-2 h-4 w-4" />
+                          Donate now
+                        </Link>
+                      </Button>
                     </div>
                   </div>
-                </CardHeader>
-                <CardContent className="space-y-3 px-6 py-6">
-                  <div className="flex items-center justify-between rounded-xl bg-muted/60 px-5 py-4 transition-colors hover:bg-muted/80">
-                    <span className="font-semibold">CVIC</span>
-                    <a
-                      href="tel:0860002669"
-                      className="font-mono text-xl font-bold text-primary transition-colors hover:text-primary/80"
-                    >
-                      0860 002 669
-                    </a>
-                  </div>
-                  <div className="flex items-center justify-between rounded-xl bg-muted/60 px-5 py-4 transition-colors hover:bg-muted/80">
-                    <span className="font-semibold">SAPS</span>
-                    <a
-                      href="tel:10111"
-                      className="font-mono text-xl font-bold text-primary transition-colors hover:text-primary/80"
-                    >
-                      10111
-                    </a>
-                  </div>
-                </CardContent>
-              </Card>
-            </AnimateItem>
-            <AnimateItem>
-              <Card className="card-elevated border-l-4 border-l-primary">
-                <CardHeader className="border-b border-border/50 bg-gradient-to-br from-primary/10 to-primary/5 px-6 py-6">
-                  <div className="flex items-center gap-4">
-                    <span className="icon-badge-primary">
-                      <Shield className="h-6 w-6" />
-                    </span>
-                    <div>
-                      <CardTitle className="font-display text-xl text-foreground">
-                        Support our work
-                      </CardTitle>
-                      <CardDescription className="mt-0.5 text-sm">Plumstead Neighbourhood Watch</CardDescription>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-3 px-6 py-6">
-                  <div className="rounded-xl bg-muted/40 px-5 py-4 font-mono text-sm">
-                    <p className="font-medium text-muted-foreground">Bank: FNB</p>
-                    <p className="mt-1 text-lg font-bold text-foreground">ACC: 631 463 987 05</p>
-                    <p className="text-muted-foreground">Code: 255355</p>
-                  </div>
-                  <Button asChild className="mt-2 font-semibold" size="lg">
-                    <Link href="/donate">Donate now</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            </AnimateItem>
-          </div>
+                </article>
+              </AnimateItem>
+            </div>
           </div>
         </AnimateSection>
 

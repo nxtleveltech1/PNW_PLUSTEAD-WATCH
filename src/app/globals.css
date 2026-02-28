@@ -427,6 +427,69 @@
     @apply w-1 shrink-0 rounded-full bg-gradient-to-b from-primary to-accent;
   }
 
+  /* ---------- Purpose-specific cards ---------- */
+
+  .card-urgent {
+    @apply overflow-hidden rounded-2xl shadow-[var(--shadow-elevation-2)];
+    background: linear-gradient(135deg, hsl(var(--alert-muted)) 0%, hsl(var(--card)) 100%);
+    border: 1px solid hsl(var(--accent) / 0.18);
+    border-top: 3px solid hsl(var(--accent));
+  }
+
+  .card-warm {
+    @apply overflow-hidden rounded-2xl shadow-[var(--shadow-elevation-2)];
+    background: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(var(--primary) / 0.05) 100%);
+    border: 1px solid hsl(var(--primary) / 0.12);
+    border-top: 3px solid hsl(var(--primary));
+  }
+
+  .phone-cta {
+    @apply flex items-center justify-between gap-3 rounded-xl px-5 py-4 font-semibold transition-all duration-200;
+    min-height: 3.5rem;
+    background-color: hsl(var(--card));
+    border: 1px solid hsl(var(--border) / 0.6);
+    box-shadow: var(--shadow-elevation-1);
+  }
+
+  .phone-cta:hover {
+    border-color: hsl(var(--accent) / 0.4);
+    box-shadow: var(--shadow-elevation-2);
+    background-color: hsl(var(--alert-muted) / 0.5);
+  }
+
+  .phone-cta:active {
+    transform: scale(0.985);
+  }
+
+  .phone-cta-number {
+    @apply font-mono text-xl font-bold tracking-wide text-accent;
+  }
+
+  .detail-row {
+    @apply flex items-baseline justify-between gap-4 border-b border-border/40 py-3;
+  }
+
+  .detail-row:last-child {
+    @apply border-b-0 pb-0;
+  }
+
+  .detail-row dt {
+    @apply text-sm text-muted-foreground;
+  }
+
+  .detail-row dd {
+    @apply text-right font-semibold text-foreground;
+  }
+
+  .role-badge {
+    @apply inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary;
+  }
+
+  .contact-link {
+    @apply flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground;
+    min-height: 2.75rem;
+  }
+
 }
 
 @media print {

@@ -2,7 +2,6 @@ import { PageShell } from "@/components/layout/page-shell";
 import { PageHero } from "@/components/layout/page-hero";
 import { prisma } from "@/lib/db";
 import { Phone, Mail } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { AnimateSection, AnimateItem } from "@/components/ui/animate-section";
 import { ContactForm } from "./contact-form";
 import { ZoneMap } from "@/components/contact/zone-map";
@@ -24,43 +23,47 @@ export default async function ContactPage() {
       <AnimateSection className="mt-section">
         <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
           <AnimateItem className="lg:col-span-8">
-            <Card className="card-elevated border-0">
-              <CardHeader className="p-6 md:p-8">
-                <CardTitle className="block-title">Send a message</CardTitle>
-                <CardDescription>We&apos;ll get back to you as soon as possible.</CardDescription>
-              </CardHeader>
-              <CardContent className="p-6 pt-0 md:p-8 md:pt-0">
+            <section className="overflow-hidden rounded-2xl bg-card shadow-[var(--shadow-elevation-2)]">
+              <div className="p-6 md:p-8">
+                <h2 className="block-title">Send a message</h2>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  We&apos;ll get back to you as soon as possible.
+                </p>
+              </div>
+              <div className="border-t border-border/40 p-6 md:p-8">
                 <ContactForm />
-              </CardContent>
-            </Card>
+              </div>
+            </section>
           </AnimateItem>
           <div className="lg:col-span-4">
             <h2 className="section-title mb-6">
               <span className="headline-gradient">Executive committee</span>
             </h2>
-            <div className="space-y-4">
+            <div className="space-y-3">
               {committee.map((m) => (
                 <AnimateItem key={m.id}>
-                  <div className="card-elevated rounded-2xl border-0 bg-card p-6">
-                    <p className="font-display font-semibold text-primary">{m.role}</p>
-                    <p className="mt-1 font-medium">{m.name}</p>
-                    <div className="mt-2 space-y-1 text-sm text-muted-foreground">
+                  <div className="overflow-hidden rounded-2xl bg-card shadow-[var(--shadow-elevation-1)] transition-shadow duration-200 hover:shadow-[var(--shadow-elevation-2)]">
+                    <div className="px-5 pt-5 pb-4">
+                      <span className="role-badge">{m.role}</span>
+                      <p className="mt-2 font-display font-semibold">{m.name}</p>
+                    </div>
+                    <div className="border-t border-border/30 px-2 py-2">
                       {m.phone && (
                         <a
                           href={`tel:${m.phone.replace(/\s/g, "")}`}
-                          className="flex items-center gap-2 transition-colors hover:text-foreground"
+                          className="contact-link"
                         >
-                          <Phone className="h-4 w-4" />
+                          <Phone className="h-4 w-4 shrink-0 text-primary" />
                           {m.phone}
                         </a>
                       )}
                       {m.email && (
                         <a
                           href={`mailto:${m.email}`}
-                          className="flex items-center gap-2 transition-colors hover:text-foreground"
+                          className="contact-link"
                         >
-                          <Mail className="h-4 w-4" />
-                          {m.email}
+                          <Mail className="h-4 w-4 shrink-0 text-primary" />
+                          <span className="truncate">{m.email}</span>
                         </a>
                       )}
                     </div>
@@ -88,21 +91,17 @@ export default async function ContactPage() {
         <h2 className="section-title">
           <span className="headline-gradient">Emergency contacts</span>
         </h2>
-        <div className="mt-6 card-elevated rounded-2xl border border-accent/20 bg-alert-muted/40 p-6">
+        <div className="mt-6 card-urgent p-5 md:p-6">
           <div className="grid gap-3 sm:grid-cols-2">
             {emergency.map((e) => (
-              <div
+              <a
                 key={e.id}
-                className="flex items-center justify-between rounded-lg bg-background px-4 py-3"
+                href={`tel:${e.number.replace(/\s/g, "").replace(/\//g, "")}`}
+                className="phone-cta"
               >
-                <span className="font-medium">{e.service}</span>
-                <a
-                  href={`tel:${e.number.replace(/\s/g, "").replace(/\//g, "")}`}
-                  className="font-mono font-semibold text-primary hover:underline"
-                >
-                  {e.number}
-                </a>
-              </div>
+                <span className="text-sm font-medium text-foreground">{e.service}</span>
+                <span className="phone-cta-number whitespace-nowrap">{e.number}</span>
+              </a>
             ))}
           </div>
         </div>
