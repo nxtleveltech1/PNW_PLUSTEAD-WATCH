@@ -21,45 +21,84 @@ export default function HelpPage() {
         </AnimateSection>
         <AnimateSection className="mt-12">
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <AnimateItem>
-          <Link
-            href="/help/member-registration"
-            className="card-elevated group block rounded-2xl border-0 bg-card p-6"
-          >
-            <h2 className="font-display text-lg font-semibold text-foreground group-hover:text-primary">
-              Member registration
-            </h2>
-            <p className="mt-2 text-sm text-muted-foreground">
-              How to register as a member, what information we collect, and how to update your profile.
-            </p>
-          </Link>
-          </AnimateItem>
-          <AnimateItem>
-          <Link
-            href="/help/patrol-administration"
-            className="card-elevated group block rounded-2xl border-0 bg-card p-6"
-          >
-            <h2 className="font-display text-lg font-semibold text-foreground group-hover:text-primary">
-              Patrol administration
-            </h2>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Overview of patrol zones, types, resources, and how patrols are managed.
-            </p>
-          </Link>
-          </AnimateItem>
-          <AnimateItem>
-          <Link
-            href="/help/glossary"
-            className="card-elevated group block rounded-2xl border-0 bg-card p-6"
-          >
-            <h2 className="font-display text-lg font-semibold text-foreground group-hover:text-primary">
-              Glossary
-            </h2>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Definitions of terms used on the platform and in PNW communications.
-            </p>
-          </Link>
-          </AnimateItem>
+            <AnimateItem>
+              <Link
+                href="/help/member-registration"
+                className="card-elevated group block rounded-2xl border-0 bg-card p-6"
+              >
+                <h2 className="font-display text-lg font-semibold text-foreground group-hover:text-primary">
+                  Member registration
+                </h2>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  How to register as a member, what information we collect, and how to update your profile.
+                </p>
+              </Link>
+            </AnimateItem>
+            <AnimateItem>
+              <Link
+                href="/help/member-faq"
+                className="card-elevated group block rounded-2xl border-0 bg-card p-6"
+              >
+                <h2 className="font-display text-lg font-semibold text-foreground group-hover:text-primary">
+                  Member FAQ
+                </h2>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Common questions about membership, registration, and using the platform.
+                </p>
+              </Link>
+            </AnimateItem>
+            <AnimateItem>
+              <Link
+                href="/help/troubleshooting"
+                className="card-elevated group block rounded-2xl border-0 bg-card p-6"
+              >
+                <h2 className="font-display text-lg font-semibold text-foreground group-hover:text-primary">
+                  Troubleshooting
+                </h2>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Browser support, sign-in issues, email preferences, and session problems.
+                </p>
+              </Link>
+            </AnimateItem>
+            <AnimateItem>
+              <Link
+                href="/help/security"
+                className="card-elevated group block rounded-2xl border-0 bg-card p-6"
+              >
+                <h2 className="font-display text-lg font-semibold text-foreground group-hover:text-primary">
+                  Security of information
+                </h2>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  How we protect your data, who has access, and your privacy options.
+                </p>
+              </Link>
+            </AnimateItem>
+            <AnimateItem>
+              <Link
+                href="/help/patrol-administration"
+                className="card-elevated group block rounded-2xl border-0 bg-card p-6"
+              >
+                <h2 className="font-display text-lg font-semibold text-foreground group-hover:text-primary">
+                  Patrol administration
+                </h2>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Overview of patrol zones, types, resources, and how patrols are managed.
+                </p>
+              </Link>
+            </AnimateItem>
+            <AnimateItem>
+              <Link
+                href="/help/glossary"
+                className="card-elevated group block rounded-2xl border-0 bg-card p-6"
+              >
+                <h2 className="font-display text-lg font-semibold text-foreground group-hover:text-primary">
+                  Glossary
+                </h2>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Definitions of terms used on the platform and in PNW communications.
+                </p>
+              </Link>
+            </AnimateItem>
           </div>
         </AnimateSection>
       </main>

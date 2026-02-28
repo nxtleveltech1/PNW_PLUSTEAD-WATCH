@@ -21,6 +21,11 @@ const orgLinks = [
   { href: "mailto:info@plumsteadwatch.org.za?subject=Website%20advertising", label: "Advertise" },
 ];
 
+const membershipLinks = [
+  { href: "/register", label: "Register (member)" },
+  { href: "/register/guest", label: "Register (guest)" },
+];
+
 const legalLinks = [
   { href: "/terms", label: "Terms" },
   { href: "/privacy", label: "Privacy" },
@@ -86,7 +91,24 @@ export function Footer() {
             className="md:col-span-7 lg:col-span-8 w-full"
             aria-label="Site map"
           >
-            <div className="grid w-full grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
+            <div className="grid w-full grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4">
+              <div>
+                <h3 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                  Membership
+                </h3>
+                <ul className="mt-4 space-y-3" role="list">
+                  {membershipLinks.map((link) => (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        className="text-sm font-medium text-foreground/90 transition-colors hover:text-primary hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
               <div>
                 <h3 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                   Operations
@@ -146,7 +168,15 @@ export function Footer() {
         <div className="mt-12 border-t border-border/60 pt-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <small className="text-sm text-muted-foreground">
-              © {year} Plumstead Neighbourhood Watch. All rights reserved.
+              © {year} Plumstead Neighbourhood Watch. All rights reserved.{" "}
+              <a
+                href="https://www.octoxgroup.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground/80 hover:text-foreground hover:underline"
+              >
+                Development Copyright
+              </a>
             </small>
             <p className="text-xs text-muted-foreground/80">
               On Alert — Community safety coordination

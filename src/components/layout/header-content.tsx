@@ -81,6 +81,9 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
                 <Button asChild variant="ghost" size="sm">
                   <Link href="/sign-in">Sign in</Link>
                 </Button>
+                <Button asChild variant="outline" size="sm">
+                  <Link href="/register/guest">Guest</Link>
+                </Button>
                 <Button asChild size="sm">
                   <Link href="/register">Join</Link>
                 </Button>
@@ -93,6 +96,9 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
             <>
               <Button asChild variant="ghost" size="sm">
                 <Link href="/sign-in">Sign in</Link>
+              </Button>
+              <Button asChild variant="outline" size="sm">
+                <Link href="/register/guest">Guest</Link>
               </Button>
               <Button asChild size="sm">
                 <Link href="/register">Join</Link>
