@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Header } from "@/components/layout/header-server";
 import { Footer } from "@/components/layout/footer";
+import { AnimateSection, AnimateItem } from "@/components/ui/animate-section";
 import { FindZoneForm } from "./find-zone-form";
 import { prisma } from "@/lib/db";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,13 +14,17 @@ export default async function FindPage() {
     <div className="flex min-h-screen flex-col">
       <Header />
       <main id="main" className="page-main">
-        <div className="page-hero">
-          <p className="eyebrow">Locate</p>
-          <h1 className="section-heading mt-2">Find your zone</h1>
-          <p className="section-subheading">Enter your postcode to find your neighbourhood watch scheme.</p>
-        </div>
+        <AnimateSection>
+          <div className="page-hero">
+            <p className="eyebrow">Locate</p>
+            <h1 className="section-heading mt-2">
+              <span className="headline-gradient">Find your zone</span>
+            </h1>
+            <p className="section-subheading">Enter your postcode to find your neighbourhood watch scheme.</p>
+          </div>
+        </AnimateSection>
 
-        <section className="mt-14">
+        <AnimateSection className="mt-14">
           <Card className="card-elevated max-w-md border-l-4 border-l-primary">
             <CardHeader className="border-b border-border/50 bg-gradient-to-br from-primary/10 to-primary/5 px-8 py-8">
               <div className="flex items-center gap-5">
@@ -40,14 +45,18 @@ export default async function FindPage() {
               <FindZoneForm zones={zones} />
             </CardContent>
           </Card>
-        </section>
+        </AnimateSection>
 
-        <section className="mt-16">
-          <h2 className="font-display text-2xl font-bold text-foreground">All zones</h2>
+        <AnimateSection className="mt-16">
+          <AnimateItem>
+            <h2 className="section-heading">
+              <span className="headline-gradient">All zones</span>
+            </h2>
+          </AnimateItem>
           <div className="mt-8 space-y-4">
             {zones.map((z) => (
+              <AnimateItem key={z.id}>
               <div
-                key={z.id}
                 className="card-elevated flex items-center justify-between rounded-2xl border-l-4 border-l-primary bg-card px-6 py-5"
               >
                 <div>
@@ -71,9 +80,10 @@ export default async function FindPage() {
                   </Link>
                 </div>
               </div>
+              </AnimateItem>
             ))}
           </div>
-        </section>
+        </AnimateSection>
       </main>
       <Footer />
     </div>

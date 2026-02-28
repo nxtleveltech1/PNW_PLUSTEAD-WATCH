@@ -2,6 +2,7 @@ import Link from "next/link";
 import { requireAdmin } from "@/lib/auth-admin";
 import { Header } from "@/components/layout/header-server";
 import { Footer } from "@/components/layout/footer";
+import { AnimateSection } from "@/components/ui/animate-section";
 import { LayoutDashboard, Building2, MessageSquare, AlertTriangle, Users } from "lucide-react";
 
 const adminNav = [
@@ -23,11 +24,15 @@ export default async function AdminLayout({
     <div className="flex min-h-screen flex-col">
       <Header />
       <main id="main" className="page-main">
-        <div className="page-hero">
-          <p className="eyebrow">Admin</p>
-          <h1 className="section-heading mt-2">Admin Console</h1>
-          <p className="section-subheading">Manage incidents, business listings, and contact messages.</p>
-        </div>
+        <AnimateSection>
+          <div className="page-hero">
+            <p className="eyebrow">Admin</p>
+            <h1 className="section-heading mt-2">
+              <span className="headline-gradient">Admin Console</span>
+            </h1>
+            <p className="section-subheading">Manage incidents, business listings, and contact messages.</p>
+          </div>
+        </AnimateSection>
 
         <nav
           className="mt-8 flex flex-wrap gap-2 border-b border-border pb-6"

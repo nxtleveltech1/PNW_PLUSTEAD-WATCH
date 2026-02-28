@@ -1,5 +1,6 @@
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header-server";
+import { AnimateSection, AnimateItem } from "@/components/ui/animate-section";
 import { prisma } from "@/lib/db";
 import { Mail, Phone, Shield } from "lucide-react";
 
@@ -28,7 +29,8 @@ export default async function AboutPage() {
     <div className="flex min-h-screen flex-col">
       <Header />
       <main id="main" className="page-main">
-        <div className="page-hero">
+        <AnimateSection>
+          <div className="page-hero">
           <p className="eyebrow">Who We Are</p>
           <h1 className="section-heading mt-2">
             <span className="headline-gradient">Plumstead Neighbourhood Watch</span>
@@ -38,9 +40,12 @@ export default async function AboutPage() {
             coordinate practical response with trusted partners.
           </p>
         </div>
+        </AnimateSection>
 
-        <section className="mt-12 grid gap-5 lg:grid-cols-3">
-          <article className="panel overflow-hidden lg:col-span-2">
+        <AnimateSection className="mt-12">
+          <div className="grid gap-5 lg:grid-cols-3">
+          <AnimateItem className="lg:col-span-2">
+          <article className="card-elevated overflow-hidden rounded-2xl border-0 bg-card">
             <div className="h-2 bg-gradient-to-r from-primary via-primary/70 to-accent" />
             <div className="p-6">
             <h2 className="font-display text-xl font-semibold">Mission</h2>
@@ -51,7 +56,9 @@ export default async function AboutPage() {
             </p>
             </div>
           </article>
-          <article className="panel bg-gradient-to-br from-background to-primary/5 p-6">
+          </AnimateItem>
+          <AnimateItem>
+          <article className="card-elevated overflow-hidden rounded-2xl border-0 bg-card bg-gradient-to-br from-background to-primary/5 p-6">
             <h2 className="font-display text-xl font-semibold">Operational Facts</h2>
             <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
               <li>Founded: 2007</li>
@@ -60,15 +67,18 @@ export default async function AboutPage() {
               <li>Accredited by DOCS</li>
             </ul>
           </article>
-        </section>
+          </AnimateItem>
+          </div>
+        </AnimateSection>
 
-        <section className="mt-10">
+        <AnimateSection className="mt-10">
           <h2 className="font-display text-2xl font-bold">
             <span className="headline-gradient">Partners</span>
           </h2>
           <div className="mt-5 grid gap-4 md:grid-cols-3">
             {partnerItems.map((partner) => (
-              <article key={partner.title} className="panel bg-gradient-to-b from-background to-primary/5 p-5">
+              <AnimateItem key={partner.title}>
+              <article className="card-elevated overflow-hidden rounded-2xl border-0 bg-card bg-gradient-to-b from-background to-primary/5 p-5">
                 <p className="inline-flex items-center gap-2 font-display text-lg font-semibold">
                   <Shield className="h-4 w-4 text-primary" />
                   {partner.title}
@@ -76,17 +86,19 @@ export default async function AboutPage() {
                 <p className="mt-2 text-sm text-muted-foreground">{partner.description}</p>
                 <p className="mt-2 text-sm font-semibold text-primary">{partner.contact}</p>
               </article>
+              </AnimateItem>
             ))}
           </div>
-        </section>
+        </AnimateSection>
 
-        <section className="mt-14">
+        <AnimateSection className="mt-14">
           <h2 className="font-display text-2xl font-bold">
             <span className="headline-gradient">Executive Committee</span>
           </h2>
           <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {committee.map((member) => (
-              <article key={member.id} className="panel">
+              <AnimateItem key={member.id}>
+              <article className="card-elevated overflow-hidden rounded-2xl border-0 bg-card">
                 <div className="panel-header">
                   <p className="text-sm font-semibold uppercase tracking-wide text-primary">{member.role}</p>
                   <p className="mt-1 font-display text-lg font-semibold">{member.name}</p>
@@ -106,9 +118,10 @@ export default async function AboutPage() {
                   )}
                 </div>
               </article>
+              </AnimateItem>
             ))}
           </div>
-        </section>
+        </AnimateSection>
       </main>
       <Footer />
     </div>

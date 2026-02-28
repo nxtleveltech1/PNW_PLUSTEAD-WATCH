@@ -38,7 +38,7 @@ export function Footer() {
       id="footer"
       role="contentinfo"
       tabIndex={-1}
-      className="mt-auto border-t border-border/80 bg-secondary/40"
+      className="mt-auto border-t border-border/80 bg-gradient-to-b from-secondary/50 to-muted/30"
     >
       <div className="container py-12 md:py-16">
         <div className="grid gap-12 md:grid-cols-12 md:gap-x-10 lg:gap-x-12">
@@ -96,7 +96,7 @@ export function Footer() {
                     <li key={link.href}>
                       <Link
                         href={link.href}
-                        className="text-sm font-medium text-foreground/90 transition-colors hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded"
+                        className="text-sm font-medium text-foreground/90 transition-colors hover:text-primary hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded"
                       >
                         {link.label}
                       </Link>
@@ -113,7 +113,7 @@ export function Footer() {
                     <li key={link.href}>
                       <Link
                         href={link.href}
-                        className="text-sm font-medium text-foreground/90 transition-colors hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded"
+                        className="text-sm font-medium text-foreground/90 transition-colors hover:text-primary hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded"
                       >
                         {link.label}
                       </Link>
@@ -130,7 +130,7 @@ export function Footer() {
                     <li key={link.href}>
                       <Link
                         href={link.href}
-                        className="text-sm font-medium text-foreground/90 transition-colors hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded"
+                        className="text-sm font-medium text-foreground/90 transition-colors hover:text-primary hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded"
                       >
                         {link.label}
                       </Link>

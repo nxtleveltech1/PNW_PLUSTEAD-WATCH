@@ -20,9 +20,13 @@ const stagger = {
 export function AnimateSection({
   children,
   className,
+  id,
+  "aria-labelledby": ariaLabelledby,
 }: {
   children: React.ReactNode;
   className?: string;
+  id?: string;
+  "aria-labelledby"?: string;
 }) {
   return (
     <motion.section
@@ -31,6 +35,8 @@ export function AnimateSection({
       viewport={{ once: true, margin: "-48px" }}
       variants={stagger}
       className={className}
+      id={id}
+      aria-labelledby={ariaLabelledby}
     >
       {children}
     </motion.section>

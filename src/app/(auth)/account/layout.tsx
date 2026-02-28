@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Header } from "@/components/layout/header-server";
 import { Footer } from "@/components/layout/footer";
+import { AnimateSection } from "@/components/ui/animate-section";
 import { AccountNav } from "@/components/account/account-nav";
 import { isAdmin } from "@/lib/auth-admin";
 
@@ -26,13 +27,17 @@ export default async function AccountLayout({
     <div className="flex min-h-screen flex-col">
       <Header />
       <main id="main" className="page-main">
-        <div className="page-hero">
-          <p className="eyebrow">Account</p>
-          <h1 className="section-heading mt-2">Manage your account</h1>
-          <p className="section-subheading">
-            Update your profile, membership, and preferences.
-          </p>
-        </div>
+        <AnimateSection>
+          <div className="page-hero">
+            <p className="eyebrow">Account</p>
+            <h1 className="section-heading mt-2">
+              <span className="headline-gradient">Manage your account</span>
+            </h1>
+            <p className="section-subheading">
+              Update your profile, membership, and preferences.
+            </p>
+          </div>
+        </AnimateSection>
 
         <div className="mt-12 flex flex-col gap-8 lg:flex-row">
           <aside className="hidden shrink-0 lg:block lg:w-56">
@@ -62,7 +67,7 @@ export default async function AccountLayout({
             )}
           </nav>
 
-          <div className="min-w-0 flex-1 rounded-2xl border bg-card p-6 shadow-[var(--shadow-elevation-1)] md:p-8">
+          <div className="card-elevated min-w-0 flex-1 rounded-2xl border-0 bg-card p-6 md:p-8">
             {children}
           </div>
         </div>

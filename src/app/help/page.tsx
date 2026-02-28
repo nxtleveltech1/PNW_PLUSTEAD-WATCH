@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/header-server";
 import { Footer } from "@/components/layout/footer";
+import { AnimateSection, AnimateItem } from "@/components/ui/animate-section";
 import Link from "next/link";
 
 export default function HelpPage() {
@@ -7,17 +8,23 @@ export default function HelpPage() {
     <div className="flex min-h-screen flex-col">
       <Header />
       <main id="main" className="page-main">
-        <div className="page-hero">
-          <p className="eyebrow">Help</p>
-          <h1 className="section-heading mt-2">PNW Help</h1>
-          <p className="section-subheading">
-            Guides and reference for using the Plumstead Neighbourhood Watch platform.
-          </p>
-        </div>
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <AnimateSection>
+          <div className="page-hero">
+            <p className="eyebrow">Help</p>
+            <h1 className="section-heading mt-2">
+              <span className="headline-gradient">PNW Help</span>
+            </h1>
+            <p className="section-subheading">
+              Guides and reference for using the Plumstead Neighbourhood Watch platform.
+            </p>
+          </div>
+        </AnimateSection>
+        <AnimateSection className="mt-12">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <AnimateItem>
           <Link
             href="/help/member-registration"
-            className="group rounded-xl border-0 bg-card p-6 shadow-elevation-1 transition-all hover:shadow-elevation-2"
+            className="card-elevated group block rounded-2xl border-0 bg-card p-6"
           >
             <h2 className="font-display text-lg font-semibold text-foreground group-hover:text-primary">
               Member registration
@@ -26,9 +33,11 @@ export default function HelpPage() {
               How to register as a member, what information we collect, and how to update your profile.
             </p>
           </Link>
+          </AnimateItem>
+          <AnimateItem>
           <Link
             href="/help/patrol-administration"
-            className="group rounded-xl border-0 bg-card p-6 shadow-elevation-1 transition-all hover:shadow-elevation-2"
+            className="card-elevated group block rounded-2xl border-0 bg-card p-6"
           >
             <h2 className="font-display text-lg font-semibold text-foreground group-hover:text-primary">
               Patrol administration
@@ -37,9 +46,11 @@ export default function HelpPage() {
               Overview of patrol zones, types, resources, and how patrols are managed.
             </p>
           </Link>
+          </AnimateItem>
+          <AnimateItem>
           <Link
             href="/help/glossary"
-            className="group rounded-xl border-0 bg-card p-6 shadow-elevation-1 transition-all hover:shadow-elevation-2"
+            className="card-elevated group block rounded-2xl border-0 bg-card p-6"
           >
             <h2 className="font-display text-lg font-semibold text-foreground group-hover:text-primary">
               Glossary
@@ -48,7 +59,9 @@ export default function HelpPage() {
               Definitions of terms used on the platform and in PNW communications.
             </p>
           </Link>
-        </div>
+          </AnimateItem>
+          </div>
+        </AnimateSection>
       </main>
       <Footer />
     </div>

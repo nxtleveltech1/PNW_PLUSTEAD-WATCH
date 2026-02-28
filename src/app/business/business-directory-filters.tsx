@@ -3,6 +3,14 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Search } from "lucide-react";
 import type { Zone } from "@prisma/client";
 
 const CATEGORIES = [
@@ -46,70 +54,79 @@ export function BusinessDirectoryFilters({
   }
 
   return (
-    <div className="mt-8 flex flex-wrap items-end gap-4">
-      <div className="flex-1 min-w-[200px]">
-        <label htmlFor="search" className="mb-1 block text-sm font-medium text-muted-foreground">
-          Search
-        </label>
-        <Input
-          id="search"
-          type="search"
-          placeholder="Search businesses..."
-          defaultValue={search}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-              updateFilters({ search: (e.target as HTMLInputElement).value });
-            }
+    <div className="mt-8 rounded-2xl border border-border/80 bg-background/90 p-6 shadow-[var(--shadow-elevation-1)]">
+      <div className="flex flex-wrap items-end gap-4">
+        <div className="min-w-[200px] flex-1">
+          <label htmlFor="search" className="mb-1 block text-sm font-medium text-muted-foreground">
+            Search
+          </label>
+          <div className="relative max-w-sm">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              id="search"
+              type="search"
+              placeholder="Search businesses..."
+              defaultValue={search}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  updateFilters({ search: (e.target as HTMLInputElement).value });
+                }
+              }}
+              className="pl-9"
+            />
+          </div>
+        </div>
+        <div className="min-w-[160px]">
+          <label htmlFor="category" className="mb-1 block text-sm font-medium text-muted-foreground">
+            Category
+          </label>
+          <Select
+            value={currentCategory ?? ""}
+            onValueChange={(v) => updateFilters({ category: v })}
+          >
+            <SelectTrigger id="category" className="h-10">
+              <SelectValue placeholder="All categories" />
+            </SelectTrigger>
+            <SelectContent>
+              {CATEGORIES.map((c) => (
+                <SelectItem key={c.value} value={c.value}>
+                  {c.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="min-w-[160px]">
+          <label htmlFor="zone" className="mb-1 block text-sm font-medium text-muted-foreground">
+            Zone
+          </label>
+          <Select value={currentZone ?? ""} onValueChange={(v) => updateFilters({ zone: v })}>
+            <SelectTrigger id="zone" className="h-10">
+              <SelectValue placeholder="All zones" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">All zones</SelectItem>
+              {zones.map((z) => (
+                <SelectItem key={z.id} value={z.id}>
+                  {z.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          className="h-10"
+          onClick={() => {
+            (document.getElementById("search") as HTMLInputElement).value = "";
+            updateFilters({ category: "", zone: "", search: "" });
           }}
-          className="max-w-sm"
-        />
-      </div>
-      <div>
-        <label htmlFor="category" className="mb-1 block text-sm font-medium text-muted-foreground">
-          Category
-        </label>
-        <select
-          id="category"
-          value={currentCategory ?? ""}
-          onChange={(e) => updateFilters({ category: e.target.value })}
-          className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
         >
-          {CATEGORIES.map((c) => (
-            <option key={c.value} value={c.value}>
-              {c.label}
-            </option>
-          ))}
-        </select>
+          Clear
+        </Button>
       </div>
-      <div>
-        <label htmlFor="zone" className="mb-1 block text-sm font-medium text-muted-foreground">
-          Zone
-        </label>
-        <select
-          id="zone"
-          value={currentZone ?? ""}
-          onChange={(e) => updateFilters({ zone: e.target.value })}
-          className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
-        >
-          <option value="">All zones</option>
-          {zones.map((z) => (
-            <option key={z.id} value={z.id}>
-              {z.name}
-            </option>
-          ))}
-        </select>
-      </div>
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => {
-          (document.getElementById("search") as HTMLInputElement).value = "";
-          updateFilters({ category: "", zone: "", search: "" });
-        }}
-      >
-        Clear
-      </Button>
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { Header } from "@/components/layout/header-server";
 import { Footer } from "@/components/layout/footer";
+import { AnimateSection, AnimateItem } from "@/components/ui/animate-section";
 import { prisma } from "@/lib/db";
 import { Button } from "@/components/ui/button";
 import { Calendar, AlertTriangle, FileText, Settings, User } from "lucide-react";
@@ -40,13 +41,18 @@ export default async function DashboardPage() {
     <div className="flex min-h-screen flex-col">
       <Header />
       <main id="main" className="page-main">
-        <div className="page-hero">
-          <p className="eyebrow">Member Console</p>
-          <h1 className="section-heading mt-2">Dashboard</h1>
-          <p className="section-subheading">Welcome, {displayName}. View live activity and operational updates.</p>
-        </div>
+        <AnimateSection>
+          <div className="page-hero">
+            <p className="eyebrow">Member Console</p>
+            <h1 className="section-heading mt-2">
+              <span className="headline-gradient">Dashboard</span>
+            </h1>
+            <p className="section-subheading">Welcome, {displayName}. View live activity and operational updates.</p>
+          </div>
+        </AnimateSection>
 
-        <div className="mt-12 grid gap-8 lg:grid-cols-2">
+        <AnimateSection className="mt-12">
+          <div className="grid gap-8 lg:grid-cols-2">
           <section>
             <h2 className="font-display text-xl font-semibold">Recent incidents</h2>
             <div className="mt-4 space-y-2">
@@ -152,6 +158,7 @@ export default async function DashboardPage() {
             <Link href="/contact">Contact us</Link>
           </Button>
         </div>
+        </AnimateSection>
       </main>
       <Footer />
     </div>

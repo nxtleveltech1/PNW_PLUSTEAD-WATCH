@@ -7,6 +7,7 @@ import { Header } from "@/components/layout/header-server";
 import { Footer } from "@/components/layout/footer";
 import { prisma } from "@/lib/db";
 import { BusinessDbUnavailable } from "../db-unavailable";
+import { AnimateSection, AnimateItem } from "@/components/ui/animate-section";
 import { Button } from "@/components/ui/button";
 import { MessageForm } from "./message-form";
 import { Building2, ExternalLink, MapPin, Mail, Phone } from "lucide-react";
@@ -48,12 +49,13 @@ export default async function BusinessListingDetailPage({
     <div className="flex min-h-screen flex-col">
       <Header />
       <main id="main" className="page-main">
-        <Button asChild variant="ghost" size="sm" className="-ml-2 mb-6 text-muted-foreground hover:text-foreground">
-          <Link href="/business">&lt;- Back to directory</Link>
-        </Button>
+        <AnimateSection>
+          <Button asChild variant="ghost" size="sm" className="-ml-2 mb-6 text-muted-foreground hover:text-foreground">
+            <Link href="/business">&lt;- Back to directory</Link>
+          </Button>
 
-        <article className="panel max-w-3xl">
-          <div className="panel-header">
+          <article className="card-elevated max-w-3xl overflow-hidden rounded-2xl border-0 bg-card">
+            <div className="border-b border-border/50 bg-gradient-to-br from-primary/5 to-transparent px-6 py-5">
             <div className="flex items-start gap-4">
               <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary/10">
                 <Building2 className="h-7 w-7 text-primary" />
@@ -138,6 +140,7 @@ export default async function BusinessListingDetailPage({
             )}
           </div>
         </article>
+        </AnimateSection>
       </main>
       <Footer />
     </div>

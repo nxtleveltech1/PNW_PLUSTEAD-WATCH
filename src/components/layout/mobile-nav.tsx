@@ -73,7 +73,7 @@ export function MobileNav({ showAdmin = false }: { showAdmin?: boolean }) {
                 </SignedOut>
                 <SignedIn>
                   <div className="flex justify-center">
-                    <UserAvatarDropdown />
+                    <UserAvatarDropdown showAdmin={showAdmin} />
                   </div>
                 </SignedIn>
               </>

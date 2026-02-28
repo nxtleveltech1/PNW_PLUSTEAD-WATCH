@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Header } from "@/components/layout/header-server";
 import { Footer } from "@/components/layout/footer";
+import { AnimateSection, AnimateItem } from "@/components/ui/animate-section";
 import { SchemeInquiryForm } from "./scheme-inquiry-form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -18,20 +19,22 @@ export default function StartSchemePage() {
     <div className="flex min-h-screen flex-col">
       <Header />
       <main id="main" className="page-main">
-        <div className="page-hero">
-          <p className="eyebrow">Expansion</p>
-          <h1 className="section-heading mt-2">Start a Scheme</h1>
-          <p className="section-subheading">No active group in your area? Use this process to start one.</p>
-        </div>
+        <AnimateSection>
+          <div className="page-hero">
+            <p className="eyebrow">Expansion</p>
+            <h1 className="section-heading mt-2">
+              <span className="headline-gradient">Start a Scheme</span>
+            </h1>
+            <p className="section-subheading">No active group in your area? Use this process to start one.</p>
+          </div>
+        </AnimateSection>
 
-        <section className="mt-12">
+        <AnimateSection className="mt-12">
           <h2 className="font-display text-xl font-semibold text-foreground">4 steps to get started</h2>
           <div className="mt-6 space-y-4">
             {STEPS.map((s) => (
-              <div
-                key={s.n}
-                className="flex gap-4 rounded-xl border border-border/80 bg-card p-5"
-              >
+              <AnimateItem key={s.n}>
+              <div className="card-elevated flex gap-4 rounded-2xl border-0 bg-card p-5">
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/15 font-display font-semibold text-primary">
                   {s.n}
                 </span>
@@ -40,12 +43,14 @@ export default function StartSchemePage() {
                   <p className="text-sm text-muted-foreground">{s.desc}</p>
                 </div>
               </div>
+              </AnimateItem>
             ))}
           </div>
-        </section>
+        </AnimateSection>
 
-        <section className="mt-16">
-          <Card className="max-w-md border-0 shadow-elevation-2">
+        <AnimateSection className="mt-16">
+          <AnimateItem>
+          <Card className="card-elevated max-w-md border-0">
             <CardHeader>
               <div className="flex items-center gap-4">
                 <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/15">
@@ -65,13 +70,14 @@ export default function StartSchemePage() {
               <SchemeInquiryForm />
             </CardContent>
           </Card>
-        </section>
+          </AnimateItem>
+        </AnimateSection>
 
-        <section className="mt-12">
+        <AnimateSection className="mt-12">
           <Button variant="outline" asChild>
             <Link href="/contact">Contact committee directly</Link>
           </Button>
-        </section>
+        </AnimateSection>
       </main>
       <Footer />
     </div>

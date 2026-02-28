@@ -41,7 +41,7 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
           </a>
         </div>
       </div>
-      <div className="container flex h-16 items-center gap-4">
+      <div className="container flex h-18 min-h-[4.5rem] items-center gap-4">
         <Link href="/" className="flex items-center gap-0">
           <div className="relative h-16 w-[140px] shrink-0 overflow-hidden">
             <Image
@@ -72,7 +72,7 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
           ))}
         </nav>
         <div className="ml-4 flex items-center gap-2">
-          <Button asChild size="sm" variant="outline" className="hidden border-accent/40 text-accent hover:bg-accent/10 sm:inline-flex">
+          <Button asChild size="sm" className="hidden bg-accent text-accent-foreground hover:bg-accent/90 sm:inline-flex">
             <Link href="/incidents">Report</Link>
           </Button>
           {hasClerk ? (

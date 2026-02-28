@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Shield } from "lucide-react";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header-server";
+import { AnimateSection, AnimateItem } from "@/components/ui/animate-section";
 import { prisma } from "@/lib/db";
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -28,7 +29,8 @@ export default async function SafetyTipsPage() {
     <div className="flex min-h-screen flex-col">
       <Header />
       <main id="main" className="page-main">
-        <div className="page-hero">
+        <AnimateSection>
+          <div className="page-hero">
           <p className="eyebrow">Safety Library</p>
           <h1 className="section-heading mt-2">
             <span className="headline-gradient">Operational Safety Guidance</span>
@@ -37,12 +39,19 @@ export default async function SafetyTipsPage() {
             Practical, local prevention guidance for residents, households, and community patrol volunteers.
           </p>
         </div>
+        </AnimateSection>
 
         {tips.length === 0 ? (
-          <div className="panel mt-10 p-12 text-center text-muted-foreground">No safety tips available yet.</div>
+          <AnimateSection className="mt-10">
+            <AnimateItem>
+              <div className="rounded-2xl border-2 border-dashed border-border bg-muted/20 py-16 text-center text-muted-foreground">
+                No safety tips available yet.
+              </div>
+            </AnimateItem>
+          </AnimateSection>
         ) : (
-          <>
-            <section className="mt-8 flex flex-wrap gap-2">
+          <AnimateSection className="mt-8">
+            <section className="flex flex-wrap gap-2">
               {categoryKeys.map((category) => (
                 <a
                   key={category}
@@ -58,7 +67,8 @@ export default async function SafetyTipsPage() {
               {categoryKeys.map((category) => {
                 const categoryTips = byCategory[category];
                 return (
-                  <section key={category} id={`category-${category}`} className="panel overflow-hidden">
+                  <AnimateItem key={category}>
+                  <section id={`category-${category}`} className="card-elevated overflow-hidden rounded-2xl border-0 bg-card">
                     <div className="panel-header flex items-center justify-between gap-4">
                       <h2 className="font-display text-2xl font-semibold">
                         {CATEGORY_LABELS[category] ?? category}
@@ -86,10 +96,11 @@ export default async function SafetyTipsPage() {
                       ))}
                     </div>
                   </section>
+                  </AnimateItem>
                 );
               })}
             </div>
-          </>
+          </AnimateSection>
         )}
       </main>
       <Footer />

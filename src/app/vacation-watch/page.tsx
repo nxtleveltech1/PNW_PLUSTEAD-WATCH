@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/header-server";
 import { Footer } from "@/components/layout/footer";
+import { AnimateSection, AnimateItem } from "@/components/ui/animate-section";
 import { VacationWatchForm } from "./vacation-watch-form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Home } from "lucide-react";
@@ -9,13 +10,18 @@ export default function VacationWatchPage() {
     <div className="flex min-h-screen flex-col">
       <Header />
       <main id="main" className="page-main">
-        <div className="page-hero">
-          <p className="eyebrow">Property Watch</p>
-          <h1 className="section-heading mt-2">Vacation Watch</h1>
-          <p className="section-subheading">Register your property for visual checks while you&apos;re away.</p>
+        <AnimateSection>
+          <div className="page-hero">
+            <p className="eyebrow">Property Watch</p>
+            <h1 className="section-heading mt-2">
+              <span className="headline-gradient">Vacation Watch</span>
+            </h1>
+          <p className="section-subheading">Register your property for visual checks while you&apos;re away.          </p>
         </div>
+        </AnimateSection>
 
-        <section className="mt-12 rounded-xl border border-amber-500/30 bg-amber-500/5 p-6">
+        <AnimateSection className="mt-12">
+          <section className="card-elevated rounded-2xl border border-amber-500/30 bg-amber-500/5 p-6">
           <h2 className="font-display font-semibold text-foreground">Eligibility</h2>
           <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
             <li>Property unoccupied for 1 week or longer</li>
@@ -26,9 +32,11 @@ export default function VacationWatchPage() {
             <strong>Disclaimer:</strong> Visual checks only. No liability assumed. Complements other security measures. Stop mail, use light timers, and avoid posting travel plans on social media.
           </p>
         </section>
+        </AnimateSection>
 
-        <section className="mt-12">
-          <Card className="max-w-md border-0 shadow-elevation-2">
+        <AnimateSection className="mt-12">
+          <AnimateItem>
+          <Card className="card-elevated max-w-md border-0">
             <CardHeader>
               <div className="flex items-center gap-4">
                 <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/15">
@@ -48,7 +56,8 @@ export default function VacationWatchPage() {
               <VacationWatchForm />
             </CardContent>
           </Card>
-        </section>
+          </AnimateItem>
+        </AnimateSection>
       </main>
       <Footer />
     </div>

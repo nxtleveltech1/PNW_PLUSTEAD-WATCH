@@ -2,6 +2,7 @@ import Link from "next/link";
 import { HeartHandshake, Landmark, Shield } from "lucide-react";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header-server";
+import { AnimateSection, AnimateItem } from "@/components/ui/animate-section";
 import { Button } from "@/components/ui/button";
 
 export default function DonatePage() {
@@ -9,7 +10,8 @@ export default function DonatePage() {
     <div className="flex min-h-screen flex-col">
       <Header />
       <main id="main" className="page-main">
-        <div className="page-hero">
+        <AnimateSection>
+          <div className="page-hero">
           <p className="eyebrow">Funding and Support</p>
           <h1 className="section-heading mt-2">
             <span className="headline-gradient">Support Frontline Community Safety</span>
@@ -19,9 +21,12 @@ export default function DonatePage() {
             readiness for Plumstead.
           </p>
         </div>
+        </AnimateSection>
 
-        <section className="mt-10 grid gap-5 lg:grid-cols-[1.2fr_1fr]">
-          <article className="panel overflow-hidden">
+        <AnimateSection className="mt-10">
+          <div className="grid gap-5 lg:grid-cols-[1.2fr_1fr]">
+          <AnimateItem>
+          <article className="card-elevated overflow-hidden rounded-2xl border-0 bg-card">
             <div className="h-2 bg-gradient-to-r from-primary via-primary/70 to-accent" />
             <div className="panel-header">
               <p className="inline-flex items-center gap-2 font-display text-xl font-semibold">
@@ -45,8 +50,9 @@ export default function DonatePage() {
               </p>
             </div>
           </article>
-
-          <article className="panel bg-gradient-to-br from-background via-primary/5 to-accent/10 p-6">
+          </AnimateItem>
+          <AnimateItem>
+          <article className="card-elevated overflow-hidden rounded-2xl border-0 bg-card bg-gradient-to-br from-background via-primary/5 to-accent/10 p-6">
             <p className="inline-flex items-center gap-2 font-display text-xl font-semibold">
               <HeartHandshake className="h-5 w-5 text-primary" />
               Where Funding Goes
@@ -61,10 +67,14 @@ export default function DonatePage() {
               Every contribution helps maintain faster, safer local response capacity.
             </div>
           </article>
-        </section>
+          </AnimateItem>
+          </div>
+        </AnimateSection>
 
-        <section className="mt-10 grid gap-5 md:grid-cols-2">
-          <article className="panel bg-gradient-to-b from-background to-primary/5 p-6">
+        <AnimateSection className="mt-10">
+          <div className="grid gap-5 md:grid-cols-2">
+          <AnimateItem>
+          <article className="card-elevated overflow-hidden rounded-2xl border-0 bg-card bg-gradient-to-b from-background to-primary/5 p-6">
             <p className="inline-flex items-center gap-2 font-display text-xl font-semibold">
               <Shield className="h-5 w-5 text-primary" />
               Sponsor Partnerships
@@ -77,7 +87,9 @@ export default function DonatePage() {
               <Link href="/sponsors">View sponsors</Link>
             </Button>
           </article>
-          <article className="panel bg-gradient-to-b from-background to-accent/5 p-6">
+          </AnimateItem>
+          <AnimateItem>
+          <article className="card-elevated overflow-hidden rounded-2xl border-0 bg-card bg-gradient-to-b from-background to-accent/5 p-6">
             <p className="font-display text-xl font-semibold">Need formal donation confirmation?</p>
             <p className="mt-3 text-sm text-muted-foreground">
               Contact the committee and include the transfer date and reference to receive confirmation.
@@ -86,7 +98,9 @@ export default function DonatePage() {
               <Link href="/contact">Contact committee</Link>
             </Button>
           </article>
-        </section>
+          </AnimateItem>
+          </div>
+        </AnimateSection>
       </main>
       <Footer />
     </div>
