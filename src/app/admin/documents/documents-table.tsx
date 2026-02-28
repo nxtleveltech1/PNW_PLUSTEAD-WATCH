@@ -20,15 +20,65 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { deleteIncident } from "./actions";
+import { deleteDocument } from "./actions";
 
-export type IncidentRow = {
+export type DocumentRow = {
   id: string;
-  type: string;
-  location: string;
-  dateTime: string;
-  zoneName: string | null;
+  name: string;
+  categoryName: string;
+  fileUrl: string;
+  createdAt: string;
 };
+
+const columns: ColumnDef<DocumentRow>[] = [
+  {
+    accessorKey: "name",
+    header: "Name",
+    cell: ({ row }) => (
+      <a
+        href={row.original.fileUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="font-medium text-primary hover:underline"
+      >
+        {row.getValue("name")}
+      </a>
+    ),
+  },
+  {
+    accessorKey: "categoryName",
+    header: "Category",
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Added",
+    cell: ({ row }) =>
+      new Date(row.getValue("createdAt") as string).toLocaleDateString("en-ZA", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      }),
+  },
+  {
+    id: "actions",
+    header: () => <span className="sr-only">Actions</span>,
+    enableSorting: false,
+    cell: ({ row }) => (
+      <div className="flex justify-end gap-2">
+        <Button asChild variant="ghost" size="sm">
+          <Link href={`/admin/documents/${row.original.id}/edit`}>
+            <Pencil className="h-4 w-4" />
+          </Link>
+        </Button>
+        <form action={deleteDocument.bind(null, row.original.id)} className="inline">
+          <Button type="submit" variant="ghost" size="sm" className="text-destructive hover:text-destructive">
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </form>
+      </div>
+    ),
+  },
+];
 
 function SortableHeader({
   column,
@@ -56,65 +106,8 @@ function SortableHeader({
   );
 }
 
-const columns: ColumnDef<IncidentRow>[] = [
-  {
-    accessorKey: "type",
-    header: "Type",
-    cell: ({ row }) => (
-      <Link
-        href={`/incidents/${row.original.id}`}
-        className="font-medium text-primary hover:underline"
-      >
-        {row.getValue("type")}
-      </Link>
-    ),
-  },
-  {
-    accessorKey: "location",
-    header: "Location",
-  },
-  {
-    accessorKey: "dateTime",
-    header: "Date & time",
-    cell: ({ row }) =>
-      new Date(row.getValue("dateTime") as string).toLocaleDateString("en-ZA", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-  },
-  {
-    accessorKey: "zoneName",
-    header: "Zone",
-    cell: ({ row }) => row.getValue("zoneName") ?? "—",
-  },
-  {
-    id: "actions",
-    header: () => <span className="sr-only">Actions</span>,
-    enableSorting: false,
-    cell: ({ row }) => (
-      <div className="flex justify-end gap-2">
-        <Button asChild variant="ghost" size="sm">
-          <Link href={`/admin/incidents/${row.original.id}/edit`}>
-            <Pencil className="h-4 w-4" />
-          </Link>
-        </Button>
-        <form action={deleteIncident.bind(null, row.original.id)} className="inline">
-          <Button type="submit" variant="ghost" size="sm" className="text-destructive hover:text-destructive">
-            <Trash2 className="h-4 w-4" />
-          </Button>
-        </form>
-      </div>
-    ),
-  },
-];
-
-export function IncidentsTable({ data }: { data: IncidentRow[] }) {
-  const [sorting, setSorting] = useState<SortingState>([
-    { id: "dateTime", desc: true },
-  ]);
+export function DocumentsTable({ data }: { data: DocumentRow[] }) {
+  const [sorting, setSorting] = useState<SortingState>([{ id: "createdAt", desc: true }]);
 
   const table = useReactTable({
     data,
@@ -150,7 +143,7 @@ export function IncidentsTable({ data }: { data: IncidentRow[] }) {
         <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+              <TableRow key={row.id}>
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -161,7 +154,7 @@ export function IncidentsTable({ data }: { data: IncidentRow[] }) {
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center text-muted-foreground">
-                No incidents recorded.
+                No documents.
               </TableCell>
             </TableRow>
           )}

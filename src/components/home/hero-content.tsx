@@ -187,7 +187,7 @@ export function HeroContent() {
   return (
     <div className="absolute inset-0">
       <Carousel
-        opts={{ loop: true, align: "center" }}
+        opts={{ loop: true, align: "start" }}
         setApi={setApi}
         className="h-full w-full"
       >

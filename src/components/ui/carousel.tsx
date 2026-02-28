@@ -149,9 +149,9 @@ const CarouselContent = React.forwardRef<
   const { carouselRef, orientation } = useCarousel();
 
   return (
-    <div ref={ref} className="overflow-hidden">
+    <div ref={carouselRef} className="overflow-hidden">
       <div
-        ref={carouselRef}
+        ref={ref}
         className={cn(
           "flex",
           orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
@@ -190,7 +190,7 @@ const CarouselPrevious = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<typeof Button>
 >(({ className, variant = "outline", size = "icon", ...props }, ref) => {
-  const { orientation, scrollPrev, canScrollPrev } = useCarousel();
+  const { orientation, scrollPrev, canScrollPrev, opts } = useCarousel();
 
   return (
     <Button
@@ -204,7 +204,7 @@ const CarouselPrevious = React.forwardRef<
           : "top-2 left-1/2 -translate-x-1/2 rotate-90",
         className
       )}
-      disabled={!canScrollPrev}
+      disabled={!opts?.loop && !canScrollPrev}
       onClick={scrollPrev}
       {...props}
     >
@@ -219,7 +219,7 @@ const CarouselNext = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<typeof Button>
 >(({ className, variant = "outline", size = "icon", ...props }, ref) => {
-  const { orientation, scrollNext, canScrollNext } = useCarousel();
+  const { orientation, scrollNext, canScrollNext, opts } = useCarousel();
 
   return (
     <Button
@@ -233,7 +233,7 @@ const CarouselNext = React.forwardRef<
           : "bottom-2 left-1/2 -translate-x-1/2 rotate-90",
         className
       )}
-      disabled={!canScrollNext}
+      disabled={!opts?.loop && !canScrollNext}
       onClick={scrollNext}
       {...props}
     >

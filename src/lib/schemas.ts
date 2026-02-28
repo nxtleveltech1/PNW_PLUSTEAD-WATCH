@@ -11,8 +11,42 @@ export const contactMessageSchema = z.object({
 export const incidentReportSchema = z.object({
   type: z.string().trim().min(2, "Type is required."),
   location: z.string().trim().min(2, "Location is required."),
-  dateTime: z.string().datetime({ message: "Invalid date and time." }),
+  dateTime: z
+    .string()
+    .trim()
+    .refine((val) => !Number.isNaN(new Date(val).getTime()), "Invalid date and time."),
 });
+
+export const adminIncidentSchema = incidentReportSchema.extend({
+  zoneId: z.string().trim().optional().nullable(),
+});
+export type AdminIncidentInput = z.input<typeof adminIncidentSchema>;
+
+export const adminDocumentCategorySchema = z.object({
+  name: z.string().trim().min(1, "Name is required."),
+});
+export type AdminDocumentCategoryInput = z.input<typeof adminDocumentCategorySchema>;
+
+export const adminDocumentSchema = z.object({
+  name: z.string().trim().min(1, "Name is required."),
+  categoryId: z.string().trim().min(1, "Category is required."),
+  fileUrl: z.string().trim().min(1, "File URL or path is required."),
+});
+export type AdminDocumentInput = z.input<typeof adminDocumentSchema>;
+
+export const adminEventSchema = z
+  .object({
+    title: z.string().trim().min(1, "Title is required."),
+    location: z.string().trim().min(1, "Location is required."),
+    startAt: z.string().trim().refine((v) => !Number.isNaN(new Date(v).getTime()), "Invalid start date."),
+    endAt: z.string().trim().optional().nullable().transform((v) => (v && v.length > 0 ? v : undefined)),
+    content: z.string().trim().optional().nullable(),
+  })
+  .refine(
+    (d) => !d.endAt || new Date(d.endAt).getTime() >= new Date(d.startAt).getTime(),
+    { message: "End must be after start.", path: ["endAt"] }
+  );
+export type AdminEventInput = z.input<typeof adminEventSchema>;
 
 export const volunteerInterestSchema = z.object({
   name: z.string().trim().min(1, "Name required"),

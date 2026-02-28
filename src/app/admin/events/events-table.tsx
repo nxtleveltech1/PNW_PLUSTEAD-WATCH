@@ -20,15 +20,80 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { deleteIncident } from "./actions";
+import { deleteEvent } from "./actions";
 
-export type IncidentRow = {
+export type EventRow = {
   id: string;
-  type: string;
+  title: string;
   location: string;
-  dateTime: string;
-  zoneName: string | null;
+  startAt: string;
+  endAt: string | null;
 };
+
+const columns: ColumnDef<EventRow>[] = [
+  {
+    accessorKey: "title",
+    header: "Title",
+    cell: ({ row }) => (
+      <Link
+        href={`/events/${row.original.id}`}
+        className="font-medium text-primary hover:underline"
+      >
+        {row.getValue("title")}
+      </Link>
+    ),
+  },
+  {
+    accessorKey: "location",
+    header: "Location",
+  },
+  {
+    accessorKey: "startAt",
+    header: "Start",
+    cell: ({ row }) =>
+      new Date(row.getValue("startAt") as string).toLocaleDateString("en-ZA", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+  },
+  {
+    accessorKey: "endAt",
+    header: "End",
+    cell: ({ row }) => {
+      const v = row.getValue("endAt") as string | null;
+      return v
+        ? new Date(v).toLocaleDateString("en-ZA", {
+            day: "numeric",
+            month: "short",
+            hour: "2-digit",
+            minute: "2-digit",
+          })
+        : "—";
+    },
+  },
+  {
+    id: "actions",
+    header: () => <span className="sr-only">Actions</span>,
+    enableSorting: false,
+    cell: ({ row }) => (
+      <div className="flex justify-end gap-2">
+        <Button asChild variant="ghost" size="sm">
+          <Link href={`/admin/events/${row.original.id}/edit`}>
+            <Pencil className="h-4 w-4" />
+          </Link>
+        </Button>
+        <form action={deleteEvent.bind(null, row.original.id)} className="inline">
+          <Button type="submit" variant="ghost" size="sm" className="text-destructive hover:text-destructive">
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </form>
+      </div>
+    ),
+  },
+];
 
 function SortableHeader({
   column,
@@ -56,65 +121,8 @@ function SortableHeader({
   );
 }
 
-const columns: ColumnDef<IncidentRow>[] = [
-  {
-    accessorKey: "type",
-    header: "Type",
-    cell: ({ row }) => (
-      <Link
-        href={`/incidents/${row.original.id}`}
-        className="font-medium text-primary hover:underline"
-      >
-        {row.getValue("type")}
-      </Link>
-    ),
-  },
-  {
-    accessorKey: "location",
-    header: "Location",
-  },
-  {
-    accessorKey: "dateTime",
-    header: "Date & time",
-    cell: ({ row }) =>
-      new Date(row.getValue("dateTime") as string).toLocaleDateString("en-ZA", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-  },
-  {
-    accessorKey: "zoneName",
-    header: "Zone",
-    cell: ({ row }) => row.getValue("zoneName") ?? "—",
-  },
-  {
-    id: "actions",
-    header: () => <span className="sr-only">Actions</span>,
-    enableSorting: false,
-    cell: ({ row }) => (
-      <div className="flex justify-end gap-2">
-        <Button asChild variant="ghost" size="sm">
-          <Link href={`/admin/incidents/${row.original.id}/edit`}>
-            <Pencil className="h-4 w-4" />
-          </Link>
-        </Button>
-        <form action={deleteIncident.bind(null, row.original.id)} className="inline">
-          <Button type="submit" variant="ghost" size="sm" className="text-destructive hover:text-destructive">
-            <Trash2 className="h-4 w-4" />
-          </Button>
-        </form>
-      </div>
-    ),
-  },
-];
-
-export function IncidentsTable({ data }: { data: IncidentRow[] }) {
-  const [sorting, setSorting] = useState<SortingState>([
-    { id: "dateTime", desc: true },
-  ]);
+export function EventsTable({ data }: { data: EventRow[] }) {
+  const [sorting, setSorting] = useState<SortingState>([{ id: "startAt", desc: true }]);
 
   const table = useReactTable({
     data,
@@ -150,7 +158,7 @@ export function IncidentsTable({ data }: { data: IncidentRow[] }) {
         <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+              <TableRow key={row.id}>
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -161,7 +169,7 @@ export function IncidentsTable({ data }: { data: IncidentRow[] }) {
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center text-muted-foreground">
-                No incidents recorded.
+                No events.
               </TableCell>
             </TableRow>
           )}

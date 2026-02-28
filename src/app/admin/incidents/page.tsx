@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { prisma } from "@/lib/db";
+import { Button } from "@/components/ui/button";
 import { IncidentsTable } from "./incidents-table";
 
 export default async function AdminIncidentsPage() {
@@ -17,10 +19,17 @@ export default async function AdminIncidentsPage() {
 
   return (
     <section>
-      <h2 className="font-display text-xl font-semibold">Incidents table</h2>
-      <p className="mt-1 text-sm text-muted-foreground">
-        All incidents in the system. Click a row to view details.
-      </p>
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h2 className="font-display text-xl font-semibold">Incidents table</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            All incidents in the system. Create, edit, or delete incidents.
+          </p>
+        </div>
+        <Button asChild>
+          <Link href="/admin/incidents/new">Create incident</Link>
+        </Button>
+      </div>
       <div className="mt-6">
         <IncidentsTable data={rows} />
       </div>
