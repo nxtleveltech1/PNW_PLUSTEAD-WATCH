@@ -7,15 +7,26 @@ export default async function MembershipPage() {
   const { userId } = await auth();
   if (!userId) redirect("/sign-in");
 
-  const [clerkUser, user, zones, streets] = await Promise.all([
-    currentUser(),
-    prisma.user.findUnique({
-      where: { clerkId: userId },
-      include: { zone: true, street: true },
-    }),
-    prisma.zone.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true } }),
-    prisma.street.findMany({ orderBy: { order: "asc" }, select: { id: true, name: true, zoneId: true } }),
-  ]);
+  const [clerkUser, user, zones, streets, emergencyContacts] =
+    await Promise.all([
+      currentUser(),
+      prisma.user.findUnique({
+        where: { clerkId: userId },
+        include: { zone: true, street: true },
+      }),
+      prisma.zone.findMany({
+        orderBy: { name: "asc" },
+        select: { id: true, name: true },
+      }),
+      prisma.street.findMany({
+        orderBy: { order: "asc" },
+        select: { id: true, name: true, zoneId: true },
+      }),
+      prisma.emergencyContact.findMany({
+        orderBy: { order: "asc" },
+        select: { service: true, number: true },
+      }),
+    ]);
 
   return (
     <div className="space-y-6">
@@ -24,6 +35,7 @@ export default async function MembershipPage() {
         zones={zones}
         streets={streets}
         profileImageUrl={clerkUser?.imageUrl ?? null}
+        emergencyContacts={emergencyContacts}
       />
     </div>
   );

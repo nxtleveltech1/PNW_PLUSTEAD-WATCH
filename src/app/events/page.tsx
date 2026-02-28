@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { PageShell } from "@/components/layout/page-shell";
 import { PageHero } from "@/components/layout/page-hero";
+import { EmptyState } from "@/components/ui/empty-state";
 import { prisma } from "@/lib/db";
 import { AnimateSection, AnimateItem } from "@/components/ui/animate-section";
 import { Calendar, MapPin } from "lucide-react";
@@ -23,9 +24,11 @@ export default async function EventsPage() {
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {events.length === 0 ? (
             <AnimateItem className="col-span-full">
-              <div className="rounded-xl border-2 border-dashed border-border bg-muted/20 py-16 text-center text-muted-foreground">
-                No events scheduled.
-              </div>
+              <EmptyState
+                icon={Calendar}
+                heading="No events scheduled"
+                description="Check back soon for upcoming community events and meetings."
+              />
             </AnimateItem>
           ) : (
             events.map((ev) => (
@@ -34,9 +37,14 @@ export default async function EventsPage() {
                   <div className="card-event group h-full">
                     <div className="border-b border-border/50 bg-gradient-to-br from-primary/5 to-transparent px-5 py-5">
                       <div className="flex items-start gap-3">
-                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary transition-colors group-hover:bg-primary/25">
-                          <Calendar className="h-5 w-5" />
-                        </span>
+                        <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
+                          <span className="text-lg font-bold leading-none">
+                            {ev.startAt.getDate()}
+                          </span>
+                          <span className="text-[10px] font-semibold uppercase tracking-wider">
+                            {ev.startAt.toLocaleDateString("en-ZA", { month: "short" })}
+                          </span>
+                        </div>
                         <div className="min-w-0">
                           <h2 className="font-display text-base font-semibold leading-tight transition-colors group-hover:text-primary">{ev.title}</h2>
                           <p className="mt-1 flex items-center gap-1 text-sm text-muted-foreground">

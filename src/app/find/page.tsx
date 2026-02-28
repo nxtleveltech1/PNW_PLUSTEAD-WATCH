@@ -44,7 +44,7 @@ export default async function FindPage() {
         <div className="mt-6 space-y-4">
           {zones.map((z) => (
             <AnimateItem key={z.id}>
-              <div className="card-elevated flex items-center justify-between rounded-2xl border-l-4 border-l-primary bg-card px-6 py-5">
+              <div className="flex items-center justify-between rounded-2xl border border-border/60 border-l-4 border-l-primary bg-card px-6 py-5 shadow-[var(--shadow-elevation-1)] transition-all duration-200 hover:scale-[1.01] hover:border-primary/40 hover:shadow-[var(--shadow-elevation-2)]">
                 <div>
                   <p className="font-semibold">{z.name}</p>
                   {z.postcodePrefix && (
@@ -54,13 +54,13 @@ export default async function FindPage() {
                 <div className="flex gap-3">
                   <Link
                     href={`/register?zone=${z.id}`}
-                    className="rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90 hover:-translate-y-0.5 min-h-[44px] flex items-center"
+                    className="flex min-h-[44px] items-center rounded-xl bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition-all hover:-translate-y-0.5 hover:bg-accent/90 active:scale-[0.98]"
                   >
                     Join
                   </Link>
                   <Link
                     href="/start-scheme"
-                    className="rounded-xl border-2 border-border px-5 py-2.5 text-sm font-semibold transition-all hover:bg-muted hover:border-primary/30 min-h-[44px] flex items-center"
+                    className="flex min-h-[44px] items-center rounded-xl border-2 border-border px-5 py-2.5 text-sm font-semibold transition-all hover:border-primary/30 hover:bg-muted active:scale-[0.98]"
                   >
                     Start scheme
                   </Link>

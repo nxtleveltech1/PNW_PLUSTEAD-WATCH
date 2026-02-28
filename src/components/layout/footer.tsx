@@ -44,8 +44,9 @@ export function Footer() {
       id="footer"
       role="contentinfo"
       tabIndex={-1}
-      className="mt-auto border-t border-border/80 bg-gradient-to-b from-secondary/50 to-muted/30"
+      className="mt-auto bg-gradient-to-b from-secondary/50 to-muted/30"
     >
+      <div className="divider-gradient" />
       <div className="container py-10 md:py-12">
         <div className="grid gap-10 md:grid-cols-12 md:gap-x-6 lg:gap-x-8">
           {/* Brand block */}
@@ -81,6 +82,10 @@ export function Footer() {
                 className="inline-flex min-h-[44px] min-w-[44px] items-center gap-2 rounded-lg bg-alert-muted px-4 py-3 text-sm font-semibold text-accent transition-colors hover:bg-alert-muted/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 aria-label={`Call CVIC emergency line: ${CVIC_NUMBER}`}
               >
+                <span className="relative flex h-2 w-2 shrink-0" aria-hidden>
+                  <span className="absolute inline-flex h-full w-full animate-pulse-dot rounded-full bg-accent opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+                </span>
                 <Phone className="h-4 w-4 shrink-0" aria-hidden />
                 CVIC {CVIC_NUMBER}
               </a>
@@ -94,7 +99,8 @@ export function Footer() {
           >
             <div className="grid w-full grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4 md:gap-6">
               <div>
-                <h3 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                <h3 className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                  <span className="inline-block h-3.5 w-0.5 rounded-full bg-primary" aria-hidden />
                   Membership
                 </h3>
                 <ul className="mt-4 space-y-3" role="list">
@@ -111,7 +117,8 @@ export function Footer() {
                 </ul>
               </div>
               <div>
-                <h3 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                <h3 className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                  <span className="inline-block h-3.5 w-0.5 rounded-full bg-primary" aria-hidden />
                   Operations
                 </h3>
                 <ul className="mt-4 space-y-3" role="list">
@@ -128,7 +135,8 @@ export function Footer() {
                 </ul>
               </div>
               <div>
-                <h3 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                <h3 className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                  <span className="inline-block h-3.5 w-0.5 rounded-full bg-primary" aria-hidden />
                   Organisation
                 </h3>
                 <ul className="mt-4 space-y-3" role="list">
@@ -145,7 +153,8 @@ export function Footer() {
                 </ul>
               </div>
               <div>
-                <h3 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                <h3 className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                  <span className="inline-block h-3.5 w-0.5 rounded-full bg-primary" aria-hidden />
                   Legal
                 </h3>
                 <ul className="mt-4 space-y-3" role="list">

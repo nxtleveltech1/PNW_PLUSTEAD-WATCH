@@ -9,6 +9,7 @@ import { AnimateSection, AnimateItem } from "@/components/ui/animate-section";
 import { prisma } from "@/lib/db";
 import { parseIncidentsSearchParams } from "@/lib/search-params";
 import { AlertTriangle } from "lucide-react";
+import { EmptyState } from "@/components/ui/empty-state";
 import { ReportIncidentForm } from "./report-form";
 import { IncidentsFilters } from "./incidents-filters";
 
@@ -37,6 +38,7 @@ export default async function IncidentsPage({
         eyebrow="Incident Feed"
         title="Recent Incidents"
         description="Incident activity reported in and around Plumstead."
+        accent="warm"
       />
 
       <div className="mt-block">
@@ -64,9 +66,11 @@ export default async function IncidentsPage({
       <AnimateSection className="mt-section">
         {incidents.length === 0 ? (
           <AnimateItem>
-            <div className="rounded-2xl border-2 border-dashed border-border bg-muted/20 py-20 text-center text-muted-foreground">
-              No incidents recorded yet.
-            </div>
+            <EmptyState
+              icon={AlertTriangle}
+              heading="No incidents recorded"
+              description="No incident reports matching your filters. Adjust filters or check back later."
+            />
           </AnimateItem>
         ) : (
           <div className="space-y-3">

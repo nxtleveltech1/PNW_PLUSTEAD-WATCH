@@ -6,6 +6,13 @@ import { VolunteerForm } from "./volunteer-form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Shield } from "lucide-react";
 
+const ROLE_COLORS: Record<string, string> = {
+  patroller: "border-l-primary",
+  "block-captain": "border-l-accent",
+  coordinator: "border-l-emerald-500",
+  committee: "border-l-amber-500",
+};
+
 const ROLES = [
   { id: "patroller", title: "Patroller", desc: "Join our 80+ volunteer patrollers. Patrol your area, report incidents, support the community.", time: "Flexible" },
   { id: "block-captain", title: "Block captain", desc: "Liaison for 10-15 houses. Coordinate with neighbours and pass on updates.", time: "2-4 hrs/month" },
@@ -22,33 +29,34 @@ export default async function VolunteerPage() {
         eyebrow="Volunteer Network"
         title="Volunteer With Us"
         description="Join 80+ patrollers and strengthen community safety in Plumstead."
+        accent="warm"
       />
 
       <AnimateSection className="mt-section">
         <div className="flex flex-wrap gap-4">
-          <AnimateItem className="card-elevated flex items-center gap-3 rounded-2xl border-0 bg-card px-6 py-5">
+          <AnimateItem className="card-stat">
             <Users className="h-8 w-8 text-primary" />
             <div>
-              <p className="font-semibold">80+ patrollers</p>
-              <p className="text-sm text-muted-foreground">Active volunteers</p>
+              <p className="text-2xl font-bold text-foreground">80+</p>
+              <p className="text-sm text-muted-foreground">Active patrollers</p>
             </div>
           </AnimateItem>
-          <AnimateItem className="card-elevated flex items-center gap-3 rounded-2xl border-0 bg-card px-6 py-5">
+          <AnimateItem className="card-stat">
             <Shield className="h-8 w-8 text-primary" />
             <div>
-              <p className="font-semibold">Since 2007</p>
+              <p className="text-2xl font-bold text-foreground">2007</p>
               <p className="text-sm text-muted-foreground">Community impact</p>
             </div>
           </AnimateItem>
         </div>
       </AnimateSection>
 
-      <AnimateSection className="mt-section">
+      <AnimateSection className="mt-section section-gradient-primary rounded-2xl px-6 py-8">
         <h2 className="block-title">Roles</h2>
         <div className="mt-6 grid gap-6 sm:grid-cols-2">
           {ROLES.map((r) => (
             <AnimateItem key={r.id}>
-              <Card className="card-elevated border-0">
+              <Card className={`card-elevated border-0 border-l-[3px] ${ROLE_COLORS[r.id] ?? "border-l-primary"}`}>
                 <CardHeader className="p-6">
                   <CardTitle className="block-title">{r.title}</CardTitle>
                   <CardDescription>{r.desc}</CardDescription>
@@ -62,7 +70,7 @@ export default async function VolunteerPage() {
 
       <AnimateSection className="mt-section">
         <AnimateItem>
-          <Card className="card-elevated max-w-md border-0">
+          <Card className="card-elevated max-w-md overflow-hidden border-0 border-t-[3px] border-t-accent">
             <CardHeader className="p-6">
               <CardTitle className="block-title">Apply to volunteer</CardTitle>
               <CardDescription>We&apos;ll be in touch to discuss how you can help.</CardDescription>

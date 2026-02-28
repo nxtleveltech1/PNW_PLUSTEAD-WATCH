@@ -44,6 +44,10 @@ const config: Config = {
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -85,9 +89,29 @@ const config: Config = {
           "0%": { opacity: "0", transform: "translateY(1rem)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
+        "scale-in": {
+          "0%": { opacity: "0", transform: "scale(0.95)" },
+          "100%": { opacity: "1", transform: "scale(1)" },
+        },
+        "slide-in-right": {
+          "0%": { opacity: "0", transform: "translateX(1rem)" },
+          "100%": { opacity: "1", transform: "translateX(0)" },
+        },
+        "pulse-glow": {
+          "0%, 100%": { boxShadow: "0 0 12px 2px hsl(var(--accent) / 0.25)" },
+          "50%": { boxShadow: "0 0 20px 6px hsl(var(--accent) / 0.4)" },
+        },
+        "pulse-dot": {
+          "0%, 100%": { opacity: "1", transform: "scale(1)" },
+          "50%": { opacity: "0.6", transform: "scale(1.3)" },
+        },
       },
       animation: {
         "fade-in-up": "fade-in-up 0.4s var(--ease-smooth) forwards",
+        "scale-in": "scale-in 0.3s var(--ease-smooth)",
+        "slide-in-right": "slide-in-right 0.4s var(--ease-smooth)",
+        "pulse-glow": "pulse-glow 2.5s ease-in-out infinite",
+        "pulse-dot": "pulse-dot 2s ease-in-out infinite",
       },
       maxWidth: {
         "8xl": "90rem",

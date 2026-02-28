@@ -6,9 +6,15 @@ export default function TermsPage() {
   return (
     <PageShell>
       <PageHero eyebrow="Legal" title="Terms of Use" />
-      <AnimateSection className="mt-section">
-        <article className="card-elevated max-w-4xl overflow-hidden rounded-2xl border-0 bg-card px-6 py-6">
-          <div className="prose prose-slate max-w-none dark:prose-invert">
+      <AnimateSection className="mt-section section-gradient-muted rounded-2xl px-6 py-8">
+        <article className="panel max-w-4xl overflow-hidden">
+          <div className="panel-header">
+            <h2 className="flex items-center gap-2 font-display text-lg font-semibold">
+              <span className="inline-block h-5 w-1 rounded-full bg-gradient-to-b from-primary to-accent" aria-hidden />
+              Terms and Conditions
+            </h2>
+          </div>
+          <div className="prose prose-slate max-w-none p-6 dark:prose-invert prose-headings:flex prose-headings:items-center prose-headings:gap-2">
           <p>
             By accessing this Website, you agree to be bound by the terms and conditions appearing in
             this document and you accept our Privacy Policy. If there is anything you do not

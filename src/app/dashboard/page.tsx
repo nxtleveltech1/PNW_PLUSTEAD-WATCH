@@ -57,7 +57,7 @@ export default async function DashboardPage() {
                   <Link
                     key={inc.id}
                     href={`/incidents/${inc.id}`}
-                    className="flex items-center gap-3 rounded-lg border bg-background px-4 py-3 transition-colors hover:border-primary/30"
+                    className="flex items-center gap-3 rounded-lg border border-l-[3px] border-l-accent bg-background px-4 py-3 transition-colors hover:border-primary/30"
                   >
                     <AlertTriangle className="h-5 w-5 shrink-0 text-accent" />
                     <div className="min-w-0 flex-1">
@@ -86,7 +86,7 @@ export default async function DashboardPage() {
                   <Link
                     key={ev.id}
                     href={`/events/${ev.id}`}
-                    className="flex items-center gap-3 rounded-lg border bg-background px-4 py-3 transition-colors hover:border-primary/30"
+                    className="flex items-center gap-3 rounded-lg border border-l-[3px] border-l-primary bg-background px-4 py-3 transition-colors hover:border-primary/30"
                   >
                     <Calendar className="h-5 w-5 shrink-0 text-primary" />
                     <div className="min-w-0 flex-1">
@@ -130,27 +130,21 @@ export default async function DashboardPage() {
         )}
 
         <div className="mt-block flex flex-wrap gap-3">
-          <Button asChild variant="outline" size="sm" className="min-h-[44px]">
-            <Link href="/account">
-              <User className="mr-2 h-4 w-4" />
-              Account
-            </Link>
-          </Button>
-          <Button asChild variant="outline" size="sm" className="min-h-[44px]">
-            <Link href="/account/settings">
-              <Settings className="mr-2 h-4 w-4" />
-              Settings
-            </Link>
-          </Button>
-          <Button asChild variant="outline" size="sm" className="min-h-[44px]">
-            <Link href="/documents">
-              <FileText className="mr-2 h-4 w-4" />
-              Documents
-            </Link>
-          </Button>
-          <Button asChild variant="outline" size="sm" className="min-h-[44px]">
-            <Link href="/contact">Contact us</Link>
-          </Button>
+          <Link href="/account" className="inline-flex items-center gap-2 rounded-full bg-muted/50 px-4 py-2 text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary active:scale-[0.98]">
+            <User className="h-4 w-4" />
+            Account
+          </Link>
+          <Link href="/account/settings" className="inline-flex items-center gap-2 rounded-full bg-muted/50 px-4 py-2 text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary active:scale-[0.98]">
+            <Settings className="h-4 w-4" />
+            Settings
+          </Link>
+          <Link href="/documents" className="inline-flex items-center gap-2 rounded-full bg-muted/50 px-4 py-2 text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary active:scale-[0.98]">
+            <FileText className="h-4 w-4" />
+            Documents
+          </Link>
+          <Link href="/contact" className="inline-flex items-center gap-2 rounded-full bg-muted/50 px-4 py-2 text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary active:scale-[0.98]">
+            Contact us
+          </Link>
         </div>
       </AnimateSection>
     </PageShell>

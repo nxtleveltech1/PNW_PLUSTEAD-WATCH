@@ -61,7 +61,8 @@ export function MobileNav({ showAdmin = false }: { showAdmin?: boolean }) {
         </DrawerHeader>
         <nav className="flex flex-col gap-6 px-4 pb-8" aria-label="Mobile navigation">
           <div>
-            <h3 className="mb-3 px-4 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            <h3 className="mb-3 flex items-center gap-2 px-4 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+              <span className="inline-block h-3.5 w-0.5 rounded-full bg-primary" aria-hidden />
               Operations
             </h3>
             <ul className="space-y-1" role="list">
@@ -78,7 +79,8 @@ export function MobileNav({ showAdmin = false }: { showAdmin?: boolean }) {
             </ul>
           </div>
           <div>
-            <h3 className="mb-3 px-4 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            <h3 className="mb-3 flex items-center gap-2 px-4 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+              <span className="inline-block h-3.5 w-0.5 rounded-full bg-primary" aria-hidden />
               Organisation
             </h3>
             <ul className="space-y-1" role="list">
@@ -96,7 +98,8 @@ export function MobileNav({ showAdmin = false }: { showAdmin?: boolean }) {
           </div>
           {hasClerk && (
             <div>
-              <h3 className="mb-3 px-4 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+              <h3 className="mb-3 flex items-center gap-2 px-4 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                <span className="inline-block h-3.5 w-0.5 rounded-full bg-primary" aria-hidden />
                 Account
               </h3>
               <ul className="space-y-1" role="list">

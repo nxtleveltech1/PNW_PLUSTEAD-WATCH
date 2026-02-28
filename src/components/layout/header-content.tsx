@@ -41,6 +41,10 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
       <div className="border-b border-accent/15 bg-gradient-to-r from-alert-muted via-alert-muted/95 to-background/70">
         <div className="container flex h-8 min-h-[2rem] items-center justify-end gap-5 text-xs font-semibold text-accent">
           <p className="inline-flex items-center gap-2 tracking-wide">
+            <span className="relative flex h-2 w-2" aria-hidden>
+              <span className="absolute inline-flex h-full w-full animate-pulse-dot rounded-full bg-accent opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+            </span>
             <AlertTriangle className="h-3.5 w-3.5" aria-hidden />
             Report incidents immediately
           </p>
@@ -111,7 +115,7 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
           <Button
             asChild
             size="sm"
-            className="min-h-[44px] bg-accent px-4 text-accent-foreground hover:bg-accent/90"
+            className="btn-glow min-h-[44px] bg-accent px-4 text-accent-foreground hover:bg-accent/90"
           >
             <Link href="/incidents">Report</Link>
           </Button>

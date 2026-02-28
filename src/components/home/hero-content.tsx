@@ -96,7 +96,7 @@ function HeroMainSlide() {
         <Button
           asChild
           size="lg"
-          className="min-w-[210px] bg-primary px-8 py-6 text-base font-semibold shadow-[0_10px_34px_rgba(25,65,156,0.45)] hover:bg-primary/92"
+          className="btn-glow min-w-[210px] bg-primary px-8 py-6 text-base font-semibold shadow-[0_10px_34px_rgba(25,65,156,0.45)] hover:bg-primary/92"
         >
           <Link href="/register">Register as a member</Link>
         </Button>

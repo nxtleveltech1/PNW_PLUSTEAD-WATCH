@@ -17,7 +17,11 @@ import { updateMembershipProfile } from "@/app/(auth)/account/actions";
 import { membershipProfileSchema } from "@/lib/schemas";
 import type { MemberType } from "@prisma/client";
 import { toast } from "sonner";
-import { MembershipCard } from "@/components/account/membership-card";
+import {
+  MembershipCardFront,
+  MembershipCardBack,
+  type EmergencyContactItem,
+} from "@/components/account/membership-card";
 import { MembershipCardDownload } from "@/components/account/membership-card-download";
 
 type Schema = z.infer<typeof membershipProfileSchema>;
@@ -52,11 +56,13 @@ export function MembershipForm({
   zones,
   streets = [],
   profileImageUrl,
+  emergencyContacts = [],
 }: {
   user: UserWithZone | null;
   zones: Zone[];
   streets?: Street[];
   profileImageUrl?: string | null;
+  emergencyContacts?: EmergencyContactItem[];
 }) {
   const form = useForm<Schema>({
     resolver: zodResolver(membershipProfileSchema),
@@ -122,18 +128,35 @@ export function MembershipForm({
       {isEligibleForCard ? (
         <div className="space-y-4">
           <p className="text-sm font-medium">Your digital membership card</p>
-          <MembershipCardDownload fileName={downloadFileName}>
-            <MembershipCard
-              firstName={user.firstName}
-              lastName={user.lastName}
-              zone={user.zone}
-              street={user.street}
-              houseNumber={user.houseNumber}
-              memberNumber={user.memberNumber}
-              memberSince={user.createdAt}
-              profileImageUrl={profileImageUrl ?? null}
-            />
-          </MembershipCardDownload>
+          <MembershipCardDownload
+            fileName={downloadFileName}
+            front={
+              <MembershipCardFront
+                firstName={user.firstName}
+                lastName={user.lastName}
+                zone={user.zone}
+                street={user.street}
+                houseNumber={user.houseNumber}
+                memberNumber={user.memberNumber}
+                memberSince={user.createdAt}
+                profileImageUrl={profileImageUrl ?? null}
+                emergencyContacts={emergencyContacts}
+              />
+            }
+            back={
+              <MembershipCardBack
+                firstName={user.firstName}
+                lastName={user.lastName}
+                zone={user.zone}
+                street={user.street}
+                houseNumber={user.houseNumber}
+                memberNumber={user.memberNumber}
+                memberSince={user.createdAt}
+                profileImageUrl={profileImageUrl ?? null}
+                emergencyContacts={emergencyContacts}
+              />
+            }
+          />
         </div>
       ) : (
         <p className="text-sm text-muted-foreground">

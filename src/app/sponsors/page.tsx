@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ExternalLink, Handshake } from "lucide-react";
 import { PageShell } from "@/components/layout/page-shell";
 import { PageHero } from "@/components/layout/page-hero";
+import { EmptyState } from "@/components/ui/empty-state";
 import { prisma } from "@/lib/db";
 import { AnimateSection, AnimateItem } from "@/components/ui/animate-section";
 
@@ -18,17 +19,26 @@ export default async function SponsorsPage() {
       {sponsors.length === 0 ? (
           <AnimateSection className="mt-section">
             <AnimateItem>
-              <div className="rounded-2xl border-2 border-dashed border-border bg-muted/20 py-16 text-center text-muted-foreground">
-                No sponsors listed yet.
-              </div>
+              <EmptyState
+                icon={Handshake}
+                heading="No sponsors listed yet"
+                description="Interested in supporting community safety? Get in touch."
+                actionLabel="Become a sponsor"
+                actionHref="/contact"
+              />
             </AnimateItem>
           </AnimateSection>
         ) : (
-          <AnimateSection className="mt-section">
+          <AnimateSection className="mt-section section-gradient-primary rounded-2xl px-6 py-8">
             <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {sponsors.map((sponsor) => (
                 <AnimateItem key={sponsor.id}>
-                  <article className="card-elevated overflow-hidden rounded-2xl border-0 bg-card">
+                  <article className={`card-elevated overflow-hidden rounded-2xl border-0 border-t-[3px] bg-card ${
+                    sponsor.tier?.toLowerCase() === "gold" ? "border-t-amber-400" :
+                    sponsor.tier?.toLowerCase() === "silver" ? "border-t-slate-400" :
+                    sponsor.tier?.toLowerCase() === "bronze" ? "border-t-orange-400" :
+                    "border-t-primary"
+                  }`}>
                     <div className="border-b border-border/50 bg-gradient-to-br from-primary/5 to-transparent px-6 py-5">
                       <div className="flex items-start gap-3">
                         {sponsor.logoUrl ? (
@@ -86,7 +96,7 @@ export default async function SponsorsPage() {
           <AnimateItem>
             <Link
               href="/contact"
-              className="card-elevated flex items-center gap-4 rounded-2xl border-l-4 border-l-primary bg-gradient-to-br from-primary/10 to-primary/5 px-6 py-6 md:flex-row md:justify-between"
+              className="card-featured flex items-center gap-4 rounded-2xl px-8 py-8 md:flex-row md:justify-between"
             >
               <div className="flex items-start gap-4">
                 <span className="icon-badge-primary">
@@ -99,7 +109,7 @@ export default async function SponsorsPage() {
                   </p>
                 </div>
               </div>
-              <span className="mt-4 inline-flex rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground md:mt-0">
+              <span className="btn-glow mt-4 inline-flex rounded-xl bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground md:mt-0">
                 Contact us
               </span>
             </Link>

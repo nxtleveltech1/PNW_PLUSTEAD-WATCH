@@ -13,6 +13,7 @@ import {
 import { AnimateSection, AnimateItem } from "@/components/ui/animate-section";
 import { HeroClient } from "@/components/home/hero-client";
 import { prisma } from "@/lib/db";
+import { EmptyState } from "@/components/ui/empty-state";
 import { Phone, Shield, Calendar, AlertTriangle } from "lucide-react";
 
 export default async function HomePage() {
@@ -66,7 +67,8 @@ export default async function HomePage() {
         </section>
 
         {/* Emergency + Banking: asymmetric grid */}
-        <AnimateSection className="container py-14 lg:py-16">
+        <AnimateSection className="section-gradient-muted py-14 lg:py-16">
+          <div className="container">
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-10">
             <AnimateItem>
               <Card className="card-elevated border-l-4 border-l-accent">
@@ -133,7 +135,10 @@ export default async function HomePage() {
               </Card>
             </AnimateItem>
           </div>
+          </div>
         </AnimateSection>
+
+        <div className="divider-gradient" />
 
         {/* Safety tips teaser */}
         {safetyTips.length > 0 && (
@@ -184,6 +189,8 @@ export default async function HomePage() {
           </AnimateSection>
         )}
 
+        <div className="divider-gradient" />
+
         {/* Upcoming events */}
         <AnimateSection id="events" className="container py-14 lg:py-16">
           <AnimateItem className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
@@ -200,8 +207,8 @@ export default async function HomePage() {
           </AnimateItem>
           <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {events.length === 0 ? (
-              <div className="col-span-full rounded-xl border-2 border-dashed border-border bg-muted/20 py-16 text-center text-muted-foreground">
-                No upcoming events.
+              <div className="col-span-full">
+                <EmptyState icon={Calendar} heading="No upcoming events" description="Check back soon for community events." />
               </div>
             ) : (
               events.map((ev) => (
@@ -210,9 +217,14 @@ export default async function HomePage() {
                     <div className="card-event group h-full">
                       <div className="border-b border-border/50 bg-gradient-to-br from-primary/5 to-transparent px-5 py-5">
                         <div className="flex items-start gap-3">
-                          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary transition-colors group-hover:bg-primary/25">
-                            <Calendar className="h-5 w-5" />
-                          </span>
+                          <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
+                            <span className="text-lg font-bold leading-none">
+                              {ev.startAt.getDate()}
+                            </span>
+                            <span className="text-[10px] font-semibold uppercase tracking-wider">
+                              {ev.startAt.toLocaleDateString("en-ZA", { month: "short" })}
+                            </span>
+                          </div>
                           <div className="min-w-0">
                             <p className="font-display text-base font-semibold leading-tight text-foreground transition-colors group-hover:text-primary">
                               {ev.title}
@@ -240,8 +252,10 @@ export default async function HomePage() {
           </div>
         </AnimateSection>
 
+        <div className="divider-gradient" />
+
         {/* Recent incidents */}
-        <AnimateSection id="incidents" className="section-bg-muted py-14 lg:py-16">
+        <AnimateSection id="incidents" className="section-bg-accent py-14 lg:py-16">
           <div className="container">
             <AnimateItem className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
               <div>
@@ -257,9 +271,7 @@ export default async function HomePage() {
             </AnimateItem>
             <div className="mt-8 space-y-3">
               {incidents.length === 0 ? (
-                <div className="rounded-xl border-2 border-dashed border-border bg-background/80 py-16 text-center text-muted-foreground">
-                  No incidents recorded yet.
-                </div>
+                <EmptyState icon={AlertTriangle} heading="No incidents recorded" description="No recent incident reports." />
               ) : (
                 incidents.map((inc) => (
                   <AnimateItem key={inc.id}>
@@ -295,7 +307,9 @@ export default async function HomePage() {
 
         {/* Sponsors */}
         {sponsors.length > 0 && (
-          <AnimateSection id="sponsors" className="section-divider bg-background py-10 lg:py-12">
+          <>
+          <div className="divider-gradient" />
+          <AnimateSection id="sponsors" className="bg-background py-10 lg:py-12">
             <div className="container">
               <AnimateItem>
                 <div className="glass-card rounded-xl px-6 py-5">
@@ -319,6 +333,7 @@ export default async function HomePage() {
               </AnimateItem>
             </div>
           </AnimateSection>
+          </>
         )}
       </main>
       <Footer />

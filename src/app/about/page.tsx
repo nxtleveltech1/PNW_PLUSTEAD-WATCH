@@ -36,8 +36,8 @@ export default async function AboutPage() {
       <AnimateSection className="mt-section">
         <div className="grid gap-6 lg:grid-cols-3">
           <AnimateItem className="lg:col-span-2">
-            <article className="card-elevated overflow-hidden rounded-2xl border-0 bg-card">
-              <div className="h-2 bg-gradient-to-r from-primary via-primary/70 to-accent" />
+            <article className="card-elevated flex overflow-hidden rounded-2xl border-0 bg-card">
+              <div className="w-1.5 shrink-0 rounded-l-2xl bg-gradient-to-b from-primary to-accent" />
               <div className="p-6 md:p-8">
                 <h2 className="block-title">Mission</h2>
                 <p className="mt-3 text-muted-foreground">
@@ -62,7 +62,7 @@ export default async function AboutPage() {
         </div>
       </AnimateSection>
 
-      <AnimateSection className="mt-section">
+      <AnimateSection className="mt-section section-gradient-primary rounded-2xl px-6 py-8">
         <h2 className="section-title">
           <span className="headline-gradient">Partners</span>
         </h2>
@@ -90,8 +90,11 @@ export default async function AboutPage() {
           {committee.map((member) => (
             <AnimateItem key={member.id}>
               <article className="card-elevated overflow-hidden rounded-2xl border-0 bg-card">
-                <div className="panel-header">
-                  <p className="text-sm font-semibold uppercase tracking-wide text-primary">{member.role}</p>
+                <div className="panel-header bg-gradient-to-r from-primary/10 via-primary/5 to-transparent">
+                  <p className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-primary">
+                    <span className="inline-block h-2 w-2 rounded-full bg-primary" />
+                    {member.role}
+                  </p>
                   <p className="mt-1 font-display text-lg font-semibold">{member.name}</p>
                 </div>
                 <div className="space-y-2 px-6 py-5 text-sm">
