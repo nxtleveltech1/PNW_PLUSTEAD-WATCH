@@ -1,5 +1,4 @@
 import { PageShell } from "@/components/layout/page-shell";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { RegisterForm } from "./register-form";
 import { prisma } from "@/lib/db";
 import { parseRegisterSearchParams } from "@/lib/search-params";
@@ -18,19 +17,17 @@ export default async function RegisterPage({
   const defaultZoneId = zoneId && zones.some((z) => z.id === zoneId) ? zoneId : zones[0]?.id;
   return (
     <PageShell>
-      <Card className="w-full max-w-lg">
-        <CardHeader>
+      <div className="w-full max-w-5xl">
+        <div className="mb-8">
           <p className="eyebrow">Onboarding</p>
-          <CardTitle>Register as a member</CardTitle>
-          <CardDescription>
+          <h1 className="text-2xl font-semibold leading-none tracking-tight">Register as a member</h1>
+          <p className="mt-2 text-sm text-muted-foreground">
             You live in the Plumstead area. Complete your details before signing up.{" "}
             <Link href="/find" className="text-primary hover:underline">Find your zone</Link>
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <RegisterForm memberType="MEMBER" zones={zones} streets={streets} defaultZoneId={defaultZoneId} />
-        </CardContent>
-      </Card>
+          </p>
+        </div>
+        <RegisterForm memberType="MEMBER" zones={zones} streets={streets} defaultZoneId={defaultZoneId} />
+      </div>
     </PageShell>
   );
 }

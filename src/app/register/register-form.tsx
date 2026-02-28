@@ -110,116 +110,125 @@ export function RegisterForm({
 
   return isMember ? (
     <Form {...memberForm}>
-      <form onSubmit={memberForm.handleSubmit(onSubmit)} className="space-y-6">
-        {zones.length > 0 && (
-          <>
-            <FormField
-              control={memberForm.control}
-              name="zoneId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Zone</FormLabel>
-                  <FormControl>
-                    <select
-                      id="zoneId"
-                      className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                      value={field.value ?? ""}
-                      onChange={(e) => {
-                        field.onChange(e.target.value || null);
-                        memberForm.setValue("streetId", null);
-                      }}
-                    >
-                      {zones.map((z) => (
-                        <option key={z.id} value={z.id}>
-                          {z.name}
-                        </option>
-                      ))}
-                    </select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {streetsForZone.length > 0 && (
-              <FormField
-                control={memberForm.control}
-                name="streetId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Street</FormLabel>
-                    <FormControl>
-                      <select
-                        id="streetId"
-                        className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                        value={field.value ?? ""}
-                        onChange={(e) => field.onChange(e.target.value || null)}
-                      >
-                        <option value="">Select your street</option>
-                        {streetsForZone.map((s) => (
-                          <option key={s.id} value={s.id}>
-                            {s.name}
-                          </option>
-                        ))}
-                      </select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+      <form onSubmit={memberForm.handleSubmit(onSubmit)}>
+        <div className="grid grid-cols-1 gap-x-10 gap-y-6 md:grid-cols-2">
+          {/* Left column — Location & preferences */}
+          <div className="space-y-6">
+            {zones.length > 0 && (
+              <>
+                <FormField
+                  control={memberForm.control}
+                  name="zoneId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Zone</FormLabel>
+                      <FormControl>
+                        <select
+                          id="zoneId"
+                          className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+                          value={field.value ?? ""}
+                          onChange={(e) => {
+                            field.onChange(e.target.value || null);
+                            memberForm.setValue("streetId", null);
+                          }}
+                        >
+                          {zones.map((z) => (
+                            <option key={z.id} value={z.id}>
+                              {z.name}
+                            </option>
+                          ))}
+                        </select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                {streetsForZone.length > 0 && (
+                  <FormField
+                    control={memberForm.control}
+                    name="streetId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Street</FormLabel>
+                        <FormControl>
+                          <select
+                            id="streetId"
+                            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+                            value={field.value ?? ""}
+                            onChange={(e) => field.onChange(e.target.value || null)}
+                          >
+                            <option value="">Select your street</option>
+                            {streetsForZone.map((s) => (
+                              <option key={s.id} value={s.id}>
+                                {s.name}
+                              </option>
+                            ))}
+                          </select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 )}
-              />
+                <FormField
+                  control={memberForm.control}
+                  name="houseNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>House number or name</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="e.g. 42 or Rose Cottage"
+                          value={field.value ?? ""}
+                          onChange={(e) => field.onChange(e.target.value || null)}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={memberForm.control}
+                  name="hideFromNeighbours"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                      <FormControl>
+                        <input
+                          type="checkbox"
+                          className="h-4 w-4 rounded border-input"
+                          checked={field.value}
+                          onChange={(e) => field.onChange(e.target.checked)}
+                        />
+                      </FormControl>
+                      <FormLabel className="font-normal">Hide my details from neighbours</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={memberForm.control}
+                  name="patrolOptIn"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                      <FormControl>
+                        <input
+                          type="checkbox"
+                          className="h-4 w-4 rounded border-input"
+                          checked={field.value}
+                          onChange={(e) => field.onChange(e.target.checked)}
+                        />
+                      </FormControl>
+                      <FormLabel className="font-normal">I am prepared to patrol</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </>
             )}
-            <FormField
-              control={memberForm.control}
-              name="houseNumber"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>House number or name</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="e.g. 42 or Rose Cottage"
-                      value={field.value ?? ""}
-                      onChange={(e) => field.onChange(e.target.value || null)}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={memberForm.control}
-              name="hideFromNeighbours"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                  <FormControl>
-                    <input
-                      type="checkbox"
-                      className="h-4 w-4 rounded border-input"
-                      checked={field.value}
-                      onChange={(e) => field.onChange(e.target.checked)}
-                    />
-                  </FormControl>
-                  <FormLabel className="font-normal">Hide my details from neighbours</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={memberForm.control}
-              name="patrolOptIn"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                  <FormControl>
-                    <input
-                      type="checkbox"
-                      className="h-4 w-4 rounded border-input"
-                      checked={field.value}
-                      onChange={(e) => field.onChange(e.target.checked)}
-                    />
-                  </FormControl>
-                  <FormLabel className="font-normal">I am prepared to patrol</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          </div>
+
+          {/* Right column — Emergency contact & communication */}
+          <div className="space-y-6">
             <div className="space-y-3 rounded-lg border border-border/60 bg-muted/20 p-4">
               <p className="text-sm font-medium">Emergency contact (optional)</p>
               <p className="text-xs text-muted-foreground">
@@ -278,48 +287,51 @@ export function RegisterForm({
                 )}
               />
             </div>
-          </>
-        )}
-        <FormField
-          control={memberForm.control}
-          name="whatsappOptIn"
-          render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-              <FormControl>
-                <input
-                  type="checkbox"
-                  className="h-4 w-4 rounded border-input"
-                  checked={field.value}
-                  onChange={(e) => field.onChange(e.target.checked)}
-                />
-              </FormControl>
-              <FormLabel className="font-normal">Opt in to WhatsApp updates</FormLabel>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {whatsappOptIn && (
-          <FormField
-            control={memberForm.control}
-            name="whatsappPhone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>WhatsApp number</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="082 123 4567"
-                    value={field.value ?? ""}
-                    onChange={(e) => field.onChange(e.target.value || null)}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
+            <FormField
+              control={memberForm.control}
+              name="whatsappOptIn"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                  <FormControl>
+                    <input
+                      type="checkbox"
+                      className="h-4 w-4 rounded border-input"
+                      checked={field.value}
+                      onChange={(e) => field.onChange(e.target.checked)}
+                    />
+                  </FormControl>
+                  <FormLabel className="font-normal">Opt in to WhatsApp updates</FormLabel>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {whatsappOptIn && (
+              <FormField
+                control={memberForm.control}
+                name="whatsappPhone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>WhatsApp number</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="082 123 4567"
+                        value={field.value ?? ""}
+                        onChange={(e) => field.onChange(e.target.value || null)}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             )}
-          />
-        )}
-        <Button type="submit" className="w-full">
-          Continue to sign up
-        </Button>
+          </div>
+        </div>
+
+        <div className="mt-8">
+          <Button type="submit" className="w-full md:w-auto md:min-w-48">
+            Continue to sign up
+          </Button>
+        </div>
       </form>
     </Form>
   ) : (
