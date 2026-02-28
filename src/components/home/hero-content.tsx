@@ -4,6 +4,7 @@ import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
+import Autoplay from "embla-carousel-autoplay";
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
@@ -115,49 +116,57 @@ function HeroMainSlide() {
 function CameraProjectSlide() {
   return (
     <div className="relative flex h-full min-h-[90vh] w-full flex-col items-center justify-center px-6 py-20 text-center md:px-10 lg:px-16">
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/95 via-primary/90 to-primary/95" aria-hidden />
+      <Image
+        src="/images/camera-project-bg.png"
+        alt=""
+        fill
+        className="object-cover"
+        sizes="100vw"
+        priority
+      />
+      <div className="absolute inset-0 bg-black/40" aria-hidden />
       <div className="relative z-10 flex w-full max-w-4xl flex-col items-center gap-8">
         <h2
-          className="font-display text-2xl font-bold uppercase tracking-tight text-white md:text-3xl lg:text-4xl"
-          style={{ textShadow: "0 2px 16px rgba(0,0,0,0.5)" }}
+          className="font-display text-3xl font-bold uppercase tracking-tight text-white md:text-4xl lg:text-5xl"
+          style={{ textShadow: "0 3px 20px rgba(0,0,0,0.7)" }}
         >
           Neighborhood Watch Security Camera Project
         </h2>
         <p
           className="font-display text-lg font-bold uppercase tracking-wider text-amber-300 md:text-xl"
-          style={{ textShadow: "0 1px 8px rgba(0,0,0,0.4)" }}
+          style={{ textShadow: "0 1px 8px rgba(0,0,0,0.6)" }}
         >
-          &gt;&gt; Join · Support · Donate &lt;&lt;
+          &raquo; Join · Support · Donate &laquo;
         </p>
 
-        <div className="grid w-full grid-cols-1 gap-6 border-t border-b border-white/20 py-8 md:grid-cols-3 md:gap-0">
-          <div className="flex flex-col items-center gap-4 px-6 md:border-x md:border-white/20">
-            <HandHelping className="h-12 w-12 text-white" />
-            <h3 className="font-display text-xl font-bold uppercase text-white">Join</h3>
-            <p className="text-sm leading-relaxed text-white/90">
+        <div className="grid w-full grid-cols-1 gap-6 border-t border-b border-white/30 py-8 md:grid-cols-3 md:gap-0">
+          <div className="flex flex-col items-center gap-4 px-6 md:border-x md:border-white/30">
+            <HandHelping className="h-12 w-12 text-white drop-shadow-lg" />
+            <h3 className="font-display text-xl font-bold uppercase text-white" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>Join</h3>
+            <p className="text-sm font-medium leading-relaxed text-white/90" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.5)" }}>
               Volunteer to monitor our neighborhood
             </p>
-            <Button asChild size="lg" variant="secondary" className="mt-2 text-white">
+            <Button asChild size="lg" className="mt-2 bg-white/20 font-semibold text-white backdrop-blur-sm hover:bg-white/30">
               <Link href="/register">Get involved</Link>
             </Button>
           </div>
-          <div className="flex flex-col items-center gap-4 px-6 md:border-r md:border-white/20">
-            <Shield className="h-12 w-12 text-white" />
-            <h3 className="font-display text-xl font-bold uppercase text-white">Support</h3>
-            <p className="text-sm leading-relaxed text-white/90">
+          <div className="flex flex-col items-center gap-4 px-6 md:border-r md:border-white/30">
+            <Shield className="h-12 w-12 text-white drop-shadow-lg" />
+            <h3 className="font-display text-xl font-bold uppercase text-white" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>Support</h3>
+            <p className="text-sm font-medium leading-relaxed text-white/90" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.5)" }}>
               Grow our security camera network
             </p>
-            <Button asChild size="lg" variant="secondary" className="mt-2 text-white">
+            <Button asChild size="lg" className="mt-2 bg-white/20 font-semibold text-white backdrop-blur-sm hover:bg-white/30">
               <Link href="/register">Support us</Link>
             </Button>
           </div>
           <div className="flex flex-col items-center gap-4 px-6">
-            <DollarSign className="h-12 w-12 text-amber-400" />
-            <h3 className="font-display text-xl font-bold uppercase text-white">Donate</h3>
-            <p className="text-sm leading-relaxed text-white/90">
+            <DollarSign className="h-12 w-12 text-amber-400 drop-shadow-lg" />
+            <h3 className="font-display text-xl font-bold uppercase text-white" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>Donate</h3>
+            <p className="text-sm font-medium leading-relaxed text-white/90" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.5)" }}>
               Fund new safety cameras for our streets
             </p>
-            <Button asChild size="lg" className="mt-2 bg-primary">
+            <Button asChild size="lg" className="mt-2 bg-primary font-semibold shadow-lg">
               <Link href="/donate">Donate now</Link>
             </Button>
           </div>
@@ -165,7 +174,7 @@ function CameraProjectSlide() {
 
         <p
           className="font-display text-lg font-bold uppercase tracking-wider text-white md:text-xl"
-          style={{ textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}
+          style={{ textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}
         >
           Together we keep our home safe
         </p>
@@ -177,6 +186,9 @@ function CameraProjectSlide() {
 export function HeroContent() {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
+  const autoplayPlugin = React.useRef(
+    Autoplay({ delay: 8000, stopOnInteraction: true, stopOnMouseEnter: true })
+  );
 
   React.useEffect(() => {
     if (!api) return;
@@ -188,6 +200,7 @@ export function HeroContent() {
     <div className="absolute inset-0">
       <Carousel
         opts={{ loop: true, align: "start" }}
+        plugins={[autoplayPlugin.current]}
         setApi={setApi}
         className="h-full w-full"
       >
