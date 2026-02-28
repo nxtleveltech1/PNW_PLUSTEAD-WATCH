@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Header } from "@/components/layout/header-server";
-import { Footer } from "@/components/layout/footer";
+import { PageShell } from "@/components/layout/page-shell";
+import { PageHero } from "@/components/layout/page-hero";
 import { AnimateSection, AnimateItem } from "@/components/ui/animate-section";
 import { FindZoneForm } from "./find-zone-form";
 import { prisma } from "@/lib/db";
@@ -11,81 +11,65 @@ export default async function FindPage() {
   const zones = await prisma.zone.findMany({ orderBy: { name: "asc" } });
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main id="main" className="page-main">
-        <AnimateSection>
-          <div className="page-hero">
-            <p className="eyebrow">Locate</p>
-            <h1 className="section-heading mt-2">
-              <span className="headline-gradient">Find your zone</span>
-            </h1>
-            <p className="section-subheading">Enter your postcode to find your neighbourhood watch scheme.</p>
-          </div>
-        </AnimateSection>
+    <PageShell>
+      <PageHero
+        eyebrow="Locate"
+        title="Find your zone"
+        description="Enter your postal code or area to find your neighbourhood watch scheme."
+      />
 
-        <AnimateSection className="mt-14">
-          <Card className="card-elevated max-w-md border-l-4 border-l-primary">
-            <CardHeader className="border-b border-border/50 bg-gradient-to-br from-primary/10 to-primary/5 px-8 py-8">
-              <div className="flex items-center gap-5">
-                <span className="icon-badge-primary">
-                  <MapPin className="h-7 w-7" />
-                </span>
-                <div>
-                  <CardTitle className="font-display text-xl text-foreground">
-                    Search by postcode
-                  </CardTitle>
-                  <CardDescription>
-                    e.g. 7800 for Plumstead
-                  </CardDescription>
-                </div>
+      <AnimateSection className="mt-section">
+        <Card className="card-elevated max-w-md border-l-4 border-l-primary">
+          <CardHeader className="border-b border-border/50 bg-gradient-to-br from-primary/10 to-primary/5 px-6 py-6 md:px-8 md:py-8">
+            <div className="flex items-center gap-5">
+              <span className="icon-badge-primary">
+                <MapPin className="h-7 w-7" />
+              </span>
+              <div>
+                <CardTitle className="block-title text-foreground">Search by postal code</CardTitle>
+                <CardDescription>e.g. 7800 for Plumstead</CardDescription>
               </div>
-            </CardHeader>
-            <CardContent className="px-8 py-8">
-              <FindZoneForm zones={zones} />
-            </CardContent>
-          </Card>
-        </AnimateSection>
+            </div>
+          </CardHeader>
+          <CardContent className="px-6 py-6 md:px-8 md:py-8">
+            <FindZoneForm zones={zones} />
+          </CardContent>
+        </Card>
+      </AnimateSection>
 
-        <AnimateSection className="mt-16">
-          <AnimateItem>
-            <h2 className="section-heading">
-              <span className="headline-gradient">All zones</span>
-            </h2>
-          </AnimateItem>
-          <div className="mt-8 space-y-4">
-            {zones.map((z) => (
-              <AnimateItem key={z.id}>
-              <div
-                className="card-elevated flex items-center justify-between rounded-2xl border-l-4 border-l-primary bg-card px-6 py-5"
-              >
+      <AnimateSection className="mt-section">
+        <h2 className="section-title">
+          <span className="headline-gradient">All zones</span>
+        </h2>
+        <div className="mt-6 space-y-4">
+          {zones.map((z) => (
+            <AnimateItem key={z.id}>
+              <div className="card-elevated flex items-center justify-between rounded-2xl border-l-4 border-l-primary bg-card px-6 py-5">
                 <div>
                   <p className="font-semibold">{z.name}</p>
                   {z.postcodePrefix && (
-                    <p className="text-sm text-muted-foreground">Postcode: {z.postcodePrefix}</p>
+                    <p className="text-sm text-muted-foreground">Postal code: {z.postcodePrefix}</p>
                   )}
                 </div>
                 <div className="flex gap-3">
                   <Link
                     href={`/register?zone=${z.id}`}
-                    className="rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90 hover:-translate-y-0.5"
+                    className="rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90 hover:-translate-y-0.5 min-h-[44px] flex items-center"
                   >
                     Join
                   </Link>
                   <Link
                     href="/start-scheme"
-                    className="rounded-xl border-2 border-border px-5 py-2.5 text-sm font-semibold transition-all hover:bg-muted hover:border-primary/30"
+                    className="rounded-xl border-2 border-border px-5 py-2.5 text-sm font-semibold transition-all hover:bg-muted hover:border-primary/30 min-h-[44px] flex items-center"
                   >
                     Start scheme
                   </Link>
                 </div>
               </div>
-              </AnimateItem>
-            ))}
-          </div>
-        </AnimateSection>
-      </main>
-      <Footer />
-    </div>
+            </AnimateItem>
+          ))}
+        </div>
+      </AnimateSection>
+    </PageShell>
   );
 }

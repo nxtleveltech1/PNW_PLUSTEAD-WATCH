@@ -1,5 +1,5 @@
-import { Header } from "@/components/layout/header-server";
-import { Footer } from "@/components/layout/footer";
+import { PageShell } from "@/components/layout/page-shell";
+import { PageHero } from "@/components/layout/page-hero";
 import { AnimateSection, AnimateItem } from "@/components/ui/animate-section";
 import { prisma } from "@/lib/db";
 import { VolunteerForm } from "./volunteer-form";
@@ -17,72 +17,62 @@ export default async function VolunteerPage() {
   const zones = await prisma.zone.findMany({ orderBy: { name: "asc" } });
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main id="main" className="page-main">
-        <AnimateSection>
-          <div className="page-hero">
-            <p className="eyebrow">Volunteer Network</p>
-            <h1 className="section-heading mt-2">
-              <span className="headline-gradient">Volunteer With Us</span>
-            </h1>
-            <p className="section-subheading">Join 80+ patrollers and strengthen community safety in Plumstead.</p>
-          </div>
-        </AnimateSection>
+    <PageShell>
+      <PageHero
+        eyebrow="Volunteer Network"
+        title="Volunteer With Us"
+        description="Join 80+ patrollers and strengthen community safety in Plumstead."
+      />
 
-        <AnimateSection className="mt-12">
-          <div className="flex flex-wrap gap-4">
-          <AnimateItem className="flex items-center gap-3 rounded-2xl border-0 bg-card px-5 py-4 shadow-[var(--shadow-elevation-2)] transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-elevation-3)]">
+      <AnimateSection className="mt-section">
+        <div className="flex flex-wrap gap-4">
+          <AnimateItem className="card-elevated flex items-center gap-3 rounded-2xl border-0 bg-card px-6 py-5">
             <Users className="h-8 w-8 text-primary" />
             <div>
               <p className="font-semibold">80+ patrollers</p>
               <p className="text-sm text-muted-foreground">Active volunteers</p>
             </div>
           </AnimateItem>
-          <AnimateItem className="flex items-center gap-3 rounded-2xl border-0 bg-card px-5 py-4 shadow-[var(--shadow-elevation-2)] transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-elevation-3)]">
+          <AnimateItem className="card-elevated flex items-center gap-3 rounded-2xl border-0 bg-card px-6 py-5">
             <Shield className="h-8 w-8 text-primary" />
             <div>
               <p className="font-semibold">Since 2007</p>
               <p className="text-sm text-muted-foreground">Community impact</p>
             </div>
           </AnimateItem>
-          </div>
-        </AnimateSection>
+        </div>
+      </AnimateSection>
 
-        <AnimateSection className="mt-12">
-          <h2 className="font-display text-xl font-semibold text-foreground">Roles</h2>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
-            {ROLES.map((r) => (
-              <AnimateItem key={r.id}>
+      <AnimateSection className="mt-section">
+        <h2 className="block-title">Roles</h2>
+        <div className="mt-6 grid gap-6 sm:grid-cols-2">
+          {ROLES.map((r) => (
+            <AnimateItem key={r.id}>
               <Card className="card-elevated border-0">
-                <CardHeader>
-                  <CardTitle className="font-display text-lg">{r.title}</CardTitle>
+                <CardHeader className="p-6">
+                  <CardTitle className="block-title">{r.title}</CardTitle>
                   <CardDescription>{r.desc}</CardDescription>
-                  <p className="text-sm text-muted-foreground">Time: {r.time}</p>
+                  <p className="mt-2 text-sm text-muted-foreground">Time: {r.time}</p>
                 </CardHeader>
               </Card>
-              </AnimateItem>
-            ))}
-          </div>
-        </AnimateSection>
+            </AnimateItem>
+          ))}
+        </div>
+      </AnimateSection>
 
-        <AnimateSection className="mt-16">
-          <AnimateItem>
+      <AnimateSection className="mt-section">
+        <AnimateItem>
           <Card className="card-elevated max-w-md border-0">
-            <CardHeader>
-              <CardTitle className="font-display text-xl">Apply to volunteer</CardTitle>
-              <CardDescription>
-                We&apos;ll be in touch to discuss how you can help.
-              </CardDescription>
+            <CardHeader className="p-6">
+              <CardTitle className="block-title">Apply to volunteer</CardTitle>
+              <CardDescription>We&apos;ll be in touch to discuss how you can help.</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-6 pt-0">
               <VolunteerForm zones={zones} />
             </CardContent>
           </Card>
-          </AnimateItem>
-        </AnimateSection>
-      </main>
-      <Footer />
-    </div>
+        </AnimateItem>
+      </AnimateSection>
+    </PageShell>
   );
 }

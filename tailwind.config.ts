@@ -11,7 +11,7 @@ const config: Config = {
     container: {
       center: true,
       padding: "clamp(1rem, 5vw, 2.5rem)",
-      screens: { "2xl": "1400px" },
+      screens: { "2xl": "1440px" },
     },
     extend: {
       fontFamily: {
@@ -29,11 +29,16 @@ const config: Config = {
         "4xl": ["2.25rem", { lineHeight: "1.2" }],
         "5xl": ["3rem", { lineHeight: "1.15" }],
         "6xl": ["3.75rem", { lineHeight: "1.1" }],
+        "7xl": ["4.5rem", { lineHeight: "1.1" }],
+        "8xl": ["6rem", { lineHeight: "1.05" }],
       },
       spacing: {
         "18": "4.5rem",
         "22": "5.5rem",
         "30": "7.5rem",
+        "section": "3rem",
+        "block": "2rem",
+        "component": "1.5rem",
       },
       colors: {
         background: "hsl(var(--background))",
@@ -89,7 +94,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 };
 
 export default config;

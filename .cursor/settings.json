@@ -2,6 +2,18 @@
   "plugins": {
     "cursor-team-kit": {
       "enabled": true
+    },
+    "context7-plugin": {
+      "enabled": true
+    },
+    "clerk": {
+      "enabled": true
+    },
+    "prisma": {
+      "enabled": true
+    },
+    "superpowers": {
+      "enabled": true
     }
   }
 }

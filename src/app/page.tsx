@@ -137,7 +137,7 @@ export default async function HomePage() {
 
         {/* Safety tips teaser */}
         {safetyTips.length > 0 && (
-          <AnimateSection className="border-t border-border/60 bg-gradient-to-b from-muted/30 to-muted/10 py-24 lg:py-32">
+          <AnimateSection id="safety-tips" className="border-t border-border/60 bg-gradient-to-b from-muted/30 to-muted/10 py-24 lg:py-32">
             <div className="container">
               <AnimateItem className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
                 <div>
@@ -184,89 +184,8 @@ export default async function HomePage() {
           </AnimateSection>
         )}
 
-        {/* Sponsors */}
-        {sponsors.length > 0 && (
-          <AnimateSection className="border-t border-border/60 bg-background py-16">
-            <div className="container">
-              <AnimateItem>
-                <div className="glass-card rounded-2xl px-8 py-6">
-                  <p className="text-center text-sm font-medium text-muted-foreground">
-                    Supported by{" "}
-                    {sponsors.map((s, i) => (
-                      <span key={s.id}>
-                        {s.linkUrl ? (
-                          <a href={s.linkUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-primary transition-colors hover:text-primary/80">
-                            {s.name}
-                          </a>
-                        ) : (
-                          <span className="font-semibold">{s.name}</span>
-                        )}
-                        {i < sponsors.length - 1 ? ", " : ""}
-                      </span>
-                    ))}
-                    {" "} | <Link href="/sponsors" className="font-semibold text-primary hover:underline">View all sponsors</Link>
-                  </p>
-                </div>
-              </AnimateItem>
-            </div>
-          </AnimateSection>
-        )}
-
-        {/* Recent incidents */}
-        <AnimateSection className="border-t border-border/60 bg-muted/40 py-24 lg:py-32">
-          <div className="container">
-            <AnimateItem className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <span className="text-sm font-semibold uppercase tracking-widest text-primary">Updates</span>
-                <h2 className="section-heading mt-2">
-                  <span className="headline-gradient">Recent incidents</span>
-                </h2>
-                <p className="section-subheading">Stay informed about local activity</p>
-              </div>
-              <Button asChild variant="outline" size="lg" className="w-fit border-2 border-primary/40 font-semibold text-primary hover:bg-primary/10">
-                <Link href="/incidents">View all</Link>
-              </Button>
-            </AnimateItem>
-            <div className="mt-14 space-y-4">
-              {incidents.length === 0 ? (
-                <div className="rounded-2xl border-2 border-dashed border-border bg-background/80 py-20 text-center text-muted-foreground">
-                  No incidents recorded yet.
-                </div>
-              ) : (
-                incidents.map((inc) => (
-                  <AnimateItem key={inc.id}>
-                    <Link
-                      href={`/incidents/${inc.id}`}
-                      className="group flex items-center gap-5 rounded-2xl border border-border/80 bg-card px-6 py-5 shadow-elevation-1 transition-all hover:border-primary/20 hover:shadow-elevation-2"
-                    >
-                      <span className="icon-badge-accent">
-                        <AlertTriangle className="h-5 w-5" />
-                      </span>
-                      <div className="min-w-0 flex-1">
-                        <span className="font-semibold text-foreground group-hover:text-primary transition-colors">
-                          {inc.type}
-                        </span>
-                        <span className="text-muted-foreground"> - {inc.location}</span>
-                      </div>
-                      <span className="shrink-0 text-sm font-medium text-muted-foreground">
-                        {inc.dateTime.toLocaleDateString("en-ZA", {
-                          day: "numeric",
-                          month: "short",
-                          year: "numeric",
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </span>
-                    </Link>
-                  </AnimateItem>
-                ))
-              )}
-            </div>
-          </div>
-        </AnimateSection>
-
         {/* Upcoming events */}
-        <AnimateSection className="container py-24 lg:py-32">
+        <AnimateSection id="events" className="container py-24 lg:py-32">
           <AnimateItem className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <span className="text-sm font-semibold uppercase tracking-widest text-primary">Community</span>
@@ -320,6 +239,87 @@ export default async function HomePage() {
             )}
           </div>
         </AnimateSection>
+
+        {/* Recent incidents */}
+        <AnimateSection id="incidents" className="border-t border-border/60 bg-muted/40 py-24 lg:py-32">
+          <div className="container">
+            <AnimateItem className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <span className="text-sm font-semibold uppercase tracking-widest text-primary">Updates</span>
+                <h2 className="section-heading mt-2">
+                  <span className="headline-gradient">Recent incidents</span>
+                </h2>
+                <p className="section-subheading">Stay informed about local activity</p>
+              </div>
+              <Button asChild variant="outline" size="lg" className="w-fit border-2 border-primary/40 font-semibold text-primary hover:bg-primary/10">
+                <Link href="/incidents">View all</Link>
+              </Button>
+            </AnimateItem>
+            <div className="mt-14 space-y-4">
+              {incidents.length === 0 ? (
+                <div className="rounded-2xl border-2 border-dashed border-border bg-background/80 py-20 text-center text-muted-foreground">
+                  No incidents recorded yet.
+                </div>
+              ) : (
+                incidents.map((inc) => (
+                  <AnimateItem key={inc.id}>
+                    <Link
+                      href={`/incidents/${inc.id}`}
+                      className="group flex items-center gap-5 rounded-2xl border border-border/80 bg-card px-6 py-5 shadow-elevation-1 transition-all hover:border-primary/20 hover:shadow-elevation-2"
+                    >
+                      <span className="icon-badge-accent">
+                        <AlertTriangle className="h-5 w-5" />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <span className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                          {inc.type}
+                        </span>
+                        <span className="text-muted-foreground"> - {inc.location}</span>
+                      </div>
+                      <span className="shrink-0 text-sm font-medium text-muted-foreground">
+                        {inc.dateTime.toLocaleDateString("en-ZA", {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </span>
+                    </Link>
+                  </AnimateItem>
+                ))
+              )}
+            </div>
+          </div>
+        </AnimateSection>
+
+        {/* Sponsors */}
+        {sponsors.length > 0 && (
+          <AnimateSection id="sponsors" className="border-t border-border/60 bg-background py-24 lg:py-32">
+            <div className="container">
+              <AnimateItem>
+                <div className="glass-card rounded-2xl px-8 py-6">
+                  <p className="text-center text-sm font-medium text-muted-foreground">
+                    Supported by{" "}
+                    {sponsors.map((s, i) => (
+                      <span key={s.id}>
+                        {s.linkUrl ? (
+                          <a href={s.linkUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-primary transition-colors hover:text-primary/80">
+                            {s.name}
+                          </a>
+                        ) : (
+                          <span className="font-semibold">{s.name}</span>
+                        )}
+                        {i < sponsors.length - 1 ? ", " : ""}
+                      </span>
+                    ))}
+                    {" "} | <Link href="/sponsors" className="font-semibold text-primary hover:underline">View all sponsors</Link>
+                  </p>
+                </div>
+              </AnimateItem>
+            </div>
+          </AnimateSection>
+        )}
       </main>
       <Footer />
     </div>

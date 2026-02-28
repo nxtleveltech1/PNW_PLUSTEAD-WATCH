@@ -1,108 +1,43 @@
-import { Header } from "@/components/layout/header-server";
-import { Footer } from "@/components/layout/footer";
-import { AnimateSection, AnimateItem } from "@/components/ui/animate-section";
 import Link from "next/link";
+import { PageShell } from "@/components/layout/page-shell";
+import { PageHero } from "@/components/layout/page-hero";
+import { AnimateSection, AnimateItem } from "@/components/ui/animate-section";
 
 export default function HelpPage() {
+  const helpLinks = [
+    { href: "/help/member-registration", title: "Member registration", description: "How to register as a member, what information we collect, and how to update your profile." },
+    { href: "/help/member-faq", title: "Member FAQ", description: "Common questions about membership, registration, and using the platform." },
+    { href: "/help/troubleshooting", title: "Troubleshooting", description: "Browser support, sign-in issues, email preferences, and session problems." },
+    { href: "/help/security", title: "Security of information", description: "How we protect your data, who has access, and your privacy options." },
+    { href: "/help/patrol-administration", title: "Patrol administration", description: "Overview of patrol zones, types, resources, and how patrols are managed." },
+    { href: "/help/glossary", title: "Glossary", description: "Definitions of terms used on the platform and in PNW communications." },
+  ];
+
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main id="main" className="page-main">
-        <AnimateSection>
-          <div className="page-hero">
-            <p className="eyebrow">Help</p>
-            <h1 className="section-heading mt-2">
-              <span className="headline-gradient">PNW Help</span>
-            </h1>
-            <p className="section-subheading">
-              Guides and reference for using the Plumstead Neighbourhood Watch platform.
-            </p>
-          </div>
-        </AnimateSection>
-        <AnimateSection className="mt-12">
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            <AnimateItem>
+    <PageShell>
+      <PageHero
+        eyebrow="Help"
+        title="PNW Help"
+        description="Guides and reference for using the Plumstead Neighbourhood Watch platform."
+      />
+
+      <AnimateSection className="mt-section">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {helpLinks.map((link) => (
+            <AnimateItem key={link.href}>
               <Link
-                href="/help/member-registration"
+                href={link.href}
                 className="card-elevated group block rounded-2xl border-0 bg-card p-6"
               >
-                <h2 className="font-display text-lg font-semibold text-foreground group-hover:text-primary">
-                  Member registration
+                <h2 className="block-title text-foreground group-hover:text-primary transition-colors">
+                  {link.title}
                 </h2>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  How to register as a member, what information we collect, and how to update your profile.
-                </p>
+                <p className="mt-2 text-sm text-muted-foreground">{link.description}</p>
               </Link>
             </AnimateItem>
-            <AnimateItem>
-              <Link
-                href="/help/member-faq"
-                className="card-elevated group block rounded-2xl border-0 bg-card p-6"
-              >
-                <h2 className="font-display text-lg font-semibold text-foreground group-hover:text-primary">
-                  Member FAQ
-                </h2>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Common questions about membership, registration, and using the platform.
-                </p>
-              </Link>
-            </AnimateItem>
-            <AnimateItem>
-              <Link
-                href="/help/troubleshooting"
-                className="card-elevated group block rounded-2xl border-0 bg-card p-6"
-              >
-                <h2 className="font-display text-lg font-semibold text-foreground group-hover:text-primary">
-                  Troubleshooting
-                </h2>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Browser support, sign-in issues, email preferences, and session problems.
-                </p>
-              </Link>
-            </AnimateItem>
-            <AnimateItem>
-              <Link
-                href="/help/security"
-                className="card-elevated group block rounded-2xl border-0 bg-card p-6"
-              >
-                <h2 className="font-display text-lg font-semibold text-foreground group-hover:text-primary">
-                  Security of information
-                </h2>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  How we protect your data, who has access, and your privacy options.
-                </p>
-              </Link>
-            </AnimateItem>
-            <AnimateItem>
-              <Link
-                href="/help/patrol-administration"
-                className="card-elevated group block rounded-2xl border-0 bg-card p-6"
-              >
-                <h2 className="font-display text-lg font-semibold text-foreground group-hover:text-primary">
-                  Patrol administration
-                </h2>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Overview of patrol zones, types, resources, and how patrols are managed.
-                </p>
-              </Link>
-            </AnimateItem>
-            <AnimateItem>
-              <Link
-                href="/help/glossary"
-                className="card-elevated group block rounded-2xl border-0 bg-card p-6"
-              >
-                <h2 className="font-display text-lg font-semibold text-foreground group-hover:text-primary">
-                  Glossary
-                </h2>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Definitions of terms used on the platform and in PNW communications.
-                </p>
-              </Link>
-            </AnimateItem>
-          </div>
-        </AnimateSection>
-      </main>
-      <Footer />
-    </div>
+          ))}
+        </div>
+      </AnimateSection>
+    </PageShell>
   );
 }

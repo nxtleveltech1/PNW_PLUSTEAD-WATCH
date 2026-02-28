@@ -27,7 +27,7 @@ export function IncidentsFilters({
   const types = ["Theft", "Arrest", "Burglary", "Assault", "Other"];
 
   return (
-    <div className="mt-8 flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-4">
       {zones.length > 1 && (
         <div className="flex items-center gap-2">
           <span className="text-sm font-medium text-muted-foreground">Zone:</span>

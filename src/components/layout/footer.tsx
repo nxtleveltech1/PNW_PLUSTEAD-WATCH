@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Phone } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const opsLinks = [
   { href: "/incidents", label: "Incidents" },
@@ -46,7 +47,7 @@ export function Footer() {
       className="mt-auto border-t border-border/80 bg-gradient-to-b from-secondary/50 to-muted/30"
     >
       <div className="container py-12 md:py-16">
-        <div className="grid gap-12 md:grid-cols-12 md:gap-x-10 lg:gap-x-12">
+        <div className="grid gap-12 md:grid-cols-12 md:gap-x-8 lg:gap-x-12">
           {/* Brand block */}
           <section
             className="md:col-span-5 lg:col-span-4"
@@ -60,13 +61,13 @@ export function Footer() {
               aria-label="Plumstead Neighbourhood Watch home"
               className="inline-block focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-lg"
             >
-              <div className="relative h-48 w-[320px] shrink-0 overflow-hidden">
+              <div className="relative h-32 w-[200px] shrink-0 overflow-hidden">
                 <Image
                   src="/images/full%20logo.jpg"
                   alt="Plumstead Neighbourhood Watch"
                   fill
                   className="object-contain object-left"
-                  sizes="320px"
+                  sizes="200px"
                 />
               </div>
             </Link>
@@ -91,7 +92,7 @@ export function Footer() {
             className="md:col-span-7 lg:col-span-8 w-full"
             aria-label="Site map"
           >
-            <div className="grid w-full grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4">
+            <div className="grid w-full grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4 md:gap-6">
               <div>
                 <h3 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                   Membership
@@ -164,8 +165,18 @@ export function Footer() {
           </nav>
         </div>
 
+        {/* Footer CTA */}
+        <div className="mt-12 flex flex-wrap gap-3">
+          <Button asChild size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90">
+            <Link href="/incidents">Report incident</Link>
+          </Button>
+          <Button asChild variant="outline" size="sm">
+            <Link href="/register">Join us</Link>
+          </Button>
+        </div>
+
         {/* Bottom bar */}
-        <div className="mt-12 border-t border-border/60 pt-8">
+        <div className="mt-8 border-t border-border/60 pt-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <small className="text-sm text-muted-foreground">
               © {year} Plumstead Neighbourhood Watch. All rights reserved.{" "}

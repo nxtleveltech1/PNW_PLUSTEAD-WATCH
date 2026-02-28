@@ -4,6 +4,11 @@
 
 @layer base {
   :root {
+    /* Spacing (8px base) */
+    --space-section: 2rem;
+    --space-block: 1.5rem;
+    --space-component: 1.5rem;
+    --space-tight: 1rem;
     --background: 210 35% 98%;
     --foreground: 220 45% 11%;
     --card: 0 0% 100%;
@@ -31,6 +36,13 @@
     --ease-spring: cubic-bezier(0.2, 1.3, 0.45, 1);
     --surface-business: 210 40% 97%;
     --accent-networking: 199 89% 48%;
+  }
+
+  @media (min-width: 1024px) {
+    :root {
+      --space-section: 3rem;
+      --space-block: 2rem;
+    }
   }
 
   .dark {
@@ -105,12 +117,45 @@
 
 @layer components {
   .page-main {
-    @apply container flex-1 py-16 md:py-20;
+    @apply container flex-1;
     position: relative;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+  @media (min-width: 768px) {
+    .page-main {
+      padding-top: 6rem;
+      padding-bottom: 6rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .page-main {
+      padding-top: 7rem;
+      padding-bottom: 7rem;
+    }
   }
 
   .page-hero {
     @apply max-w-3xl;
+  }
+
+  .page-title {
+    @apply font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+  }
+
+  .section-title {
+    @apply font-display text-2xl font-bold tracking-tight text-foreground md:text-3xl;
+    letter-spacing: -0.025em;
+    line-height: 1.25;
+  }
+
+  .block-title {
+    @apply font-display text-xl font-semibold tracking-tight text-foreground;
+    line-height: 1.3;
   }
 
   .eyebrow {
@@ -216,6 +261,33 @@
 
   .stat-chip {
     @apply inline-flex items-center gap-2 rounded-full border border-white/35 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white/95 backdrop-blur;
+  }
+
+  .space-section {
+    margin-top: var(--space-section);
+  }
+
+  .space-block {
+    margin-top: var(--space-block);
+  }
+}
+
+@media print {
+  header,
+  footer,
+  nav,
+  .no-print {
+    display: none !important;
+  }
+
+  main {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  body {
+    background: white;
+    background-image: none;
   }
 }
 

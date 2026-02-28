@@ -3,7 +3,6 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Header } from "@/components/layout/header-server";
 import { Footer } from "@/components/layout/footer";
-import { AnimateSection } from "@/components/ui/animate-section";
 import { AccountNav } from "@/components/account/account-nav";
 import { isAdmin } from "@/lib/auth-admin";
 
@@ -27,19 +26,12 @@ export default async function AccountLayout({
     <div className="flex min-h-screen flex-col">
       <Header />
       <main id="main" className="page-main">
-        <AnimateSection>
-          <div className="page-hero">
-            <p className="eyebrow">Account</p>
-            <h1 className="section-heading mt-2">
-              <span className="headline-gradient">Manage your account</span>
-            </h1>
-            <p className="section-subheading">
-              Update your profile, membership, and preferences.
-            </p>
-          </div>
-        </AnimateSection>
+        <div className="mb-block">
+          <h1 className="section-title">Manage your account</h1>
+          <p className="mt-2 text-muted-foreground">Update your profile, membership, and preferences.</p>
+        </div>
 
-        <div className="mt-12 flex flex-col gap-8 lg:flex-row">
+        <div className="flex flex-col gap-8 lg:flex-row">
           <aside className="hidden shrink-0 lg:block lg:w-56">
             <AccountNav showAdmin={showAdmin} />
           </aside>

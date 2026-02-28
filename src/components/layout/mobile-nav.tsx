@@ -15,62 +15,118 @@ import {
 
 const hasClerk = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
-const allNavLinks = [
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/admin", label: "Admin" },
-  { href: "/account", label: "Account" },
+const operationsLinks = [
   { href: "/incidents", label: "Incidents" },
   { href: "/events", label: "Events" },
   { href: "/business", label: "Business" },
   { href: "/find", label: "Find Zone" },
   { href: "/safety-tips", label: "Safety Tips" },
   { href: "/volunteer", label: "Volunteer" },
-  { href: "/about", label: "About" },
   { href: "/documents", label: "Documents" },
-  { href: "/donate", label: "Donate" },
+];
+
+const organisationLinks = [
+  { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
+  { href: "/help", label: "Help" },
+  { href: "/donate", label: "Donate" },
+  { href: "/sponsors", label: "Sponsors" },
+];
+
+const accountLinks = [
+  { href: "/dashboard", label: "Dashboard" },
+  { href: "/account", label: "Account" },
 ];
 
 export function MobileNav({ showAdmin = false }: { showAdmin?: boolean }) {
-  const navLinks = showAdmin
-    ? allNavLinks
-    : allNavLinks.filter((l) => l.href !== "/admin");
+  const accountLinksFiltered = showAdmin
+    ? [...accountLinks, { href: "/admin", label: "Admin" }]
+    : accountLinks;
 
   return (
     <Drawer direction="right">
       <DrawerTrigger asChild>
-        <Button variant="ghost" size="icon" className="md:hidden" aria-label="Open menu">
-          <Menu className="h-5 w-5" />
+        <Button
+          variant="ghost"
+          size="icon"
+          className="md:hidden min-h-[44px] min-w-[44px]"
+          aria-label="Open menu"
+        >
+          <Menu className="h-5 w-5" aria-hidden />
         </Button>
       </DrawerTrigger>
       <DrawerContent className="h-full w-80 rounded-l-2xl rounded-r-none border-l border-border/80">
         <DrawerHeader>
           <DrawerTitle>Navigation</DrawerTitle>
         </DrawerHeader>
-        <nav className="flex flex-col gap-2 px-4 pb-6">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="rounded-lg px-4 py-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-            >
-              {link.label}
-            </Link>
-          ))}
-          <div className="mt-4 flex flex-col gap-2 border-t border-border/70 pt-4">
-            <Button asChild className="w-full justify-center">
+        <nav className="flex flex-col gap-6 px-4 pb-8" aria-label="Mobile navigation">
+          <div>
+            <h3 className="mb-3 px-4 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+              Operations
+            </h3>
+            <ul className="space-y-1" role="list">
+              {operationsLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="block rounded-lg px-4 py-3 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="mb-3 px-4 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+              Organisation
+            </h3>
+            <ul className="space-y-1" role="list">
+              {organisationLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="block rounded-lg px-4 py-3 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          {hasClerk && (
+            <div>
+              <h3 className="mb-3 px-4 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                Account
+              </h3>
+              <ul className="space-y-1" role="list">
+                {accountLinksFiltered.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="block rounded-lg px-4 py-3 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          <div className="mt-2 flex flex-col gap-2 border-t border-border/70 pt-6">
+            <Button asChild className="min-h-[44px] w-full justify-center">
               <Link href="/incidents">Report incident</Link>
             </Button>
             {hasClerk ? (
               <>
                 <SignedOut>
-                  <Button asChild variant="outline" className="w-full justify-center">
+                  <Button asChild variant="outline" className="min-h-[44px] w-full justify-center">
                     <Link href="/sign-in">Sign in</Link>
                   </Button>
-                  <Button asChild variant="outline" className="w-full justify-center">
+                  <Button asChild variant="outline" className="min-h-[44px] w-full justify-center">
                     <Link href="/register/guest">Register guest</Link>
                   </Button>
-                  <Button asChild className="w-full justify-center">
+                  <Button asChild className="min-h-[44px] w-full justify-center">
                     <Link href="/register">Join us</Link>
                   </Button>
                 </SignedOut>
@@ -82,13 +138,13 @@ export function MobileNav({ showAdmin = false }: { showAdmin?: boolean }) {
               </>
             ) : (
               <>
-                <Button asChild variant="outline" className="w-full justify-center">
+                <Button asChild variant="outline" className="min-h-[44px] w-full justify-center">
                   <Link href="/sign-in">Sign in</Link>
                 </Button>
-                <Button asChild variant="outline" className="w-full justify-center">
+                <Button asChild variant="outline" className="min-h-[44px] w-full justify-center">
                   <Link href="/register/guest">Register guest</Link>
                 </Button>
-                <Button asChild className="w-full justify-center">
+                <Button asChild className="min-h-[44px] w-full justify-center">
                   <Link href="/register">Join us</Link>
                 </Button>
               </>

@@ -32,7 +32,7 @@ export function AnimateSection({
     <motion.section
       initial="initial"
       whileInView="animate"
-      viewport={{ once: true, margin: "-48px" }}
+      viewport={{ once: true, margin: "-64px" }}
       variants={stagger}
       className={className}
       id={id}
