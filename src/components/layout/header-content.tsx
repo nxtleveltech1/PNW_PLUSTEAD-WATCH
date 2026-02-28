@@ -39,7 +39,7 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/90">
       <div className="border-b border-accent/15 bg-gradient-to-r from-alert-muted via-alert-muted/95 to-background/70">
-        <div className="container flex h-9 min-h-[2.25rem] items-center justify-end gap-6 text-xs font-semibold text-accent">
+        <div className="container flex h-8 min-h-[2rem] items-center justify-end gap-5 text-xs font-semibold text-accent">
           <p className="inline-flex items-center gap-2 tracking-wide">
             <AlertTriangle className="h-3.5 w-3.5" aria-hidden />
             Report incidents immediately
@@ -121,9 +121,6 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
                 <Button asChild variant="ghost" size="sm" className="min-h-[44px]">
                   <Link href="/sign-in">Sign in</Link>
                 </Button>
-                <Button asChild variant="outline" size="sm" className="min-h-[44px]">
-                  <Link href="/register/guest">Guest</Link>
-                </Button>
                 <Button asChild size="sm" className="min-h-[44px]">
                   <Link href="/register">Join</Link>
                 </Button>
@@ -136,9 +133,6 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
             <>
               <Button asChild variant="ghost" size="sm" className="min-h-[44px]">
                 <Link href="/sign-in">Sign in</Link>
-              </Button>
-              <Button asChild variant="outline" size="sm" className="min-h-[44px]">
-                <Link href="/register/guest">Guest</Link>
               </Button>
               <Button asChild size="sm" className="min-h-[44px]">
                 <Link href="/register">Join</Link>

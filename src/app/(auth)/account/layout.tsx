@@ -26,7 +26,7 @@ export default async function AccountLayout({
     <div className="flex min-h-screen flex-col">
       <Header />
       <main id="main" className="page-main page-main-compact">
-        <div className="flex flex-col gap-4 lg:flex-row lg:gap-6">
+        <div className="flex flex-col gap-4 lg:flex-row lg:gap-4">
           <aside className="hidden shrink-0 lg:block lg:w-52">
             <AccountNav showAdmin={showAdmin} />
           </aside>
@@ -55,7 +55,7 @@ export default async function AccountLayout({
           </nav>
 
           <div className="min-w-0 flex-1">
-            <div className="card-elevated rounded-2xl border-0 bg-card p-6 md:p-8">
+            <div className="card-elevated rounded-2xl border-0 bg-card p-5 md:p-6">
               {children}
             </div>
           </div>

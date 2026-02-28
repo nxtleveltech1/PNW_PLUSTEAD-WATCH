@@ -1,9 +1,6 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
-import { Footer } from "@/components/layout/footer";
-import { Header } from "@/components/layout/header-server";
-import { Button } from "@/components/ui/button";
+import { BreadcrumbNav } from "@/components/layout/breadcrumb-nav";
+import { PageShell } from "@/components/layout/page-shell";
 import { prisma } from "@/lib/db";
 
 export default async function SafetyTipPage({
@@ -30,17 +27,10 @@ export default async function SafetyTipPage({
     });
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main id="main" className="page-main">
-        <Button variant="ghost" size="sm" className="-ml-2" asChild>
-          <Link href="/safety-tips">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to safety tips
-          </Link>
-        </Button>
+    <PageShell>
+      <BreadcrumbNav items={[{ label: "Safety Tips", href: "/safety-tips" }, { label: tip.title }]} />
 
-        <article className="panel mt-5 max-w-4xl">
+      <article className="panel mt-5 max-w-4xl">
           <header className="panel-header">
             <h1 className="font-display text-3xl font-bold">{tip.title}</h1>
             {tip.summary && <p className="mt-2 max-w-3xl text-muted-foreground">{tip.summary}</p>}
@@ -55,8 +45,6 @@ export default async function SafetyTipPage({
             ))}
           </div>
         </article>
-      </main>
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

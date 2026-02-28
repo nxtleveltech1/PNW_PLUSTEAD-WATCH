@@ -1,14 +1,12 @@
 export const dynamic = "force-dynamic";
 
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { Header } from "@/components/layout/header-server";
-import { Footer } from "@/components/layout/footer";
+import { PageShell } from "@/components/layout/page-shell";
+import { BreadcrumbNav } from "@/components/layout/breadcrumb-nav";
 import { prisma } from "@/lib/db";
 import { BusinessDbUnavailable } from "../../db-unavailable";
-import { Button } from "@/components/ui/button";
 import { IntroRequestForm } from "./intro-request-form";
 
 export default async function RequestIntroPage({
@@ -34,13 +32,8 @@ export default async function RequestIntroPage({
   if (!listing) notFound();
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main id="main" className="page-main">
-        <Button asChild variant="ghost" size="sm" className="-ml-2 mb-6 text-muted-foreground hover:text-foreground">
-          <Link href={`/business/${listing.id}`}>&lt;- Back to {listing.name}</Link>
-        </Button>
-
+    <PageShell>
+      <BreadcrumbNav items={[{ label: "Business", href: "/business" }, { label: listing.name, href: `/business/${listing.id}` }, { label: "Request Intro" }]} />
         <div className="panel max-w-xl">
           <div className="panel-header">
             <h1 className="font-display text-xl font-semibold">Request business introduction</h1>
@@ -53,8 +46,6 @@ export default async function RequestIntroPage({
             <IntroRequestForm listingId={listing.id} listingName={listing.name} />
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

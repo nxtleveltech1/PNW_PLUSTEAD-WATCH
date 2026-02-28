@@ -30,7 +30,7 @@ export default async function AdminLayout({
           <p className="mt-0.5 text-sm text-muted-foreground">Manage incidents, events, business listings, and contact messages.</p>
         </div>
 
-        <div className="flex flex-col gap-4 lg:flex-row lg:gap-6">
+        <div className="flex flex-col gap-4 lg:flex-row lg:gap-4">
           <nav
             className="flex shrink-0 flex-wrap gap-2 lg:w-56 lg:flex-col lg:gap-1"
             aria-label="Admin navigation"

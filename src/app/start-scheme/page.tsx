@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Header } from "@/components/layout/header-server";
-import { Footer } from "@/components/layout/footer";
+import { PageShell } from "@/components/layout/page-shell";
+import { PageHero } from "@/components/layout/page-hero";
 import { AnimateSection, AnimateItem } from "@/components/ui/animate-section";
 import { SchemeInquiryForm } from "./scheme-inquiry-form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,20 +16,10 @@ const STEPS = [
 
 export default function StartSchemePage() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main id="main" className="page-main">
-        <AnimateSection>
-          <div className="page-hero">
-            <p className="eyebrow">Expansion</p>
-            <h1 className="section-heading mt-2">
-              <span className="headline-gradient">Start a Scheme</span>
-            </h1>
-            <p className="section-subheading">No active group in your area? Use this process to start one.</p>
-          </div>
-        </AnimateSection>
+    <PageShell>
+      <PageHero eyebrow="Expansion" title="Start a Scheme" description="No active group in your area? Use this process to start one." />
 
-        <AnimateSection className="mt-12">
+      <AnimateSection className="mt-section">
           <h2 className="font-display text-xl font-semibold text-foreground">4 steps to get started</h2>
           <div className="mt-6 space-y-4">
             {STEPS.map((s) => (
@@ -48,7 +38,7 @@ export default function StartSchemePage() {
           </div>
         </AnimateSection>
 
-        <AnimateSection className="mt-16">
+        <AnimateSection className="mt-section">
           <AnimateItem>
           <Card className="card-elevated max-w-md border-0">
             <CardHeader>
@@ -73,13 +63,11 @@ export default function StartSchemePage() {
           </AnimateItem>
         </AnimateSection>
 
-        <AnimateSection className="mt-12">
+        <AnimateSection className="mt-section">
           <Button variant="outline" asChild>
             <Link href="/contact">Contact committee directly</Link>
           </Button>
         </AnimateSection>
-      </main>
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

@@ -46,8 +46,8 @@ export function Footer() {
       tabIndex={-1}
       className="mt-auto border-t border-border/80 bg-gradient-to-b from-secondary/50 to-muted/30"
     >
-      <div className="container py-12 md:py-16">
-        <div className="grid gap-12 md:grid-cols-12 md:gap-x-8 lg:gap-x-12">
+      <div className="container py-10 md:py-12">
+        <div className="grid gap-10 md:grid-cols-12 md:gap-x-6 lg:gap-x-8">
           {/* Brand block */}
           <section
             className="md:col-span-5 lg:col-span-4"
@@ -166,7 +166,7 @@ export function Footer() {
         </div>
 
         {/* Footer CTA */}
-        <div className="mt-12 flex flex-wrap gap-3">
+        <div className="mt-8 flex flex-wrap gap-3">
           <Button asChild size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90">
             <Link href="/incidents">Report incident</Link>
           </Button>
@@ -176,7 +176,7 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-8 border-t border-border/60 pt-8">
+        <div className="mt-6 border-t border-border/60 pt-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <small className="text-sm text-muted-foreground">
               © {year} Plumstead Neighbourhood Watch. All rights reserved.{" "}

@@ -1,17 +1,12 @@
-import { Header } from "@/components/layout/header-server";
-import { Footer } from "@/components/layout/footer";
+import { PageHero } from "@/components/layout/page-hero";
+import { PageShell } from "@/components/layout/page-shell";
 import Link from "next/link";
 
 export default function PatrolAdministrationHelpPage() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main id="main" className="page-main">
-        <div className="page-hero">
-          <p className="eyebrow">Help</p>
-          <h1 className="section-heading mt-2">Patrol Administration</h1>
-        </div>
-        <div className="prose prose-neutral mt-8 max-w-none dark:prose-invert">
+    <PageShell>
+      <PageHero eyebrow="Help" title="Patrol Administration" />
+      <div className="prose prose-neutral mt-section max-w-none dark:prose-invert">
           <p className="font-medium">
             Note: A patrol zone is a completely separate entity from a member zone. A patrol zone may comprise one or more member zones.
           </p>
@@ -25,7 +20,7 @@ export default function PatrolAdministrationHelpPage() {
             <li>Patrol zone setup</li>
           </ul>
 
-          <h2 className="font-display mt-10 text-xl font-semibold">Patrol zone setup</h2>
+          <h2 className="font-display mt-8 text-xl font-semibold">Patrol zone setup</h2>
           <p>
             To add a patrol zone, click the &quot;Add Patrol Zone&quot; button. The fields include:
           </p>
@@ -36,7 +31,7 @@ export default function PatrolAdministrationHelpPage() {
             If selected: Allow Bookings From Date, Runs To Date, and Runs From Date become available.
           </p>
 
-          <h2 className="font-display mt-10 text-xl font-semibold">Patrol types</h2>
+          <h2 className="font-display mt-8 text-xl font-semibold">Patrol types</h2>
           <p>
             To edit a patrol type, click the edit icon next to the type. Fields include:
           </p>
@@ -47,7 +42,7 @@ export default function PatrolAdministrationHelpPage() {
             <li><strong>Name:</strong> e.g. Vehicle patrol.</li>
           </ul>
 
-          <h2 className="font-display mt-10 text-xl font-semibold">Patrol resources</h2>
+          <h2 className="font-display mt-8 text-xl font-semibold">Patrol resources</h2>
           <p>
             To add a patrol resource, click &quot;Add Patrol Resource&quot;. Fields include:
           </p>
@@ -57,19 +52,17 @@ export default function PatrolAdministrationHelpPage() {
             <li><strong>Name:</strong> e.g. Radio.</li>
           </ul>
 
-          <h2 className="font-display mt-10 text-xl font-semibold">Email &amp; documentation options</h2>
+          <h2 className="font-display mt-8 text-xl font-semibold">Email &amp; documentation options</h2>
           <p>
             The patrol roster may be emailed at various times. You can choose what information to include (e.g. to help patrollers recognise others in their zone). Additional options cover documentation category IDs for radio/call signs, suspicious persons, suspicious vehicles, and general patrol documentation. You can also enable email reminders 24 hours before a patrol and booking notifications.
           </p>
 
-          <p className="mt-10">
+          <p className="mt-8">
             <Link href="/help/glossary" className="text-primary hover:underline">
               Glossary of terms
             </Link>
           </p>
-        </div>
-      </main>
-      <Footer />
-    </div>
+      </div>
+    </PageShell>
   );
 }

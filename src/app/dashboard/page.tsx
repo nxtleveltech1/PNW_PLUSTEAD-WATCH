@@ -46,8 +46,8 @@ export default async function DashboardPage() {
       />
 
       <AnimateSection className="mt-section">
-        <div className="grid gap-8 lg:grid-cols-2">
-          <section className="card-elevated rounded-2xl border-0 bg-card p-6">
+        <div className="grid gap-5 lg:grid-cols-2">
+          <section className="card-elevated rounded-2xl border-0 bg-card p-5">
             <h2 className="block-title">Recent incidents</h2>
             <div className="mt-4 space-y-3">
               {incidents.length === 0 ? (
@@ -76,7 +76,7 @@ export default async function DashboardPage() {
             </Button>
           </section>
 
-          <section className="card-elevated rounded-2xl border-0 bg-card p-6">
+          <section className="card-elevated rounded-2xl border-0 bg-card p-5">
             <h2 className="block-title">Upcoming events</h2>
             <div className="mt-4 space-y-3">
               {events.length === 0 ? (
@@ -129,7 +129,7 @@ export default async function DashboardPage() {
           </div>
         )}
 
-        <div className="mt-section flex flex-wrap gap-4">
+        <div className="mt-block flex flex-wrap gap-3">
           <Button asChild variant="outline" size="sm" className="min-h-[44px]">
             <Link href="/account">
               <User className="mr-2 h-4 w-4" />

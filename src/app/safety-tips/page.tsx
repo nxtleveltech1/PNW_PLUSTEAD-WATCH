@@ -74,16 +74,16 @@ export default async function SafetyTipsPage() {
                         <Link
                           key={tip.id}
                           href={`/safety-tips/${tip.slug}`}
-                          className="rounded-xl border border-border/70 bg-background/70 p-5 transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-[var(--shadow-elevation-2)]"
+                          className="card-tip group p-5"
                         >
-                          <p className="inline-flex items-center gap-2 font-display text-lg font-semibold">
+                          <p className="inline-flex items-center gap-2 font-display text-base font-semibold transition-colors group-hover:text-primary">
                             <Shield className="h-4 w-4 text-primary" />
                             {tip.title}
                           </p>
-                          <p className="mt-3 line-clamp-3 text-sm text-muted-foreground">
+                          <p className="mt-2 line-clamp-3 text-sm text-muted-foreground">
                             {tip.summary ?? tip.content.slice(0, 140)}
                           </p>
-                          <p className="mt-4 text-sm font-semibold text-primary">Read guidance</p>
+                          <p className="mt-3 text-sm font-semibold text-primary">Read guidance &rarr;</p>
                         </Link>
                       ))}
                     </div>

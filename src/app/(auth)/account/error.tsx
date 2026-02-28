@@ -16,7 +16,7 @@ export default function AccountError({
   }, [error]);
 
   return (
-    <div className="flex min-h-[50vh] flex-col items-center justify-center gap-6 rounded-2xl border bg-card p-8">
+    <div className="flex min-h-[50vh] flex-col items-center justify-center gap-5 rounded-2xl border bg-card p-6">
       <h2 className="font-display text-xl font-semibold">Something went wrong</h2>
       <p className="max-w-md text-center text-sm text-muted-foreground">
         We couldn&apos;t load your account. This may be a temporary issue.

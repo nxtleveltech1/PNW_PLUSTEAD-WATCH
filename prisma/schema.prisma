@@ -22,6 +22,7 @@ model User {
   id                     String               @id @default(cuid())
   clerkId                String               @unique
   email                  String               @unique
+  memberNumber           Int                  @unique @default(autoincrement())
   firstName              String?
   lastName               String?
   memberType             MemberType           @default(GUEST)

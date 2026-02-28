@@ -1,5 +1,5 @@
-import { Header } from "@/components/layout/header-server";
-import { Footer } from "@/components/layout/footer";
+import { PageShell } from "@/components/layout/page-shell";
+import { PageHero } from "@/components/layout/page-hero";
 import { AnimateSection, AnimateItem } from "@/components/ui/animate-section";
 import { VacationWatchForm } from "./vacation-watch-form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,20 +7,10 @@ import { Home } from "lucide-react";
 
 export default function VacationWatchPage() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main id="main" className="page-main">
-        <AnimateSection>
-          <div className="page-hero">
-            <p className="eyebrow">Property Watch</p>
-            <h1 className="section-heading mt-2">
-              <span className="headline-gradient">Vacation Watch</span>
-            </h1>
-          <p className="section-subheading">Register your property for visual checks while you&apos;re away.          </p>
-        </div>
-        </AnimateSection>
+    <PageShell>
+      <PageHero eyebrow="Property Watch" title="Vacation Watch" description="Register your property for visual checks while you're away." />
 
-        <AnimateSection className="mt-12">
+      <AnimateSection className="mt-section">
           <section className="card-elevated rounded-2xl border border-amber-500/30 bg-amber-500/5 p-6">
           <h2 className="font-display font-semibold text-foreground">Eligibility</h2>
           <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
@@ -34,7 +24,7 @@ export default function VacationWatchPage() {
         </section>
         </AnimateSection>
 
-        <AnimateSection className="mt-12">
+        <AnimateSection className="mt-section">
           <AnimateItem>
           <Card className="card-elevated max-w-md border-0">
             <CardHeader>
@@ -58,8 +48,6 @@ export default function VacationWatchPage() {
           </Card>
           </AnimateItem>
         </AnimateSection>
-      </main>
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

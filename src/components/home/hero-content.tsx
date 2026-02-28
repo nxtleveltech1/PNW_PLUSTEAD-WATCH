@@ -37,7 +37,7 @@ const fadeUp = {
 function HeroMainSlide() {
   return (
     <motion.div
-      className="flex h-full min-h-[90vh] w-full flex-col items-center justify-center px-6 py-20 text-center md:px-10 lg:px-16"
+      className="flex h-full min-h-[85vh] w-full flex-col items-center justify-center px-6 py-16 text-center md:px-10 lg:px-16"
       initial="initial"
       animate="animate"
       variants={stagger}
@@ -115,7 +115,7 @@ function HeroMainSlide() {
 
 function CameraProjectSlide() {
   return (
-    <div className="relative flex h-full min-h-[90vh] w-full flex-col items-center justify-center px-6 py-20 text-center md:px-10 lg:px-16">
+    <div className="relative flex h-full min-h-[85vh] w-full flex-col items-center justify-center px-6 py-16 text-center md:px-10 lg:px-16">
       <Image
         src="/images/camera-project-bg.png"
         alt=""

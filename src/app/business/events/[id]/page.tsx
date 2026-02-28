@@ -3,11 +3,10 @@ export const dynamic = "force-dynamic";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { auth } from "@clerk/nextjs/server";
-import { Header } from "@/components/layout/header-server";
-import { Footer } from "@/components/layout/footer";
+import { PageShell } from "@/components/layout/page-shell";
+import { BreadcrumbNav } from "@/components/layout/breadcrumb-nav";
 import { prisma } from "@/lib/db";
 import { BusinessDbUnavailable } from "../../db-unavailable";
-import { Button } from "@/components/ui/button";
 import { BusinessEventRsvpButton } from "./rsvp-button";
 
 export default async function BusinessEventDetailPage({
@@ -49,13 +48,8 @@ export default async function BusinessEventDetailPage({
   const isFuture = event.startAt >= new Date();
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main id="main" className="page-main">
-        <Button asChild variant="ghost" size="sm" className="-ml-2 mb-6 text-muted-foreground hover:text-foreground">
-          <Link href="/business/events">&lt;- Back to events</Link>
-        </Button>
-
+    <PageShell>
+      <BreadcrumbNav items={[{ label: "Business", href: "/business" }, { label: "Events", href: "/business/events" }, { label: event.title }]} />
         <article className="panel max-w-3xl">
           <div className="panel-header">
             <h1 className="font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl">
@@ -96,8 +90,6 @@ export default async function BusinessEventDetailPage({
             </div>
           )}
         </article>
-      </main>
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

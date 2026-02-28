@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { MembershipForm } from "@/components/account/membership-form";
@@ -7,7 +7,8 @@ export default async function MembershipPage() {
   const { userId } = await auth();
   if (!userId) redirect("/sign-in");
 
-  const [user, zones, streets] = await Promise.all([
+  const [clerkUser, user, zones, streets] = await Promise.all([
+    currentUser(),
     prisma.user.findUnique({
       where: { clerkId: userId },
       include: { zone: true, street: true },
@@ -18,7 +19,12 @@ export default async function MembershipPage() {
 
   return (
     <div className="space-y-6">
-      <MembershipForm user={user} zones={zones} streets={streets} />
+      <MembershipForm
+        user={user}
+        zones={zones}
+        streets={streets}
+        profileImageUrl={clerkUser?.imageUrl ?? null}
+      />
     </div>
   );
 }

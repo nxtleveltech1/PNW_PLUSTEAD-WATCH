@@ -4,11 +4,11 @@
 
 @layer base {
   :root {
-    /* Spacing (8px base) */
-    --space-section: 2rem;
-    --space-block: 1.5rem;
-    --space-component: 1.5rem;
-    --space-tight: 1rem;
+    /* Spacing — tighter, confident */
+    --space-section: 1.5rem;
+    --space-block: 1rem;
+    --space-component: 1rem;
+    --space-tight: 0.75rem;
     --background: 210 35% 98%;
     --foreground: 220 45% 11%;
     --card: 0 0% 100%;
@@ -40,8 +40,8 @@
 
   @media (min-width: 1024px) {
     :root {
-      --space-section: 3rem;
-      --space-block: 2rem;
+      --space-section: 2rem;
+      --space-block: 1.5rem;
     }
   }
 
@@ -119,21 +119,21 @@
   .page-main {
     @apply container flex-1;
     position: relative;
-    padding-top: 5rem;
-    padding-bottom: 5rem;
+    padding-top: 2.5rem;
+    padding-bottom: 3rem;
   }
 
   @media (min-width: 768px) {
     .page-main {
-      padding-top: 6rem;
-      padding-bottom: 6rem;
+      padding-top: 3rem;
+      padding-bottom: 3.5rem;
     }
   }
 
   @media (min-width: 1024px) {
     .page-main {
-      padding-top: 7rem;
-      padding-bottom: 7rem;
+      padding-top: 3.5rem;
+      padding-bottom: 4rem;
     }
   }
 
@@ -178,7 +178,8 @@
   }
 
   .eyebrow {
-    @apply text-xs font-semibold uppercase tracking-[0.2em] text-primary;
+    @apply font-semibold uppercase tracking-[0.18em] text-primary;
+    font-size: 0.6875rem;
   }
 
   .section-heading {
@@ -288,6 +289,48 @@
 
   .space-block {
     margin-top: var(--space-block);
+  }
+
+  .section-divider {
+    @apply border-t border-border/50;
+  }
+
+  .section-bg-muted {
+    @apply border-t border-border/40 bg-muted/30;
+  }
+
+  .section-bg-accent {
+    @apply border-t border-accent/20 bg-gradient-to-b from-alert-muted to-alert-muted/60;
+  }
+
+  .card-incident {
+    @apply flex items-center gap-4 rounded-xl border-l-[3px] border-l-accent px-5 py-4 shadow-[var(--shadow-elevation-1)] transition-all duration-200;
+    background-color: hsl(var(--card));
+  }
+
+  .card-incident:hover {
+    background-color: hsl(var(--alert-muted) / 0.3);
+    box-shadow: var(--shadow-elevation-2);
+  }
+
+  .card-event {
+    @apply overflow-hidden rounded-xl shadow-[var(--shadow-elevation-1)] transition-all duration-200;
+    background-color: hsl(var(--card));
+  }
+
+  .card-event:hover {
+    @apply -translate-y-0.5;
+    box-shadow: var(--shadow-elevation-2);
+  }
+
+  .card-tip {
+    @apply overflow-hidden rounded-xl border border-primary/10 shadow-[var(--shadow-elevation-1)] transition-all duration-200;
+    background-color: hsl(var(--card));
+  }
+
+  .card-tip:hover {
+    @apply border-primary/25;
+    box-shadow: var(--shadow-elevation-2);
   }
 }
 

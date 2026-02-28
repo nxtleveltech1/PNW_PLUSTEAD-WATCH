@@ -1,11 +1,9 @@
 export const dynamic = "force-dynamic";
 
-import Link from "next/link";
-import { Header } from "@/components/layout/header-server";
-import { Footer } from "@/components/layout/footer";
+import { PageShell } from "@/components/layout/page-shell";
+import { BreadcrumbNav } from "@/components/layout/breadcrumb-nav";
 import { prisma } from "@/lib/db";
 import { BusinessDbUnavailable } from "../db-unavailable";
-import { Button } from "@/components/ui/button";
 import { ReferralForm } from "./referral-form";
 
 export default async function BusinessReferralsPage({
@@ -29,14 +27,10 @@ export default async function BusinessReferralsPage({
     : null;
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main id="main" className="page-main">
-        <Button asChild variant="ghost" size="sm" className="-ml-2 mb-6 text-muted-foreground hover:text-foreground">
-          <Link href="/business">&lt;- Back to directory</Link>
-        </Button>
+    <PageShell>
+      <BreadcrumbNav items={[{ label: "Business", href: "/business" }, { label: "Referrals" }]} />
 
-        <div className="page-hero max-w-2xl">
+      <div className="page-hero max-w-2xl">
           <p className="eyebrow">Refer a friend</p>
           <h1 className="section-heading mt-2">Submit a referral</h1>
           <p className="section-subheading">
@@ -44,14 +38,12 @@ export default async function BusinessReferralsPage({
           </p>
         </div>
 
-        <div className="mt-10 max-w-2xl">
+        <div className="mt-section max-w-2xl">
           <ReferralForm
             listings={listings}
             preselectedListingId={preselectedListing?.id ?? null}
           />
         </div>
-      </main>
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

@@ -35,7 +35,7 @@ export default async function HomePage() {
       <Header />
       <main id="main" className="flex-1">
         {/* Hero: full viewport, refined gradient, motion */}
-        <section className="relative min-h-[90vh] w-full overflow-hidden ambient-grid">
+        <section className="relative min-h-[85vh] w-full overflow-hidden ambient-grid">
           <Image
             src="/images/hero-2.png"
             alt=""
@@ -51,7 +51,7 @@ export default async function HomePage() {
         </section>
 
         {/* Emergency alert: prominent, urgent */}
-        <section className="relative border-b-2 border-accent/30 bg-gradient-to-r from-alert-muted via-alert-muted/95 to-alert-muted py-7">
+        <section className="relative border-b-2 border-accent/30 bg-gradient-to-r from-alert-muted via-alert-muted/95 to-alert-muted py-5">
           <div className="container">
             <p className="text-center text-lg font-bold tracking-wide text-accent md:text-xl">
               REPORT ALL INCIDENTS TO CVIC: 0860 002 669
@@ -66,24 +66,24 @@ export default async function HomePage() {
         </section>
 
         {/* Emergency + Banking: asymmetric grid */}
-        <AnimateSection className="container py-24 lg:py-32">
-          <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
+        <AnimateSection className="container py-14 lg:py-16">
+          <div className="grid gap-6 lg:grid-cols-2 lg:gap-10">
             <AnimateItem>
               <Card className="card-elevated border-l-4 border-l-accent">
-                <CardHeader className="border-b border-border/50 bg-gradient-to-br from-alert-muted/80 to-alert-muted/40 px-8 py-8">
-                  <div className="flex items-center gap-5">
+                <CardHeader className="border-b border-border/50 bg-gradient-to-br from-alert-muted/80 to-alert-muted/40 px-6 py-6">
+                  <div className="flex items-center gap-4">
                     <span className="icon-badge-accent">
-                      <Phone className="h-7 w-7" />
+                      <Phone className="h-6 w-6" />
                     </span>
                     <div>
-                      <CardTitle className="font-display text-2xl text-foreground">
+                      <CardTitle className="font-display text-xl text-foreground">
                         Emergency contacts
                       </CardTitle>
-                      <CardDescription className="mt-1 text-base">Report incidents and crimes</CardDescription>
+                      <CardDescription className="mt-0.5 text-sm">Report incidents and crimes</CardDescription>
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="space-y-4 px-8 py-8">
+                <CardContent className="space-y-3 px-6 py-6">
                   <div className="flex items-center justify-between rounded-xl bg-muted/60 px-5 py-4 transition-colors hover:bg-muted/80">
                     <span className="font-semibold">CVIC</span>
                     <a
@@ -107,20 +107,20 @@ export default async function HomePage() {
             </AnimateItem>
             <AnimateItem>
               <Card className="card-elevated border-l-4 border-l-primary">
-                <CardHeader className="border-b border-border/50 bg-gradient-to-br from-primary/10 to-primary/5 px-8 py-8">
-                  <div className="flex items-center gap-5">
+                <CardHeader className="border-b border-border/50 bg-gradient-to-br from-primary/10 to-primary/5 px-6 py-6">
+                  <div className="flex items-center gap-4">
                     <span className="icon-badge-primary">
-                      <Shield className="h-7 w-7" />
+                      <Shield className="h-6 w-6" />
                     </span>
                     <div>
-                      <CardTitle className="font-display text-2xl text-foreground">
+                      <CardTitle className="font-display text-xl text-foreground">
                         Support our work
                       </CardTitle>
-                      <CardDescription className="mt-1 text-base">Plumstead Neighbourhood Watch</CardDescription>
+                      <CardDescription className="mt-0.5 text-sm">Plumstead Neighbourhood Watch</CardDescription>
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="space-y-4 px-8 py-8">
+                <CardContent className="space-y-3 px-6 py-6">
                   <div className="rounded-xl bg-muted/40 px-5 py-4 font-mono text-sm">
                     <p className="font-medium text-muted-foreground">Bank: FNB</p>
                     <p className="mt-1 text-lg font-bold text-foreground">ACC: 631 463 987 05</p>
@@ -137,7 +137,7 @@ export default async function HomePage() {
 
         {/* Safety tips teaser */}
         {safetyTips.length > 0 && (
-          <AnimateSection id="safety-tips" className="border-t border-border/60 bg-gradient-to-b from-muted/30 to-muted/10 py-24 lg:py-32">
+          <AnimateSection id="safety-tips" className="section-bg-muted py-14 lg:py-16">
             <div className="container">
               <AnimateItem className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
                 <div>
@@ -151,31 +151,31 @@ export default async function HomePage() {
                   <Link href="/safety-tips">View all tips</Link>
                 </Button>
               </AnimateItem>
-              <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {safetyTips.map((tip) => (
                   <AnimateItem key={tip.id}>
                     <Link href={`/safety-tips/${tip.slug}`}>
-                      <Card className="card-elevated group h-full">
-                        <CardHeader className="border-b border-border/50 bg-gradient-to-br from-primary/5 to-transparent px-6 py-6">
-                          <div className="flex items-start gap-5">
-                            <span className="icon-badge-primary group-hover:bg-primary/20 transition-colors">
-                              <Shield className="h-6 w-6" />
+                      <div className="card-tip group h-full">
+                        <div className="border-b border-border/50 bg-gradient-to-br from-primary/5 to-transparent px-5 py-5">
+                          <div className="flex items-start gap-4">
+                            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
+                              <Shield className="h-5 w-5" />
                             </span>
                             <div className="min-w-0">
-                              <CardTitle className="font-display text-lg leading-tight text-foreground group-hover:text-primary transition-colors">
+                              <p className="font-display text-base font-semibold leading-tight text-foreground transition-colors group-hover:text-primary">
                                 {tip.title}
-                              </CardTitle>
-                              <CardDescription className="mt-2 line-clamp-2 text-sm">
+                              </p>
+                              <p className="mt-1.5 line-clamp-2 text-sm text-muted-foreground">
                                 {tip.summary ?? tip.content.slice(0, 80)}
-                              </CardDescription>
+                              </p>
                             </div>
                           </div>
-                        </CardHeader>
-                        <CardContent className="flex items-center justify-between px-6 py-4">
+                        </div>
+                        <div className="flex items-center justify-between px-5 py-3">
                           <span className="text-sm font-semibold text-primary">Read more</span>
-                          <span className="text-primary opacity-0 transition-opacity group-hover:opacity-100">-&gt;</span>
-                        </CardContent>
-                      </Card>
+                          <span className="text-primary opacity-0 transition-opacity group-hover:opacity-100">&rarr;</span>
+                        </div>
+                      </div>
                     </Link>
                   </AnimateItem>
                 ))}
@@ -185,7 +185,7 @@ export default async function HomePage() {
         )}
 
         {/* Upcoming events */}
-        <AnimateSection id="events" className="container py-24 lg:py-32">
+        <AnimateSection id="events" className="container py-14 lg:py-16">
           <AnimateItem className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <span className="text-sm font-semibold uppercase tracking-widest text-primary">Community</span>
@@ -198,31 +198,31 @@ export default async function HomePage() {
               <Link href="/events">View all</Link>
             </Button>
           </AnimateItem>
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {events.length === 0 ? (
-              <div className="col-span-full rounded-2xl border-2 border-dashed border-border bg-muted/20 py-20 text-center text-muted-foreground">
+              <div className="col-span-full rounded-xl border-2 border-dashed border-border bg-muted/20 py-16 text-center text-muted-foreground">
                 No upcoming events.
               </div>
             ) : (
               events.map((ev) => (
                 <AnimateItem key={ev.id}>
                   <Link href={`/events/${ev.id}`}>
-                    <Card className="card-elevated group h-full">
-                      <CardHeader className="border-b border-border/50 bg-gradient-to-br from-primary/5 to-transparent px-6 py-6">
-                        <div className="flex items-start gap-5">
-                          <span className="icon-badge-primary group-hover:bg-primary/20 transition-colors">
-                            <Calendar className="h-6 w-6" />
+                    <div className="card-event group h-full">
+                      <div className="border-b border-border/50 bg-gradient-to-br from-primary/5 to-transparent px-5 py-5">
+                        <div className="flex items-start gap-3">
+                          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary transition-colors group-hover:bg-primary/25">
+                            <Calendar className="h-5 w-5" />
                           </span>
                           <div className="min-w-0">
-                            <CardTitle className="font-display text-lg leading-tight text-foreground group-hover:text-primary transition-colors">
+                            <p className="font-display text-base font-semibold leading-tight text-foreground transition-colors group-hover:text-primary">
                               {ev.title}
-                            </CardTitle>
-                            <CardDescription className="mt-2">{ev.location}</CardDescription>
+                            </p>
+                            <p className="mt-1 text-sm text-muted-foreground">{ev.location}</p>
                           </div>
                         </div>
-                      </CardHeader>
-                      <CardContent className="px-6 py-5">
-                        <p className="font-semibold text-primary">
+                      </div>
+                      <div className="px-5 py-4">
+                        <p className="text-sm font-semibold text-primary">
                           {ev.startAt.toLocaleDateString("en-ZA", {
                             weekday: "short",
                             day: "numeric",
@@ -231,8 +231,8 @@ export default async function HomePage() {
                             minute: "2-digit",
                           })}
                         </p>
-                      </CardContent>
-                    </Card>
+                      </div>
+                    </div>
                   </Link>
                 </AnimateItem>
               ))
@@ -241,7 +241,7 @@ export default async function HomePage() {
         </AnimateSection>
 
         {/* Recent incidents */}
-        <AnimateSection id="incidents" className="border-t border-border/60 bg-muted/40 py-24 lg:py-32">
+        <AnimateSection id="incidents" className="section-bg-muted py-14 lg:py-16">
           <div className="container">
             <AnimateItem className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
               <div>
@@ -255,9 +255,9 @@ export default async function HomePage() {
                 <Link href="/incidents">View all</Link>
               </Button>
             </AnimateItem>
-            <div className="mt-14 space-y-4">
+            <div className="mt-8 space-y-3">
               {incidents.length === 0 ? (
-                <div className="rounded-2xl border-2 border-dashed border-border bg-background/80 py-20 text-center text-muted-foreground">
+                <div className="rounded-xl border-2 border-dashed border-border bg-background/80 py-16 text-center text-muted-foreground">
                   No incidents recorded yet.
                 </div>
               ) : (
@@ -265,10 +265,10 @@ export default async function HomePage() {
                   <AnimateItem key={inc.id}>
                     <Link
                       href={`/incidents/${inc.id}`}
-                      className="group flex items-center gap-5 rounded-2xl border border-border/80 bg-card px-6 py-5 shadow-elevation-1 transition-all hover:border-primary/20 hover:shadow-elevation-2"
+                      className="card-incident group"
                     >
-                      <span className="icon-badge-accent">
-                        <AlertTriangle className="h-5 w-5" />
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent">
+                        <AlertTriangle className="h-4 w-4" />
                       </span>
                       <div className="min-w-0 flex-1">
                         <span className="font-semibold text-foreground group-hover:text-primary transition-colors">
@@ -295,10 +295,10 @@ export default async function HomePage() {
 
         {/* Sponsors */}
         {sponsors.length > 0 && (
-          <AnimateSection id="sponsors" className="border-t border-border/60 bg-background py-24 lg:py-32">
+          <AnimateSection id="sponsors" className="section-divider bg-background py-10 lg:py-12">
             <div className="container">
               <AnimateItem>
-                <div className="glass-card rounded-2xl px-8 py-6">
+                <div className="glass-card rounded-xl px-6 py-5">
                   <p className="text-center text-sm font-medium text-muted-foreground">
                     Supported by{" "}
                     {sponsors.map((s, i) => (

@@ -20,10 +20,10 @@ export default async function EventsPage() {
       />
 
       <AnimateSection className="mt-section">
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {events.length === 0 ? (
             <AnimateItem className="col-span-full">
-              <div className="rounded-2xl border-2 border-dashed border-border bg-muted/20 py-20 text-center text-muted-foreground">
+              <div className="rounded-xl border-2 border-dashed border-border bg-muted/20 py-16 text-center text-muted-foreground">
                 No events scheduled.
               </div>
             </AnimateItem>
@@ -31,23 +31,23 @@ export default async function EventsPage() {
             events.map((ev) => (
               <AnimateItem key={ev.id}>
                 <Link href={`/events/${ev.id}`} className="block h-full">
-                  <div className="card-elevated group h-full overflow-hidden rounded-2xl border-0 bg-card">
-                    <div className="border-b border-border/50 bg-gradient-to-br from-primary/5 to-transparent px-6 py-5">
+                  <div className="card-event group h-full">
+                    <div className="border-b border-border/50 bg-gradient-to-br from-primary/5 to-transparent px-5 py-5">
                       <div className="flex items-start gap-3">
-                        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/20">
-                          <Calendar className="h-6 w-6 text-primary" />
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary transition-colors group-hover:bg-primary/25">
+                          <Calendar className="h-5 w-5" />
                         </span>
                         <div className="min-w-0">
-                          <h2 className="font-display font-semibold leading-tight">{ev.title}</h2>
+                          <h2 className="font-display text-base font-semibold leading-tight transition-colors group-hover:text-primary">{ev.title}</h2>
                           <p className="mt-1 flex items-center gap-1 text-sm text-muted-foreground">
-                            <MapPin className="h-4 w-4 shrink-0" />
+                            <MapPin className="h-3.5 w-3.5 shrink-0" />
                             {ev.location}
                           </p>
                         </div>
                       </div>
                     </div>
-                    <div className="px-6 py-5">
-                      <p className="font-medium text-primary">
+                    <div className="px-5 py-4">
+                      <p className="text-sm font-semibold text-primary">
                         {ev.startAt.toLocaleDateString("en-ZA", {
                           weekday: "short",
                           day: "numeric",

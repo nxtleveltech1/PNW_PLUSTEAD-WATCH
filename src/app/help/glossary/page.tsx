@@ -1,5 +1,5 @@
-import { Header } from "@/components/layout/header-server";
-import { Footer } from "@/components/layout/footer";
+import { PageShell } from "@/components/layout/page-shell";
+import { PageHero } from "@/components/layout/page-hero";
 
 export default function GlossaryHelpPage() {
   const terms: { letter: string; items: { term: string; definition: string }[] }[] = [
@@ -258,17 +258,9 @@ export default function GlossaryHelpPage() {
   ];
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main id="main" className="page-main">
-        <div className="page-hero">
-          <p className="eyebrow">Help</p>
-          <h1 className="section-heading mt-2">Glossary of terms</h1>
-          <p className="section-subheading">
-            A–Z reference for terms used on the PNW platform.
-          </p>
-        </div>
-        <div className="mt-12 space-y-10">
+    <PageShell>
+      <PageHero eyebrow="Help" title="Glossary of terms" description="A–Z reference for terms used on the PNW platform." />
+      <div className="mt-section space-y-8">
           {terms.map(({ letter, items }) => (
             <section key={letter} id={letter}>
               <h2 className="font-display text-2xl font-semibold text-foreground">{letter}</h2>
@@ -282,9 +274,7 @@ export default function GlossaryHelpPage() {
               </dl>
             </section>
           ))}
-        </div>
-      </main>
-      <Footer />
-    </div>
+      </div>
+    </PageShell>
   );
 }

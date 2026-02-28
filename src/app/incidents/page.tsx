@@ -69,15 +69,15 @@ export default async function IncidentsPage({
             </div>
           </AnimateItem>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {incidents.map((inc) => (
               <AnimateItem key={inc.id}>
                 <Link
                   href={`/incidents/${inc.id}`}
-                  className="card-elevated group flex items-center gap-4 rounded-2xl border-0 bg-card px-6 py-5"
+                  className="card-incident group"
                 >
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-accent/10">
-                    <AlertTriangle className="h-5 w-5 text-accent" />
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent/10">
+                    <AlertTriangle className="h-4 w-4 text-accent" />
                   </span>
                   <div className="min-w-0 flex-1">
                     <Badge variant="alert" className="mb-1">

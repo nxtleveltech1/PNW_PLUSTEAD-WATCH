@@ -9,7 +9,7 @@ export function BusinessDbUnavailable() {
     <div className="flex min-h-screen flex-col">
       <Header />
       <main id="main" className="page-main">
-        <div className="panel max-w-2xl border-accent/30 bg-alert-muted/50 p-8">
+        <div className="panel max-w-2xl border-accent/30 bg-alert-muted/50 p-6">
           <div className="flex items-start gap-4">
             <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-accent/20">
               <AlertTriangle className="h-6 w-6 text-accent" />

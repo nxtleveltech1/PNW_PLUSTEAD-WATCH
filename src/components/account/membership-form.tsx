@@ -27,6 +27,7 @@ type Street = { id: string; name: string; zoneId: string };
 
 type UserWithZone = {
   id: string;
+  memberNumber: number;
   firstName: string | null;
   lastName: string | null;
   memberType: MemberType;
@@ -43,16 +44,19 @@ type UserWithZone = {
   whatsappOptIn: boolean;
   whatsappPhone: string | null;
   isApproved: boolean;
+  createdAt: Date;
 };
 
 export function MembershipForm({
   user,
   zones,
   streets = [],
+  profileImageUrl,
 }: {
   user: UserWithZone | null;
   zones: Zone[];
   streets?: Street[];
+  profileImageUrl?: string | null;
 }) {
   const form = useForm<Schema>({
     resolver: zodResolver(membershipProfileSchema),
@@ -125,6 +129,9 @@ export function MembershipForm({
               zone={user.zone}
               street={user.street}
               houseNumber={user.houseNumber}
+              memberNumber={user.memberNumber}
+              memberSince={user.createdAt}
+              profileImageUrl={profileImageUrl ?? null}
             />
           </MembershipCardDownload>
         </div>

@@ -1,11 +1,10 @@
 export const dynamic = "force-dynamic";
 
 import Link from "next/link";
-import { Header } from "@/components/layout/header-server";
-import { Footer } from "@/components/layout/footer";
+import { PageShell } from "@/components/layout/page-shell";
+import { BreadcrumbNav } from "@/components/layout/breadcrumb-nav";
 import { getBusinessMessagesForUser, getBusinessIntroRequestsForUser } from "../actions";
 import { BusinessDbUnavailable } from "../db-unavailable";
-import { Button } from "@/components/ui/button";
 import { MessageSquare, UserPlus } from "lucide-react";
 import { IntroRequestActions } from "./intro-request-actions";
 
@@ -24,14 +23,10 @@ export default async function BusinessMessagesPage() {
   const pendingIntros = introRequests.filter((r) => r.status === "PENDING");
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main id="main" className="page-main">
-        <Button asChild variant="ghost" size="sm" className="-ml-2 mb-6 text-muted-foreground hover:text-foreground">
-          <Link href="/business">&lt;- Back to directory</Link>
-        </Button>
+    <PageShell>
+      <BreadcrumbNav items={[{ label: "Business", href: "/business" }, { label: "Messages" }]} />
 
-        <div className="page-hero">
+      <div className="page-hero">
           <p className="eyebrow">Inbox</p>
           <h1 className="section-heading mt-2">Business messages</h1>
           <p className="section-subheading">
@@ -42,7 +37,7 @@ export default async function BusinessMessagesPage() {
 
         {/* Intro requests */}
         {pendingIntros.length > 0 && (
-          <section className="mt-10" aria-labelledby="intro-requests-heading">
+          <section className="mt-section" aria-labelledby="intro-requests-heading">
             <h2 id="intro-requests-heading" className="flex items-center gap-2 text-lg font-semibold">
               <UserPlus className="h-5 w-5" />
               Intro requests
@@ -83,7 +78,7 @@ export default async function BusinessMessagesPage() {
         )}
 
         {/* Messages */}
-        <section className={pendingIntros.length > 0 ? "mt-10" : "mt-10"} aria-labelledby="messages-heading">
+        <section className="mt-section" aria-labelledby="messages-heading">
           <h2 id="messages-heading" className="flex items-center gap-2 text-lg font-semibold">
             <MessageSquare className="h-5 w-5" />
             Messages
@@ -127,8 +122,6 @@ export default async function BusinessMessagesPage() {
             </div>
           )}
         </section>
-      </main>
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

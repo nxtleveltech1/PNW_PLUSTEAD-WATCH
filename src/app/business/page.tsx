@@ -121,7 +121,7 @@ export default async function BusinessNetworkingHubPage({
     <PageShell>
       {/* Hero with ambient gradient and headline */}
         <AnimateSection>
-          <div className="hero-business px-8 py-10 md:px-10 md:py-12">
+          <div className="hero-business px-6 py-8 md:px-8 md:py-10">
             <AnimateItem>
               <p className="eyebrow">Local Business Network</p>
               <h1 className="section-heading-gradient mt-2">Business Networking</h1>
@@ -168,7 +168,7 @@ export default async function BusinessNetworkingHubPage({
 
         {/* Sponsors — elevated card grid */}
         {sponsors.length > 0 && (
-          <AnimateSection className="mt-14" aria-labelledby="sponsors-heading">
+          <AnimateSection className="mt-section" aria-labelledby="sponsors-heading">
             <AnimateItem className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <span className="text-sm font-semibold uppercase tracking-widest text-primary">
@@ -258,7 +258,7 @@ export default async function BusinessNetworkingHubPage({
 
         {/* Featured local businesses */}
         {featuredListings.length > 0 && (
-          <AnimateSection className="mt-14" id="featured" aria-labelledby="featured-heading">
+          <AnimateSection className="mt-section" id="featured" aria-labelledby="featured-heading">
             <AnimateItem>
               <span className="text-sm font-semibold uppercase tracking-widest text-primary">
                 Spotlight
@@ -322,7 +322,7 @@ export default async function BusinessNetworkingHubPage({
         )}
 
         {/* Business Directory */}
-        <AnimateSection className="mt-14" id="directory" aria-labelledby="directory-heading">
+        <AnimateSection className="mt-section" id="directory" aria-labelledby="directory-heading">
           <AnimateItem>
             <span className="text-sm font-semibold uppercase tracking-widest text-primary">
               Browse
@@ -398,7 +398,7 @@ export default async function BusinessNetworkingHubPage({
 
         {/* Upcoming Events teaser */}
         {upcomingEvents.length > 0 && (
-          <AnimateSection className="mt-14" aria-labelledby="events-heading">
+          <AnimateSection className="mt-section" aria-labelledby="events-heading">
             <AnimateItem className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
               <h2 id="events-heading" className="section-heading">
                 <span className="headline-gradient">Upcoming events</span>
@@ -443,7 +443,7 @@ export default async function BusinessNetworkingHubPage({
         )}
 
         {/* List your business CTA — card-elevated, icon-badge, gradient header */}
-        <AnimateSection className="mt-14">
+        <AnimateSection className="mt-section">
           <AnimateItem>
             <div className="card-elevated overflow-hidden rounded-2xl border-l-4 border-l-primary">
               <div className="border-b border-border/50 bg-gradient-to-br from-primary/10 to-primary/5 px-6 py-6 md:flex md:items-center md:justify-between md:gap-6">
@@ -467,7 +467,7 @@ export default async function BusinessNetworkingHubPage({
         </AnimateSection>
 
         {/* Advertising CTA — card-elevated, icon-badge */}
-        <AnimateSection className="mt-10">
+        <AnimateSection className="mt-block">
           <AnimateItem>
             <div className="card-elevated overflow-hidden rounded-2xl border-l-4 border-l-accent">
               <div className="border-b border-border/50 bg-gradient-to-br from-alert-muted/80 to-alert-muted/40 px-6 py-6 md:flex md:items-center md:justify-between md:gap-6">

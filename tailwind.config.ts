@@ -36,9 +36,10 @@ const config: Config = {
         "18": "4.5rem",
         "22": "5.5rem",
         "30": "7.5rem",
-        "section": "3rem",
-        "block": "2rem",
-        "component": "1.5rem",
+        "section": "2rem",
+        "block": "1.5rem",
+        "component": "1rem",
+        "tight": "0.75rem",
       },
       colors: {
         background: "hsl(var(--background))",
