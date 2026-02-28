@@ -74,11 +74,11 @@ export function MembershipCardFront({
     >
       {/* Ambient glow effects */}
       <div
-        className="absolute -left-8 -top-8 h-32 w-32 rounded-full opacity-20 blur-3xl"
+        className="absolute -left-10 -top-10 h-40 w-40 rounded-full opacity-20 blur-3xl"
         style={{ background: "radial-gradient(circle, #3b82f6 0%, transparent 70%)" }}
       />
       <div
-        className="absolute -bottom-6 -right-6 h-28 w-28 rounded-full opacity-15 blur-3xl"
+        className="absolute -bottom-8 -right-8 h-36 w-36 rounded-full opacity-15 blur-3xl"
         style={{ background: "radial-gradient(circle, #ef4444 0%, transparent 70%)" }}
       />
 
@@ -90,106 +90,98 @@ export function MembershipCardFront({
         }}
       />
 
-      {/* Single flex layout filling the card */}
-      <div className="absolute inset-0 flex flex-col p-3 pt-[7px] md:p-4 md:pt-[7px]">
-        {/* Top section: photo + info side by side */}
-        <div className="flex min-h-0 flex-1 gap-3">
-          {/* Profile photo -- constrained to 55% of card height */}
-          <div className="flex w-[35%] shrink-0 items-start pt-1">
-            <div className="relative aspect-square w-full overflow-hidden rounded-xl border border-white/10 bg-white/5 shadow-lg">
-              {profileImageUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={profileImageUrl}
-                  alt={fullName}
-                  crossOrigin="anonymous"
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                <div className="flex h-full w-full items-center justify-center text-xl font-bold text-white/40 md:text-2xl">
-                  {initials || "?"}
-                </div>
-              )}
-            </div>
+      {/* Photo: positioned top-left, spans ~62% height */}
+      <div className="absolute left-[4%] top-[6%] h-[56%] w-[34%] overflow-hidden rounded-xl border border-white/15 bg-white/5 shadow-lg">
+        {profileImageUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={profileImageUrl}
+            alt={fullName}
+            crossOrigin="anonymous"
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center text-2xl font-bold text-white/30 md:text-3xl">
+            {initials || "?"}
           </div>
+        )}
+      </div>
 
-          {/* Right: badge + name + address */}
-          <div className="flex min-w-0 flex-1 flex-col pt-1">
-            <div className="flex justify-end">
-              <div className="flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/15 px-2 py-0.5">
-                <ShieldCheck className="h-3 w-3 text-emerald-400" />
-                <span className="text-[9px] font-bold uppercase tracking-wider text-white/90 md:text-[10px]">
-                  Active Member
-                </span>
-                <span className="text-[9px] font-bold text-white/50 md:text-[10px]">|</span>
-                <span className="text-[9px] font-bold text-white/90 md:text-[10px]">
-                  {currentYear}
-                </span>
-              </div>
-            </div>
+      {/* Active member badge: top-right */}
+      <div className="absolute right-[4%] top-[6%]">
+        <div className="flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/15 px-2.5 py-1">
+          <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
+          <span className="text-[9px] font-bold uppercase tracking-wider text-white/90 md:text-[10px]">
+            Active Member
+          </span>
+          <span className="text-[9px] font-bold text-white/50 md:text-[10px]">|</span>
+          <span className="text-[9px] font-bold text-white/90 md:text-[10px]">
+            {currentYear}
+          </span>
+        </div>
+      </div>
 
-            <div className="mt-auto space-y-0.5">
-              <h2 className="truncate font-display text-lg font-bold leading-tight text-white md:text-xl">
-                {fullName}
-              </h2>
-              {addressLine && (
-                <p className="truncate text-[11px] leading-snug text-white/60 md:text-xs">
-                  {addressLine}
-                </p>
-              )}
-              {!addressLine && zoneName && (
-                <p className="text-[11px] text-white/60 md:text-xs">{zoneName}</p>
-              )}
-              {zoneName && addressLine && (
-                <p className="text-[10px] font-medium text-white/45 md:text-[11px]">
-                  Section: {zoneName}
-                </p>
-              )}
-            </div>
-          </div>
+      {/* Name + address: right of photo, vertically centered */}
+      <div className="absolute right-[4%] top-[30%] left-[42%] flex flex-col justify-center">
+        <h2 className="truncate font-display text-xl font-bold uppercase leading-tight tracking-wide text-white md:text-2xl">
+          {fullName}
+        </h2>
+        {addressLine && (
+          <p className="mt-0.5 truncate text-[11px] leading-snug text-white/70 md:text-sm">
+            {addressLine}
+          </p>
+        )}
+        {!addressLine && zoneName && (
+          <p className="mt-0.5 text-[11px] text-white/70 md:text-sm">{zoneName}</p>
+        )}
+        {zoneName && addressLine && (
+          <p className="mt-0.5 text-[10px] font-medium text-white/50 md:text-xs">
+            Section: {zoneName}
+          </p>
+        )}
+      </div>
+
+      {/* Bottom bar: PNW logo + stats strip */}
+      <div className="absolute inset-x-[4%] bottom-[5%] flex items-end gap-2">
+        {/* PNW logo -- overlaps into photo area */}
+        <div className="relative -mt-4 h-12 w-14 shrink-0 md:h-14 md:w-16">
+          <Image
+            src="/images/full%20logo.jpg"
+            alt="PNW"
+            fill
+            className="object-contain object-left-bottom"
+            sizes="64px"
+          />
         </div>
 
-        {/* Bottom bar: logo + stats + tagline */}
-        <div className="mt-1.5 shrink-0">
-          <div className="flex items-end gap-2">
-            <div className="relative h-10 w-11 shrink-0 md:h-12 md:w-14">
-              <Image
-                src="/images/full%20logo.jpg"
-                alt="PNW"
-                fill
-                className="object-contain object-left-bottom"
-                sizes="56px"
-              />
+        {/* Stats strip + tagline */}
+        <div className="flex flex-1 flex-col">
+          <div className="flex overflow-hidden rounded-md border border-white/10 bg-white/95">
+            <div className="flex-1 px-2 py-1 md:px-2.5">
+              <p className="text-[6px] font-semibold uppercase tracking-[0.06em] text-red-600 md:text-[7px]">
+                Member Number
+              </p>
+              <p className="font-mono text-[10px] font-bold leading-tight text-gray-900 md:text-[11px]">
+                {memberNum}
+              </p>
             </div>
-
-            <div className="flex flex-1 overflow-hidden rounded-md border border-white/10 bg-white/95">
-              <div className="flex-1 px-1.5 py-1 md:px-2">
-                <p className="text-[6px] font-semibold uppercase tracking-[0.06em] text-red-600 md:text-[7px]">
-                  Member No.
-                </p>
-                <p className="font-mono text-[10px] font-bold leading-tight text-gray-900 md:text-[11px]">
-                  {memberNum}
-                </p>
-              </div>
-              <div className="flex-1 border-l border-gray-200 px-1.5 py-1 md:px-2">
-                <p className="text-[6px] font-semibold uppercase tracking-[0.06em] text-gray-500 md:text-[7px]">
-                  Joined
-                </p>
-                <p className="font-mono text-[10px] font-bold leading-tight text-gray-900 md:text-[11px]">
-                  {joinedLabel}
-                </p>
-              </div>
-              <div className="flex-1 border-l border-gray-200 px-1.5 py-1 md:px-2">
-                <p className="text-[6px] font-semibold uppercase tracking-[0.06em] text-gray-500 md:text-[7px]">
-                  Expiry
-                </p>
-                <p className="font-mono text-[10px] font-bold leading-tight text-gray-900 md:text-[11px]">
-                  DEC {currentYear}
-                </p>
-              </div>
+            <div className="flex-1 border-l border-gray-200 px-2 py-1 text-center md:px-2.5">
+              <p className="text-[6px] font-semibold uppercase tracking-[0.06em] text-gray-500 md:text-[7px]">
+                Joined
+              </p>
+              <p className="font-mono text-[10px] font-bold leading-tight text-gray-900 md:text-[11px]">
+                {joinedLabel}
+              </p>
+            </div>
+            <div className="flex-1 border-l border-gray-200 px-2 py-1 text-right md:px-2.5">
+              <p className="text-[6px] font-semibold uppercase tracking-[0.06em] text-gray-500 md:text-[7px]">
+                Expiry
+              </p>
+              <p className="font-mono text-[10px] font-bold leading-tight text-gray-900 md:text-[11px]">
+                DEC 31, {currentYear}
+              </p>
             </div>
           </div>
-
           <p className="mt-1 text-center text-[7px] font-bold uppercase tracking-[0.18em] text-white/35 md:text-[8px]">
             Neighbourhood Watch &bull; Stronger Together
           </p>
