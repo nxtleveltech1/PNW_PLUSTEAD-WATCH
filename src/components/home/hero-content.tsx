@@ -125,48 +125,48 @@ function CameraProjectSlide() {
         priority
       />
       <div className="absolute inset-0 bg-black/40" aria-hidden />
-      <div className="relative z-10 flex w-full max-w-4xl flex-col items-center gap-8">
+      <div className="relative z-10 flex w-full max-w-5xl flex-col items-center gap-6">
         <h2
-          className="font-display text-3xl font-bold uppercase tracking-tight text-white md:text-4xl lg:text-5xl"
+          className="max-w-4xl text-balance font-display text-[clamp(1.9rem,4.6vw,3.75rem)] font-bold uppercase tracking-tight text-white"
           style={{ textShadow: "0 3px 20px rgba(0,0,0,0.7)" }}
         >
           Neighborhood Watch Security Camera Project
         </h2>
         <p
-          className="font-display text-lg font-bold uppercase tracking-wider text-amber-300 md:text-xl"
+          className="font-display text-base font-bold uppercase tracking-[0.14em] text-amber-300 md:text-lg"
           style={{ textShadow: "0 1px 8px rgba(0,0,0,0.6)" }}
         >
           &raquo; Join · Support · Donate &laquo;
         </p>
 
-        <div className="grid w-full grid-cols-1 gap-6 border-t border-b border-white/30 py-8 md:grid-cols-3 md:gap-0">
-          <div className="flex flex-col items-center gap-4 px-6 md:border-x md:border-white/30">
+        <div className="grid w-full grid-cols-1 gap-4 py-4 md:grid-cols-3">
+          <div className="flex flex-col items-center gap-4 rounded-2xl border border-white/30 bg-black/25 px-6 py-6 backdrop-blur-sm">
             <HandHelping className="h-12 w-12 text-white drop-shadow-lg" />
             <h3 className="font-display text-xl font-bold uppercase text-white" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>Join</h3>
             <p className="text-sm font-medium leading-relaxed text-white/90" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.5)" }}>
               Volunteer to monitor our neighborhood
             </p>
-            <Button asChild size="lg" className="mt-2 bg-white/20 font-semibold text-white backdrop-blur-sm hover:bg-white/30">
+            <Button asChild size="lg" className="mt-2 min-w-[140px] bg-white/20 font-semibold text-white backdrop-blur-sm hover:bg-white/30">
               <Link href="/register">Get involved</Link>
             </Button>
           </div>
-          <div className="flex flex-col items-center gap-4 px-6 md:border-r md:border-white/30">
+          <div className="flex flex-col items-center gap-4 rounded-2xl border border-white/30 bg-black/25 px-6 py-6 backdrop-blur-sm">
             <Shield className="h-12 w-12 text-white drop-shadow-lg" />
             <h3 className="font-display text-xl font-bold uppercase text-white" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>Support</h3>
             <p className="text-sm font-medium leading-relaxed text-white/90" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.5)" }}>
               Grow our security camera network
             </p>
-            <Button asChild size="lg" className="mt-2 bg-white/20 font-semibold text-white backdrop-blur-sm hover:bg-white/30">
+            <Button asChild size="lg" className="mt-2 min-w-[140px] bg-white/20 font-semibold text-white backdrop-blur-sm hover:bg-white/30">
               <Link href="/register">Support us</Link>
             </Button>
           </div>
-          <div className="flex flex-col items-center gap-4 px-6">
+          <div className="flex flex-col items-center gap-4 rounded-2xl border border-white/30 bg-black/25 px-6 py-6 backdrop-blur-sm">
             <DollarSign className="h-12 w-12 text-amber-400 drop-shadow-lg" />
             <h3 className="font-display text-xl font-bold uppercase text-white" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>Donate</h3>
             <p className="text-sm font-medium leading-relaxed text-white/90" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.5)" }}>
               Fund new safety cameras for our streets
             </p>
-            <Button asChild size="lg" className="mt-2 bg-primary font-semibold shadow-lg">
+            <Button asChild size="lg" className="mt-2 min-w-[140px] bg-primary font-semibold shadow-lg">
               <Link href="/donate">Donate now</Link>
             </Button>
           </div>
@@ -197,8 +197,14 @@ export function HeroContent() {
 
   React.useEffect(() => {
     if (!api) return;
+    const onSelect = () => setCurrent(api.selectedScrollSnap());
     setCurrent(api.selectedScrollSnap());
-    api.on("select", () => setCurrent(api.selectedScrollSnap()));
+    api.on("select", onSelect);
+    autoplayPlugin.current.play();
+
+    return () => {
+      api.off("select", onSelect);
+    };
   }, [api]);
 
   return (
