@@ -12,7 +12,8 @@ export default async function SignUpPage({
   let afterSignUpUrl = "/dashboard";
   if (redirect_url) {
     try {
-      afterSignUpUrl = new URL(redirect_url).pathname || "/dashboard";
+      const parsed = new URL(redirect_url, "http://localhost");
+      afterSignUpUrl = parsed.pathname || "/dashboard";
     } catch {
       afterSignUpUrl = "/dashboard";
     }
