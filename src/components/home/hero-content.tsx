@@ -37,7 +37,7 @@ const fadeUp = {
 function HeroMainSlide() {
   return (
     <motion.div
-      className="flex h-full min-h-[85vh] w-full flex-col items-center justify-center px-6 py-16 text-center md:px-10 lg:px-16"
+      className="flex h-full min-h-full w-full flex-col items-center justify-center px-6 py-10 text-center md:px-10 md:py-12 lg:px-16 lg:py-14"
       initial="initial"
       animate="animate"
       variants={stagger}
@@ -49,7 +49,7 @@ function HeroMainSlide() {
       />
       <motion.div
         variants={fadeUp}
-        className="relative mb-6 h-40 w-[340px] md:mb-8 md:h-56 md:w-[520px] lg:mb-10 lg:h-64 lg:w-[620px]"
+        className="relative mb-6 aspect-[31/10] w-[min(84vw,620px)] md:mb-8 lg:mb-10"
       >
         <Image
           src="/images/full%20logo.jpg"
@@ -62,14 +62,14 @@ function HeroMainSlide() {
       </motion.div>
       <motion.h1
         variants={fadeUp}
-        className="max-w-4xl font-display text-4xl font-bold tracking-tight text-white md:text-5xl lg:text-6xl xl:text-7xl"
+        className="max-w-4xl font-display text-[clamp(2rem,5.3vw,4.8rem)] font-bold tracking-tight text-white"
         style={{ textShadow: "0 4px 24px rgba(0,0,0,0.42)" }}
       >
         Be the eyes and ears of the area.
       </motion.h1>
       <motion.p
         variants={fadeUp}
-        className="mt-4 font-display text-xl font-bold tracking-wide text-amber-300 md:text-2xl"
+        className="mt-4 font-display text-[clamp(1.1rem,2.2vw,1.6rem)] font-bold tracking-wide text-amber-300"
         style={{ textShadow: "0 2px 12px rgba(0,0,0,0.48)" }}
       >
         Together, we can fight CRIME.
@@ -115,7 +115,7 @@ function HeroMainSlide() {
 
 function CameraProjectSlide() {
   return (
-    <div className="relative flex h-full min-h-[85vh] w-full flex-col items-center justify-center px-6 py-16 text-center md:px-10 lg:px-16">
+    <div className="relative flex h-full min-h-full w-full flex-col items-center justify-center px-6 py-10 text-center md:px-10 md:py-12 lg:px-16 lg:py-14">
       <Image
         src="/images/camera-project-bg.png"
         alt=""
@@ -187,7 +187,12 @@ export function HeroContent() {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
   const autoplayPlugin = React.useRef(
-    Autoplay({ delay: 8000, stopOnInteraction: true, stopOnMouseEnter: true })
+    Autoplay({
+      delay: 6500,
+      stopOnInteraction: false,
+      stopOnMouseEnter: false,
+      playOnInit: true,
+    })
   );
 
   React.useEffect(() => {

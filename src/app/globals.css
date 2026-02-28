@@ -374,6 +374,51 @@
     @apply animate-pulse-glow;
   }
 
+  .topbar-premium {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--alert-muted)) 0%,
+      hsl(var(--alert-muted) / 0.94) 58%,
+      hsl(var(--background) / 0.82) 100%
+    );
+  }
+
+  .topbar-phone {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--alert-muted) / 0.88) 0%,
+      hsl(var(--alert-muted) / 0.72) 100%
+    );
+  }
+
+  .topbar-report-btn {
+    letter-spacing: 0.01em;
+  }
+
+  .header-nav-link {
+    @apply transition-colors;
+  }
+
+  .header-nav-link:hover {
+    @apply bg-primary/10 text-primary;
+  }
+
+  .footer-shell {
+    background-image:
+      linear-gradient(to right, hsl(var(--primary) / 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--primary) / 0.05) 1px, transparent 1px),
+      linear-gradient(180deg, hsl(var(--background) / 0.86), hsl(var(--background) / 0.72));
+    background-size: 30px 30px, 30px 30px, 100% 100%;
+  }
+
+  .footer-eyebrow {
+    letter-spacing: 0.15em;
+  }
+
+  .footer-link {
+    text-underline-offset: 0.18em;
+  }
+
   .accent-bar {
     @apply w-1 shrink-0 rounded-full bg-gradient-to-b from-primary to-accent;
   }

@@ -49,13 +49,13 @@ export function MobileNav({ showAdmin = false }: { showAdmin?: boolean }) {
         <Button
           variant="ghost"
           size="icon"
-          className="md:hidden min-h-[44px] min-w-[44px]"
+          className="min-h-[44px] min-w-[44px] md:hidden"
           aria-label="Open menu"
         >
           <Menu className="h-5 w-5" aria-hidden />
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="h-full w-80 rounded-l-2xl rounded-r-none border-l border-border/80">
+      <DrawerContent className="h-full w-80 rounded-l-2xl rounded-r-none border-l border-border/80 bg-background/95">
         <DrawerHeader>
           <DrawerTitle>Navigation</DrawerTitle>
         </DrawerHeader>
@@ -117,7 +117,10 @@ export function MobileNav({ showAdmin = false }: { showAdmin?: boolean }) {
             </div>
           )}
           <div className="mt-2 flex flex-col gap-2 border-t border-border/70 pt-6">
-            <Button asChild className="min-h-[44px] w-full justify-center">
+            <Button
+              asChild
+              className="min-h-[44px] w-full justify-center bg-accent text-accent-foreground shadow-[0_10px_24px_rgb(206_67_44_/_0.24)] hover:bg-accent/90"
+            >
               <Link href="/incidents">Report incident</Link>
             </Button>
             {hasClerk ? (

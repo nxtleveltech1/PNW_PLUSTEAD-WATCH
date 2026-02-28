@@ -44,11 +44,11 @@ export function Footer() {
       id="footer"
       role="contentinfo"
       tabIndex={-1}
-      className="mt-auto bg-gradient-to-b from-secondary/50 to-muted/30"
+      className="mt-auto bg-gradient-to-b from-secondary/60 to-muted/30"
     >
       <div className="divider-gradient" />
       <div className="container py-10 md:py-12">
-        <div className="grid gap-10 md:grid-cols-12 md:gap-x-6 lg:gap-x-8">
+        <div className="footer-shell grid gap-10 rounded-2xl border border-border/60 bg-background/70 p-6 shadow-[var(--shadow-elevation-1)] backdrop-blur-sm md:grid-cols-12 md:gap-x-6 md:p-8 lg:gap-x-8">
           {/* Brand block */}
           <section
             className="md:col-span-5 lg:col-span-4"
@@ -79,7 +79,7 @@ export function Footer() {
             <address className="mt-6 not-italic">
               <a
                 href={CVIC_TEL}
-                className="inline-flex min-h-[44px] min-w-[44px] items-center gap-2 rounded-lg bg-alert-muted px-4 py-3 text-sm font-semibold text-accent transition-colors hover:bg-alert-muted/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className="inline-flex min-h-[44px] min-w-[44px] items-center gap-2 rounded-lg bg-alert-muted px-4 py-3 text-sm font-semibold text-accent shadow-[0_8px_20px_rgb(206_67_44_/_0.15)] transition-colors hover:bg-alert-muted/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 aria-label={`Call CVIC emergency line: ${CVIC_NUMBER}`}
               >
                 <span className="relative flex h-2 w-2 shrink-0" aria-hidden>
@@ -99,7 +99,7 @@ export function Footer() {
           >
             <div className="grid w-full grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4 md:gap-6">
               <div>
-                <h3 className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                <h3 className="footer-eyebrow flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                   <span className="inline-block h-3.5 w-0.5 rounded-full bg-primary" aria-hidden />
                   Membership
                 </h3>
@@ -108,7 +108,7 @@ export function Footer() {
                     <li key={link.href}>
                       <Link
                         href={link.href}
-                        className="text-sm font-medium text-foreground/90 transition-colors hover:text-primary hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded"
+                        className="footer-link rounded text-sm font-medium text-foreground/90 transition-colors hover:text-primary hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                       >
                         {link.label}
                       </Link>
@@ -117,7 +117,7 @@ export function Footer() {
                 </ul>
               </div>
               <div>
-                <h3 className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                <h3 className="footer-eyebrow flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                   <span className="inline-block h-3.5 w-0.5 rounded-full bg-primary" aria-hidden />
                   Operations
                 </h3>
@@ -126,7 +126,7 @@ export function Footer() {
                     <li key={link.href}>
                       <Link
                         href={link.href}
-                        className="text-sm font-medium text-foreground/90 transition-colors hover:text-primary hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded"
+                        className="footer-link rounded text-sm font-medium text-foreground/90 transition-colors hover:text-primary hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                       >
                         {link.label}
                       </Link>
@@ -135,7 +135,7 @@ export function Footer() {
                 </ul>
               </div>
               <div>
-                <h3 className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                <h3 className="footer-eyebrow flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                   <span className="inline-block h-3.5 w-0.5 rounded-full bg-primary" aria-hidden />
                   Organisation
                 </h3>
@@ -144,7 +144,7 @@ export function Footer() {
                     <li key={link.href}>
                       <Link
                         href={link.href}
-                        className="text-sm font-medium text-foreground/90 transition-colors hover:text-primary hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded"
+                        className="footer-link rounded text-sm font-medium text-foreground/90 transition-colors hover:text-primary hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                       >
                         {link.label}
                       </Link>
@@ -153,7 +153,7 @@ export function Footer() {
                 </ul>
               </div>
               <div>
-                <h3 className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                <h3 className="footer-eyebrow flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                   <span className="inline-block h-3.5 w-0.5 rounded-full bg-primary" aria-hidden />
                   Legal
                 </h3>
@@ -162,7 +162,7 @@ export function Footer() {
                     <li key={link.href}>
                       <Link
                         href={link.href}
-                        className="text-sm font-medium text-foreground/90 transition-colors hover:text-primary hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded"
+                        className="footer-link rounded text-sm font-medium text-foreground/90 transition-colors hover:text-primary hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                       >
                         {link.label}
                       </Link>
@@ -176,10 +176,10 @@ export function Footer() {
 
         {/* Footer CTA */}
         <div className="mt-8 flex flex-wrap gap-3">
-          <Button asChild size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90">
+          <Button asChild size="sm" className="bg-accent px-4 text-accent-foreground shadow-[0_10px_24px_rgb(206_67_44_/_0.22)] hover:bg-accent/90">
             <Link href="/incidents">Report incident</Link>
           </Button>
-          <Button asChild variant="outline" size="sm">
+          <Button asChild variant="outline" size="sm" className="bg-background/70">
             <Link href="/register">Join us</Link>
           </Button>
         </div>
