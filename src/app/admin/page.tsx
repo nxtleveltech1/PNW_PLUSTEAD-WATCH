@@ -2,10 +2,23 @@ import Link from "next/link";
 import { prisma } from "@/lib/db";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { AlertTriangle, Building2, MessageSquare, Users, Calendar, FileText } from "lucide-react";
+import { AlertTriangle, Building2, MessageSquare, Users, Calendar, FileText, Shield } from "lucide-react";
 
 export default async function AdminOverviewPage() {
-  const [pendingListings, incidentsCount, eventsCount, documentsCount, messagesCount, pendingMembers] = await Promise.all([
+  const [
+    totalUsers,
+    activeUsers,
+    totalRoles,
+    pendingListings,
+    incidentsCount,
+    eventsCount,
+    documentsCount,
+    messagesCount,
+    pendingMembers,
+  ] = await Promise.all([
+    prisma.user.count(),
+    prisma.user.count({ where: { isActive: true } }),
+    prisma.role.count(),
     prisma.businessListing.count({ where: { status: "PENDING" } }),
     prisma.incident.count(),
     prisma.event.count(),
@@ -16,6 +29,38 @@ export default async function AdminOverviewPage() {
 
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 font-display text-lg">
+            <Users className="h-5 w-5 text-primary" />
+            Users
+          </CardTitle>
+          <CardDescription>{activeUsers} active of {totalUsers} total</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p className="text-2xl font-semibold">{totalUsers}</p>
+          <Button asChild variant="outline" size="sm" className="mt-4">
+            <Link href="/admin/users">Manage</Link>
+          </Button>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 font-display text-lg">
+            <Shield className="h-5 w-5 text-primary" />
+            Roles
+          </CardTitle>
+          <CardDescription>Custom roles with permissions</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p className="text-2xl font-semibold">{totalRoles}</p>
+          <Button asChild variant="outline" size="sm" className="mt-4">
+            <Link href="/admin/roles">Manage</Link>
+          </Button>
+        </CardContent>
+      </Card>
+
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 font-display text-lg">

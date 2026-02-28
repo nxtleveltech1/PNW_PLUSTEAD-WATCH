@@ -249,6 +249,48 @@ export const replyMessageSchema = z.object({
 });
 export type ReplyMessageInput = z.input<typeof replyMessageSchema>;
 
+// ── Admin User CRUD ─────────────────────────────────────────────────────
+
+export const adminUserCreateSchema = z.object({
+  email: z.string().trim().email("Valid email required"),
+  firstName: z.string().trim().optional().nullable(),
+  lastName: z.string().trim().optional().nullable(),
+  memberType: z.enum(["MEMBER", "GUEST"]),
+  customRoleId: z.string().min(1, "Role is required"),
+  zoneId: z.string().trim().optional().nullable(),
+  streetId: z.string().trim().optional().nullable(),
+  houseNumber: z.string().trim().optional().nullable(),
+  isApproved: z.boolean().default(false),
+  isActive: z.boolean().default(true),
+  patrolOptIn: z.boolean().default(false),
+  hideFromNeighbours: z.boolean().default(false),
+  secondaryContactName: z.string().trim().optional().nullable(),
+  secondaryContactPhone: z.string().trim().optional().nullable(),
+  secondaryContactEmail: z.union([z.string().trim().email(), z.literal("")]).optional().nullable(),
+  whatsappOptIn: z.boolean().default(false),
+  whatsappPhone: z.string().trim().optional().nullable(),
+});
+export type AdminUserCreateInput = z.input<typeof adminUserCreateSchema>;
+
+export const adminUserUpdateSchema = adminUserCreateSchema.partial().extend({
+  customRoleId: z.string().min(1, "Role is required"),
+});
+export type AdminUserUpdateInput = z.input<typeof adminUserUpdateSchema>;
+
+// ── Admin Role CRUD ─────────────────────────────────────────────────────
+
+export const adminRoleCreateSchema = z.object({
+  name: z.string().trim().min(2, "Role name must be at least 2 characters"),
+  description: z.string().trim().optional().nullable(),
+  permissionKeys: z.array(z.string()).default([]),
+});
+export type AdminRoleCreateInput = z.input<typeof adminRoleCreateSchema>;
+
+export const adminRoleUpdateSchema = adminRoleCreateSchema;
+export type AdminRoleUpdateInput = z.input<typeof adminRoleUpdateSchema>;
+
+// ── Admin Broadcast ─────────────────────────────────────────────────────
+
 export const adminBroadcastSchema = z.object({
   subject: z.string().trim().min(1, "Subject is required").max(200, "Subject too long"),
   body: z.string().trim().min(2, "Message is required").max(10000, "Message too long"),

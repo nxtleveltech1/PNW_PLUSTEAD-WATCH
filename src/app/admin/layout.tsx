@@ -2,10 +2,12 @@ import Link from "next/link";
 import { requireAdmin } from "@/lib/auth-admin";
 import { Header } from "@/components/layout/header-server";
 import { Footer } from "@/components/layout/footer";
-import { LayoutDashboard, Building2, Megaphone, MessageSquare, AlertTriangle, Users, Calendar, FileText } from "lucide-react";
+import { LayoutDashboard, Building2, Megaphone, MessageSquare, AlertTriangle, Users, Calendar, FileText, Shield } from "lucide-react";
 
 const adminNav = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard },
+  { href: "/admin/users", label: "Users", icon: Users },
+  { href: "/admin/roles", label: "Roles", icon: Shield },
   { href: "/admin/incidents", label: "Incidents", icon: AlertTriangle },
   { href: "/admin/events", label: "Events", icon: Calendar },
   { href: "/admin/documents", label: "Documents", icon: FileText },
@@ -28,7 +30,7 @@ export default async function AdminLayout({
       <main id="main" className="page-main page-main-compact">
         <div className="mb-4">
           <h1 className="text-xl font-semibold">Admin Console</h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">Manage incidents, events, business listings, and contact messages.</p>
+          <p className="mt-0.5 text-sm text-muted-foreground">Manage users, roles, incidents, events, business listings, and contact messages.</p>
         </div>
 
         <div className="flex flex-col gap-4 lg:flex-row lg:gap-4">

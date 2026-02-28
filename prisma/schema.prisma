@@ -20,13 +20,16 @@ enum UserRole {
 
 model User {
   id                     String               @id @default(cuid())
-  clerkId                String               @unique
+  clerkId                String?              @unique
   email                  String               @unique
   memberNumber           Int                  @unique @default(autoincrement())
   firstName              String?
   lastName               String?
   memberType             MemberType           @default(GUEST)
   role                   UserRole             @default(MEMBER)
+  customRoleId           String?
+  customRole             Role?                @relation(fields: [customRoleId], references: [id])
+  isActive               Boolean              @default(true)
   zoneId                 String?
   zone                   Zone?                @relation(fields: [zoneId], references: [id])
   streetId               String?
@@ -53,6 +56,39 @@ model User {
   businessIntroRequests  BusinessIntroRequest[]
   conversationParticipants ConversationParticipant[]
   sentInboxMessages        InboxMessage[]           @relation("sentMessages")
+
+  @@index([customRoleId])
+}
+
+// ── RBAC ────────────────────────────────────────────────────────────────
+
+model Role {
+  id          String           @id @default(cuid())
+  name        String           @unique
+  description String?
+  isSystem    Boolean          @default(false)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  users       User[]
+  permissions RolePermission[]
+}
+
+model Permission {
+  id          String           @id @default(cuid())
+  key         String           @unique
+  label       String
+  groupName   String
+  description String?
+  roles       RolePermission[]
+}
+
+model RolePermission {
+  roleId       String
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permissionId String
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
 }
 
 model Incident {

@@ -1,11 +1,27 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
+import { PERMISSIONS } from "@/lib/permissions";
 
 const adminEmails = (process.env.ADMIN_EMAILS ?? "gambew@gmail.com")
   .split(",")
   .map((e) => e.trim().toLowerCase())
   .filter(Boolean);
+
+async function ensureSuperAdminRole(userId: string) {
+  const superAdminRole = await prisma.role.findUnique({ where: { name: "Super Admin" } });
+  if (!superAdminRole) return;
+
+  await prisma.user.updateMany({
+    where: { clerkId: userId, customRoleId: { not: superAdminRole.id } },
+    data: {
+      role: "ADMIN",
+      customRoleId: superAdminRole.id,
+      memberType: "MEMBER",
+      isApproved: true,
+    },
+  });
+}
 
 async function syncUserFromClerk(clerkId: string) {
   const clerkUser = await currentUser();
@@ -16,7 +32,18 @@ async function syncUserFromClerk(clerkId: string) {
     clerkUser.emailAddresses[0]?.emailAddress;
   if (!primaryEmail) return null;
 
-  const isAdmin = adminEmails.includes(primaryEmail.toLowerCase());
+  const isBootstrapAdmin = adminEmails.includes(primaryEmail.toLowerCase());
+
+  let roleId: string | undefined;
+  if (isBootstrapAdmin) {
+    const superAdminRole = await prisma.role.findUnique({ where: { name: "Super Admin" } });
+    roleId = superAdminRole?.id;
+  }
+  if (!roleId) {
+    const memberRole = await prisma.role.findUnique({ where: { name: "Member" } });
+    roleId = memberRole?.id ?? undefined;
+  }
+
   return prisma.user.upsert({
     where: { clerkId },
     create: {
@@ -24,16 +51,37 @@ async function syncUserFromClerk(clerkId: string) {
       email: primaryEmail,
       firstName: clerkUser.firstName ?? null,
       lastName: clerkUser.lastName ?? null,
-      ...(isAdmin && { role: "ADMIN" as const, memberType: "MEMBER" as const, isApproved: true }),
+      customRoleId: roleId,
+      ...(isBootstrapAdmin && { role: "ADMIN" as const, memberType: "MEMBER" as const, isApproved: true }),
     },
     update: {
       email: primaryEmail,
       firstName: clerkUser.firstName ?? null,
       lastName: clerkUser.lastName ?? null,
-      ...(isAdmin && { role: "ADMIN" as const, memberType: "MEMBER" as const, isApproved: true }),
+      ...(isBootstrapAdmin && { customRoleId: roleId, role: "ADMIN" as const, memberType: "MEMBER" as const, isApproved: true }),
     },
-    select: { id: true, role: true, email: true },
+    select: { id: true, role: true, email: true, isActive: true, customRoleId: true },
   });
+}
+
+function userHasAdminAccess(permissions: string[]): boolean {
+  return permissions.includes(PERMISSIONS.ADMIN_ACCESS);
+}
+
+async function resolvePermissions(clerkId: string): Promise<string[]> {
+  const user = await prisma.user.findUnique({
+    where: { clerkId },
+    select: {
+      customRole: {
+        select: {
+          permissions: {
+            select: { permission: { select: { key: true } } },
+          },
+        },
+      },
+    },
+  });
+  return user?.customRole?.permissions.map((rp) => rp.permission.key) ?? [];
 }
 
 export async function requireAdmin() {
@@ -42,33 +90,24 @@ export async function requireAdmin() {
 
   let user = await prisma.user.findUnique({
     where: { clerkId: userId },
-    select: { id: true, role: true, email: true },
+    select: { id: true, role: true, email: true, isActive: true, customRoleId: true },
   });
 
   if (!user) {
     user = await syncUserFromClerk(userId);
   }
+  if (!user || !user.isActive) redirect("/dashboard");
 
-  const isAdminByRole = user?.role === "ADMIN";
-  const isAdminByEmail =
-    user?.email && adminEmails.includes(user.email.toLowerCase());
+  const isAdminByEmail = adminEmails.includes(user.email.toLowerCase());
+  if (isAdminByEmail) {
+    await ensureSuperAdminRole(userId);
+  }
 
-  if (!isAdminByRole && !isAdminByEmail) redirect("/dashboard");
+  const permissions = await resolvePermissions(userId);
+  const hasAccess = userHasAdminAccess(permissions) || isAdminByEmail;
+  if (!hasAccess) redirect("/dashboard");
 
-  // Ensure every admin has full membership (repairs existing records)
-  await prisma.user.updateMany({
-    where: {
-      clerkId: userId,
-      OR: [
-        { role: { not: "ADMIN" } },
-        { memberType: { not: "MEMBER" } },
-        { isApproved: false },
-      ],
-    },
-    data: { role: "ADMIN", memberType: "MEMBER", isApproved: true },
-  });
-
-  return { userId, user: user! };
+  return { userId, user: { id: user.id, role: user.role, email: user.email } };
 }
 
 export async function isAdmin(): Promise<boolean> {
@@ -78,33 +117,22 @@ export async function isAdmin(): Promise<boolean> {
 
     let user = await prisma.user.findUnique({
       where: { clerkId: userId },
-      select: { role: true, email: true },
+      select: { role: true, email: true, isActive: true },
     });
 
     if (!user) {
       user = await syncUserFromClerk(userId);
     }
+    if (!user || !user.isActive) return false;
 
-    const isAdminByRole = user?.role === "ADMIN";
-    const isAdminByEmail =
-      user?.email && adminEmails.includes(user.email.toLowerCase());
+    const isAdminByEmail = adminEmails.includes(user.email.toLowerCase());
+    if (isAdminByEmail) {
+      await ensureSuperAdminRole(userId);
+      return true;
+    }
 
-    if (!isAdminByRole && !isAdminByEmail) return false;
-
-    // Ensure every admin has full membership (repairs existing records)
-    await prisma.user.updateMany({
-      where: {
-        clerkId: userId,
-        OR: [
-          { role: { not: "ADMIN" } },
-          { memberType: { not: "MEMBER" } },
-          { isApproved: false },
-        ],
-      },
-      data: { role: "ADMIN", memberType: "MEMBER", isApproved: true },
-    });
-
-    return true;
+    const permissions = await resolvePermissions(userId);
+    return userHasAdminAccess(permissions);
   } catch {
     return false;
   }

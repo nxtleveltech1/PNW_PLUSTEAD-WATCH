@@ -218,7 +218,73 @@ async function main() {
     });
   }
 
-  console.log("Seed completed.");
+  // ── RBAC: Permissions & Roles ────────────────────────────────────────
+
+  const permissionDefs = [
+    { key: "admin.access",      label: "Admin panel access",       groupName: "Admin" },
+    { key: "users.view",        label: "View users",               groupName: "Users" },
+    { key: "users.manage",      label: "Manage users",             groupName: "Users" },
+    { key: "roles.manage",      label: "Manage roles",             groupName: "Roles" },
+    { key: "incidents.manage",  label: "Manage incidents",         groupName: "Content" },
+    { key: "events.manage",     label: "Manage events",            groupName: "Content" },
+    { key: "documents.manage",  label: "Manage documents",         groupName: "Content" },
+    { key: "business.manage",   label: "Manage business listings", groupName: "Business" },
+    { key: "members.approve",   label: "Approve members",          groupName: "Community" },
+    { key: "messages.view",     label: "View contact messages",    groupName: "Community" },
+    { key: "broadcast.send",    label: "Send broadcasts",          groupName: "Community" },
+  ];
+
+  for (const p of permissionDefs) {
+    await prisma.permission.upsert({
+      where: { key: p.key },
+      create: p,
+      update: { label: p.label, groupName: p.groupName },
+    });
+  }
+
+  const allPermissions = await prisma.permission.findMany();
+  const permByKey = Object.fromEntries(allPermissions.map((p) => [p.key, p.id]));
+
+  const roleDefs: { name: string; description: string; isSystem: boolean; permissionKeys: string[] }[] = [
+    { name: "Member",       description: "Standard community member",                                   isSystem: true, permissionKeys: [] },
+    { name: "Moderator",    description: "Can manage incidents and view messages",                       isSystem: true, permissionKeys: ["admin.access", "incidents.manage", "messages.view"] },
+    { name: "Zone Captain", description: "Zone-level leader with member approval and incident oversight", isSystem: true, permissionKeys: ["admin.access", "members.approve", "incidents.manage", "users.view"] },
+    { name: "Admin",        description: "Full administrative access except role management",            isSystem: true, permissionKeys: Object.keys(permByKey).filter((k) => k !== "roles.manage") },
+    { name: "Super Admin",  description: "Unrestricted access including role management",                isSystem: true, permissionKeys: Object.keys(permByKey) },
+  ];
+
+  for (const r of roleDefs) {
+    const role = await prisma.role.upsert({
+      where: { name: r.name },
+      create: { name: r.name, description: r.description, isSystem: r.isSystem },
+      update: { description: r.description, isSystem: r.isSystem },
+    });
+
+    await prisma.rolePermission.deleteMany({ where: { roleId: role.id } });
+    if (r.permissionKeys.length > 0) {
+      await prisma.rolePermission.createMany({
+        data: r.permissionKeys.map((key) => ({ roleId: role.id, permissionId: permByKey[key] })),
+      });
+    }
+  }
+
+  // Backfill existing users without a customRole
+  const memberRole = await prisma.role.findUnique({ where: { name: "Member" } });
+  const adminRole = await prisma.role.findUnique({ where: { name: "Admin" } });
+  if (memberRole) {
+    await prisma.user.updateMany({
+      where: { customRoleId: null, role: "MEMBER" },
+      data: { customRoleId: memberRole.id },
+    });
+  }
+  if (adminRole) {
+    await prisma.user.updateMany({
+      where: { customRoleId: null, role: "ADMIN" },
+      data: { customRoleId: adminRole.id },
+    });
+  }
+
+  console.log("Seed completed (including RBAC).");
 }
 
 main()
