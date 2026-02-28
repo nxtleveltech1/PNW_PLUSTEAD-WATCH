@@ -49,18 +49,26 @@ export async function requireAdmin() {
     user = await syncUserFromClerk(userId);
   }
 
-  if (user?.role === "ADMIN") return { userId, user };
+  const isAdminByRole = user?.role === "ADMIN";
+  const isAdminByEmail =
+    user?.email && adminEmails.includes(user.email.toLowerCase());
 
-  if (user?.email && adminEmails.includes(user.email.toLowerCase())) {
-    const updated = await prisma.user.update({
-      where: { clerkId: userId },
-      data: { role: "ADMIN", memberType: "MEMBER", isApproved: true },
-      select: { id: true, role: true },
-    });
-    return { userId, user: updated };
-  }
+  if (!isAdminByRole && !isAdminByEmail) redirect("/dashboard");
 
-  redirect("/dashboard");
+  // Ensure every admin has full membership (repairs existing records)
+  await prisma.user.updateMany({
+    where: {
+      clerkId: userId,
+      OR: [
+        { role: { not: "ADMIN" } },
+        { memberType: { not: "MEMBER" } },
+        { isApproved: false },
+      ],
+    },
+    data: { role: "ADMIN", memberType: "MEMBER", isApproved: true },
+  });
+
+  return { userId, user: user! };
 }
 
 export async function isAdmin(): Promise<boolean> {
@@ -77,18 +85,26 @@ export async function isAdmin(): Promise<boolean> {
       user = await syncUserFromClerk(userId);
     }
 
-    if (user?.role === "ADMIN") return true;
+    const isAdminByRole = user?.role === "ADMIN";
+    const isAdminByEmail =
+      user?.email && adminEmails.includes(user.email.toLowerCase());
 
-    // Upgrade: user exists as MEMBER but email is in ADMIN_EMAILS (env updated after signup)
-    if (user?.email && adminEmails.includes(user.email.toLowerCase())) {
-      await prisma.user.update({
-        where: { clerkId: userId },
-        data: { role: "ADMIN", memberType: "MEMBER", isApproved: true },
-      });
-      return true;
-    }
+    if (!isAdminByRole && !isAdminByEmail) return false;
 
-    return false;
+    // Ensure every admin has full membership (repairs existing records)
+    await prisma.user.updateMany({
+      where: {
+        clerkId: userId,
+        OR: [
+          { role: { not: "ADMIN" } },
+          { memberType: { not: "MEMBER" } },
+          { isApproved: false },
+        ],
+      },
+      data: { role: "ADMIN", memberType: "MEMBER", isApproved: true },
+    });
+
+    return true;
   } catch {
     return false;
   }
