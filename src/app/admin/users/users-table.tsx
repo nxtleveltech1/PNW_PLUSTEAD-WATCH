@@ -5,7 +5,6 @@ import { useState, useMemo } from "react";
 import {
   flexRender,
   getCoreRowModel,
-  getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
   type ColumnDef,
@@ -258,7 +257,6 @@ export function UsersTable({ data }: { data: UserRow[] }) {
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
   });
 
   return (

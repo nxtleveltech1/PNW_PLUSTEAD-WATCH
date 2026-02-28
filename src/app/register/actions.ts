@@ -63,5 +63,9 @@ export async function completeRegistration() {
     },
   });
 
+  if (data.memberType === "MEMBER") {
+    redirect("/register/payment");
+  }
+
   redirect("/dashboard");
 }

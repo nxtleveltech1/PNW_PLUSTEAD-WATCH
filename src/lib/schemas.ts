@@ -234,6 +234,13 @@ export type BusinessReferralInput = z.input<typeof businessReferralSchema>;
 export type BusinessListingsSearchParamsInput = z.input<typeof businessListingsSearchParamsSchema>;
 export type BusinessIntroRequestInput = z.input<typeof businessIntroRequestSchema>;
 
+// ── Payments ────────────────────────────────────────────────────────────
+
+export const paystackVerifySchema = z.object({
+  reference: z.string().trim().min(1, "Payment reference required"),
+});
+export type PaystackVerifyInput = z.input<typeof paystackVerifySchema>;
+
 // ── Inbox Messaging ──────────────────────────────────────────────────────
 
 export const composeMessageSchema = z.object({

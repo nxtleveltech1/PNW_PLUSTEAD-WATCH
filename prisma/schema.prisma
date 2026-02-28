@@ -18,6 +18,17 @@ enum UserRole {
   ADMIN
 }
 
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+}
+
+enum PaymentMethod {
+  PAYSTACK
+  EFT
+}
+
 model User {
   id                     String               @id @default(cuid())
   clerkId                String?              @unique
@@ -56,8 +67,31 @@ model User {
   businessIntroRequests  BusinessIntroRequest[]
   conversationParticipants ConversationParticipant[]
   sentInboxMessages        InboxMessage[]           @relation("sentMessages")
+  membershipPayments       MembershipPayment[]
 
   @@index([customRoleId])
+}
+
+// ── Membership Payments ─────────────────────────────────────────────────
+
+model MembershipPayment {
+  id                 String        @id @default(cuid())
+  userId             String
+  user               User          @relation(fields: [userId], references: [id])
+  amount             Int
+  currency           String        @default("ZAR")
+  method             PaymentMethod
+  status             PaymentStatus @default(PENDING)
+  paystackReference  String?       @unique
+  paystackAccessCode String?
+  paidAt             DateTime?
+  verifiedAt         DateTime?
+  verifiedById       String?
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+
+  @@index([userId])
+  @@index([status])
 }
 
 // ── RBAC ────────────────────────────────────────────────────────────────
