@@ -38,8 +38,11 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
     ? [...moreNavLinks, { href: "/admin", label: "Admin" }, { href: "/account", label: "Account" }]
     : moreNavLinks;
 
+  const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
+
   return (
-    <header className="sticky top-0 z-50 border-b border-border/70 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/90">
+    <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/90">
+      {/* Topbar */}
       <div className="topbar-premium border-b border-accent/15">
         <div className="container flex min-h-[2.625rem] items-center gap-3 py-1">
           <p className="hidden items-center gap-2 text-xs font-semibold tracking-wide text-accent sm:inline-flex">
@@ -69,104 +72,107 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
           </div>
         </div>
       </div>
-      <div className="container py-3">
-        <div className="flex min-h-[4.75rem] items-center gap-3 rounded-2xl border border-border/70 bg-background/90 px-3 shadow-[0_6px_20px_rgb(24_39_75_/_0.08)] backdrop-blur-sm md:gap-4 md:px-4">
-        <Link
-          href="/"
-          className="flex shrink-0 items-center gap-3 rounded-xl px-2 py-1.5 transition-colors hover:bg-muted/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-          aria-label="Plumstead Neighbourhood Watch home"
-        >
-          <div className="relative h-11 w-[116px] shrink-0 overflow-hidden md:h-12 md:w-[128px]">
-            <Image
-              src="/images/header%20logo.jpg"
-              alt=""
-              fill
-              className="object-contain object-left"
-              sizes="(max-width: 768px) 120px, 140px"
-              priority
-            />
+
+      {/* Main header */}
+      <div className="border-b border-border/60">
+        <div className="container flex h-16 items-center gap-8">
+          <Link
+            href="/"
+            className="flex shrink-0 items-center gap-3 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            aria-label="Plumstead Neighbourhood Watch home"
+          >
+            <div className="relative h-10 w-[108px] shrink-0 overflow-hidden md:h-11 md:w-[120px]">
+              <Image
+                src="/images/header%20logo.jpg"
+                alt=""
+                fill
+                className="object-contain object-left"
+                sizes="(max-width: 768px) 108px, 120px"
+                priority
+              />
+            </div>
+            <span className="hidden text-sm font-bold uppercase tracking-wide text-foreground md:inline">
+              Plumstead Neighbourhood Watch
+            </span>
+          </Link>
+
+          <div className="ml-auto md:hidden">
+            <MobileNav showAdmin={showAdmin} />
           </div>
-          <span className="hidden text-[0.95rem] font-semibold tracking-tight text-foreground md:inline lg:text-base">
-            PLUMSTEAD NEIGHBOURHOOD WATCH
-          </span>
-        </Link>
-        <div className="ml-auto md:hidden">
-          <MobileNav showAdmin={showAdmin} />
-        </div>
-        <nav
-          className="ml-auto hidden items-center gap-1 rounded-full border border-border/70 bg-muted/30 p-1 md:flex"
-          aria-label="Main navigation"
-        >
-          {primaryNavLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`flex min-h-[40px] min-w-[44px] items-center rounded-full px-3 py-2 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
-                pathname === link.href
-                  ? "bg-primary text-primary-foreground shadow-[0_8px_18px_rgb(25_65_156_/_0.3)]"
-                  : "text-foreground hover:bg-primary/10 hover:text-primary"
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button
-                className={`inline-flex min-h-[40px] min-w-[44px] items-center gap-1 rounded-full px-3 py-2 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
-                  filteredMoreLinks.some((link) => pathname === link.href)
-                    ? "bg-primary text-primary-foreground shadow-[0_8px_18px_rgb(25_65_156_/_0.3)]"
-                    : "text-foreground hover:bg-primary/10 hover:text-primary"
+
+          <nav className="ml-auto hidden items-center md:flex" aria-label="Main navigation">
+            {primaryNavLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`relative flex h-16 items-center px-4 text-[0.8125rem] font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+                  isActive(link.href)
+                    ? "text-primary after:absolute after:inset-x-2 after:bottom-0 after:h-[2px] after:rounded-full after:bg-primary"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
-                aria-haspopup="menu"
-                aria-expanded="false"
               >
-                More
-                <ChevronDown className="h-4 w-4" aria-hidden />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="min-w-[11rem] rounded-xl border-border/80 p-1.5 shadow-[0_14px_36px_rgb(24_39_75_/_0.18)]">
-              {filteredMoreLinks.map((link) => (
-                <DropdownMenuItem key={link.href} asChild>
-                  <Link
-                    href={link.href}
-                    className={`rounded-lg px-3 py-2 text-sm ${
-                      pathname === link.href ? "bg-primary/10 font-semibold text-primary" : ""
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </nav>
-        <div className="hidden items-center gap-1.5 rounded-full border border-border/70 bg-background/90 p-1 md:flex">
-          {hasClerk ? (
-            <>
-              <SignedOut>
-                <Button asChild variant="ghost" size="sm" className="min-h-[40px] rounded-full px-3 font-medium">
+                {link.label}
+              </Link>
+            ))}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  className={`relative flex h-16 items-center gap-1 px-4 text-[0.8125rem] font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+                    filteredMoreLinks.some((l) => isActive(l.href))
+                      ? "text-primary after:absolute after:inset-x-2 after:bottom-0 after:h-[2px] after:rounded-full after:bg-primary"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                  aria-haspopup="menu"
+                >
+                  More
+                  <ChevronDown className="h-3.5 w-3.5" aria-hidden />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="min-w-[10rem]">
+                {filteredMoreLinks.map((link) => (
+                  <DropdownMenuItem key={link.href} asChild>
+                    <Link
+                      href={link.href}
+                      className={
+                        isActive(link.href)
+                          ? "font-semibold text-primary"
+                          : ""
+                      }
+                    >
+                      {link.label}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </nav>
+
+          <div className="hidden items-center gap-2 md:flex">
+            {hasClerk ? (
+              <>
+                <SignedOut>
+                  <Button asChild variant="ghost" size="sm" className="h-9 px-3 text-[0.8125rem] font-medium text-muted-foreground hover:text-foreground">
+                    <Link href="/sign-in">Sign in</Link>
+                  </Button>
+                  <Button asChild size="sm" className="h-9 px-4 text-[0.8125rem] font-semibold">
+                    <Link href="/register">Join</Link>
+                  </Button>
+                </SignedOut>
+                <SignedIn>
+                  <UserAvatarDropdown showAdmin={showAdmin} />
+                </SignedIn>
+              </>
+            ) : (
+              <>
+                <Button asChild variant="ghost" size="sm" className="h-9 px-3 text-[0.8125rem] font-medium text-muted-foreground hover:text-foreground">
                   <Link href="/sign-in">Sign in</Link>
                 </Button>
-                <Button asChild size="sm" className="min-h-[40px] rounded-full px-4 shadow-[0_10px_24px_rgb(24_39_75_/_0.16)]">
+                <Button asChild size="sm" className="h-9 px-4 text-[0.8125rem] font-semibold">
                   <Link href="/register">Join</Link>
                 </Button>
-              </SignedOut>
-              <SignedIn>
-                <UserAvatarDropdown showAdmin={showAdmin} />
-              </SignedIn>
-            </>
-          ) : (
-            <>
-              <Button asChild variant="ghost" size="sm" className="min-h-[40px] rounded-full px-3 font-medium">
-                <Link href="/sign-in">Sign in</Link>
-              </Button>
-              <Button asChild size="sm" className="min-h-[40px] rounded-full px-4 shadow-[0_10px_24px_rgb(24_39_75_/_0.16)]">
-                <Link href="/register">Join</Link>
-              </Button>
-            </>
-          )}
-        </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </header>
