@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { AlertTriangle, ChevronDown, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -32,6 +33,7 @@ const moreNavLinks = [
 ];
 
 export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
+  const pathname = usePathname();
   const filteredMoreLinks = showAdmin
     ? [...moreNavLinks, { href: "/admin", label: "Admin" }, { href: "/account", label: "Account" }]
     : moreNavLinks;
@@ -67,10 +69,11 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
           </div>
         </div>
       </div>
-      <div className="container flex min-h-[4.75rem] items-center gap-6 py-3">
+      <div className="container py-3">
+        <div className="flex min-h-[4.75rem] items-center gap-3 rounded-2xl border border-border/70 bg-background/90 px-3 shadow-[0_6px_20px_rgb(24_39_75_/_0.08)] backdrop-blur-sm md:gap-4 md:px-4">
         <Link
           href="/"
-          className="flex shrink-0 items-center gap-3 rounded-lg px-1.5 py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          className="flex shrink-0 items-center gap-3 rounded-xl px-2 py-1.5 transition-colors hover:bg-muted/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           aria-label="Plumstead Neighbourhood Watch home"
         >
           <div className="relative h-11 w-[116px] shrink-0 overflow-hidden md:h-12 md:w-[128px]">
@@ -90,12 +93,19 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
         <div className="ml-auto md:hidden">
           <MobileNav showAdmin={showAdmin} />
         </div>
-        <nav className="ml-auto hidden items-center gap-1 md:flex" aria-label="Main navigation">
+        <nav
+          className="ml-auto hidden items-center gap-1 rounded-full border border-border/70 bg-muted/30 p-1 md:flex"
+          aria-label="Main navigation"
+        >
           {primaryNavLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="header-nav-link flex min-h-[44px] min-w-[44px] items-center rounded-md px-3 py-2.5 text-sm font-semibold text-foreground"
+              className={`flex min-h-[40px] min-w-[44px] items-center rounded-full px-3 py-2 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+                pathname === link.href
+                  ? "bg-primary text-primary-foreground shadow-[0_8px_18px_rgb(25_65_156_/_0.3)]"
+                  : "text-foreground hover:bg-primary/10 hover:text-primary"
+              }`}
             >
               {link.label}
             </Link>
@@ -103,7 +113,11 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button
-                className="header-nav-link inline-flex min-h-[44px] min-w-[44px] items-center gap-1 rounded-md px-3 py-2.5 text-sm font-semibold text-foreground"
+                className={`inline-flex min-h-[40px] min-w-[44px] items-center gap-1 rounded-full px-3 py-2 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+                  filteredMoreLinks.some((link) => pathname === link.href)
+                    ? "bg-primary text-primary-foreground shadow-[0_8px_18px_rgb(25_65_156_/_0.3)]"
+                    : "text-foreground hover:bg-primary/10 hover:text-primary"
+                }`}
                 aria-haspopup="menu"
                 aria-expanded="false"
               >
@@ -111,23 +125,30 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
                 <ChevronDown className="h-4 w-4" aria-hidden />
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="min-w-[10rem]">
+            <DropdownMenuContent align="end" className="min-w-[11rem] rounded-xl border-border/80 p-1.5 shadow-[0_14px_36px_rgb(24_39_75_/_0.18)]">
               {filteredMoreLinks.map((link) => (
                 <DropdownMenuItem key={link.href} asChild>
-                  <Link href={link.href}>{link.label}</Link>
+                  <Link
+                    href={link.href}
+                    className={`rounded-lg px-3 py-2 text-sm ${
+                      pathname === link.href ? "bg-primary/10 font-semibold text-primary" : ""
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
         </nav>
-        <div className="hidden items-center gap-1.5 md:flex">
+        <div className="hidden items-center gap-1.5 rounded-full border border-border/70 bg-background/90 p-1 md:flex">
           {hasClerk ? (
             <>
               <SignedOut>
-                <Button asChild variant="ghost" size="sm" className="min-h-[44px] px-3 font-medium">
+                <Button asChild variant="ghost" size="sm" className="min-h-[40px] rounded-full px-3 font-medium">
                   <Link href="/sign-in">Sign in</Link>
                 </Button>
-                <Button asChild size="sm" className="min-h-[44px] px-4 shadow-[0_10px_24px_rgb(24_39_75_/_0.16)]">
+                <Button asChild size="sm" className="min-h-[40px] rounded-full px-4 shadow-[0_10px_24px_rgb(24_39_75_/_0.16)]">
                   <Link href="/register">Join</Link>
                 </Button>
               </SignedOut>
@@ -137,14 +158,15 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
             </>
           ) : (
             <>
-              <Button asChild variant="ghost" size="sm" className="min-h-[44px] px-3 font-medium">
+              <Button asChild variant="ghost" size="sm" className="min-h-[40px] rounded-full px-3 font-medium">
                 <Link href="/sign-in">Sign in</Link>
               </Button>
-              <Button asChild size="sm" className="min-h-[44px] px-4 shadow-[0_10px_24px_rgb(24_39_75_/_0.16)]">
+              <Button asChild size="sm" className="min-h-[40px] rounded-full px-4 shadow-[0_10px_24px_rgb(24_39_75_/_0.16)]">
                 <Link href="/register">Join</Link>
               </Button>
             </>
           )}
+        </div>
         </div>
       </div>
     </header>
