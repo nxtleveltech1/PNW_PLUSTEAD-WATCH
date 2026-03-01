@@ -17,6 +17,7 @@ import {
   AlertCircle,
   ShieldCheck,
   ArrowLeft,
+  Smartphone,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -39,12 +40,13 @@ const signInSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
-const totpSchema = z.object({
+const codeSchema = z.object({
   code: z.string().min(6, "Enter your 6-digit code").max(6),
 });
 
 type SignInValues = z.infer<typeof signInSchema>;
-type TotpValues = z.infer<typeof totpSchema>;
+type CodeValues = z.infer<typeof codeSchema>;
+type MfaStrategy = "totp" | "phone_code";
 
 export function SignInForm() {
   const { isLoaded, signIn, setActive } = useSignIn();
@@ -52,15 +54,16 @@ export function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [apiErrors, setApiErrors] = useState<ClerkAPIError[]>([]);
   const [isPending, setIsPending] = useState(false);
-  const [needsMfa, setNeedsMfa] = useState(false);
+  const [mfaStrategy, setMfaStrategy] = useState<MfaStrategy | null>(null);
+  const [mfaHint, setMfaHint] = useState("");
 
   const form = useForm<SignInValues>({
     resolver: zodResolver(signInSchema),
     defaultValues: { email: "", password: "" },
   });
 
-  const totpForm = useForm<TotpValues>({
-    resolver: zodResolver(totpSchema),
+  const codeForm = useForm<CodeValues>({
+    resolver: zodResolver(codeSchema),
     defaultValues: { code: "" },
   });
 
@@ -79,36 +82,58 @@ export function SignInForm() {
         await setActive({ session: attempt.createdSessionId });
         router.push("/dashboard");
       } else if (attempt.status === "needs_second_factor") {
-        setNeedsMfa(true);
-      } else {
-        console.error("Sign-in not complete:", attempt.status);
+        await handleSecondFactor();
       }
     } catch (err) {
-      if (isClerkAPIResponseError(err)) {
-        setApiErrors(err.errors);
-      } else {
-        setApiErrors([
-          {
-            code: "unknown",
-            message: "Something went wrong. Please try again.",
-            longMessage: "Something went wrong. Please try again.",
-            meta: {},
-          } as ClerkAPIError,
-        ]);
-      }
+      handleError(err);
     } finally {
       setIsPending(false);
     }
   }
 
-  async function onTotpSubmit(values: TotpValues) {
-    if (!isLoaded || !signIn) return;
+  async function handleSecondFactor() {
+    if (!signIn) return;
+
+    const factors = signIn.supportedSecondFactors ?? [];
+    const hasPhone = factors.some((f) => f.strategy === "phone_code");
+    const hasTotp = factors.some((f) => f.strategy === "totp");
+
+    if (hasPhone) {
+      const prepared = await signIn.prepareSecondFactor({
+        strategy: "phone_code",
+      });
+      const phone =
+        prepared.supportedSecondFactors?.find(
+          (f): f is Extract<typeof f, { strategy: "phone_code" }> =>
+            f.strategy === "phone_code"
+        )?.phoneNumberId ?? "";
+      setMfaStrategy("phone_code");
+      setMfaHint(phone ? `Code sent to your phone` : "Code sent via SMS");
+    } else if (hasTotp) {
+      setMfaStrategy("totp");
+      setMfaHint("Enter the code from your authenticator app");
+    } else {
+      setApiErrors([
+        {
+          code: "unsupported_2fa",
+          message:
+            "Your account requires a second factor we don't support yet. Please contact support.",
+          longMessage:
+            "Your account requires a second factor we don't support yet. Please contact support.",
+          meta: {},
+        } as ClerkAPIError,
+      ]);
+    }
+  }
+
+  async function onCodeSubmit(values: CodeValues) {
+    if (!isLoaded || !signIn || !mfaStrategy) return;
     setApiErrors([]);
     setIsPending(true);
 
     try {
       const attempt = await signIn.attemptSecondFactor({
-        strategy: "totp",
+        strategy: mfaStrategy,
         code: values.code,
       });
 
@@ -117,20 +142,39 @@ export function SignInForm() {
         router.push("/dashboard");
       }
     } catch (err) {
-      if (isClerkAPIResponseError(err)) {
-        setApiErrors(err.errors);
-      } else {
-        setApiErrors([
-          {
-            code: "unknown",
-            message: "Invalid code. Please try again.",
-            longMessage: "Invalid code. Please try again.",
-            meta: {},
-          } as ClerkAPIError,
-        ]);
-      }
+      handleError(err);
     } finally {
       setIsPending(false);
+    }
+  }
+
+  async function resendCode() {
+    if (!signIn || mfaStrategy !== "phone_code") return;
+    setApiErrors([]);
+    setIsPending(true);
+
+    try {
+      await signIn.prepareSecondFactor({ strategy: "phone_code" });
+      setMfaHint("New code sent via SMS");
+    } catch (err) {
+      handleError(err);
+    } finally {
+      setIsPending(false);
+    }
+  }
+
+  function handleError(err: unknown) {
+    if (isClerkAPIResponseError(err)) {
+      setApiErrors(err.errors);
+    } else {
+      setApiErrors([
+        {
+          code: "unknown",
+          message: "Something went wrong. Please try again.",
+          longMessage: "Something went wrong. Please try again.",
+          meta: {},
+        } as ClerkAPIError,
+      ]);
     }
   }
 
@@ -148,31 +192,35 @@ export function SignInForm() {
     </div>
   );
 
-  if (needsMfa) {
+  if (mfaStrategy) {
+    const isPhone = mfaStrategy === "phone_code";
+
     return (
-      <Form {...totpForm}>
+      <Form {...codeForm}>
         <form
-          onSubmit={totpForm.handleSubmit(onTotpSubmit)}
+          onSubmit={codeForm.handleSubmit(onCodeSubmit)}
           className="space-y-5"
         >
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
-              <ShieldCheck className="h-5 w-5 text-primary" />
+              {isPhone ? (
+                <Smartphone className="h-5 w-5 text-primary" />
+              ) : (
+                <ShieldCheck className="h-5 w-5 text-primary" />
+              )}
             </div>
             <div>
               <p className="text-sm font-semibold text-foreground">
-                Two-factor authentication
+                {isPhone ? "Verify your phone" : "Two-factor authentication"}
               </p>
-              <p className="text-xs text-muted-foreground">
-                Enter the 6-digit code from your authenticator app.
-              </p>
+              <p className="text-xs text-muted-foreground">{mfaHint}</p>
             </div>
           </div>
 
           {errorBlock}
 
           <FormField
-            control={totpForm.control}
+            control={codeForm.control}
             name="code"
             render={({ field }) => (
               <FormItem>
@@ -215,18 +263,32 @@ export function SignInForm() {
             )}
           </Button>
 
-          <button
-            type="button"
-            onClick={() => {
-              setNeedsMfa(false);
-              setApiErrors([]);
-              totpForm.reset();
-            }}
-            className="flex w-full items-center justify-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" />
-            Back to sign in
-          </button>
+          <div className="flex items-center justify-between">
+            <button
+              type="button"
+              onClick={() => {
+                setMfaStrategy(null);
+                setMfaHint("");
+                setApiErrors([]);
+                codeForm.reset();
+              }}
+              className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" />
+              Back
+            </button>
+
+            {isPhone && (
+              <button
+                type="button"
+                onClick={resendCode}
+                disabled={isPending}
+                className="text-sm font-medium text-primary hover:underline disabled:opacity-50"
+              >
+                Resend code
+              </button>
+            )}
+          </div>
         </form>
       </Form>
     );
