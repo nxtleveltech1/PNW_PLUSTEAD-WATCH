@@ -99,6 +99,10 @@ export function SignInForm() {
         password: values.password,
       });
 
+      console.log("[sign-in] status:", attempt.status);
+      console.log("[sign-in] firstFactors:", JSON.stringify(attempt.supportedFirstFactors));
+      console.log("[sign-in] secondFactors:", JSON.stringify(attempt.supportedSecondFactors));
+
       if (attempt.status === "complete") {
         await setActive({ session: attempt.createdSessionId });
         router.push("/dashboard");
@@ -121,6 +125,31 @@ export function SignInForm() {
           setStep("email_verification");
           return;
         }
+
+        const phoneFactor = factors.find(
+          (f): f is Extract<typeof f, { strategy: "phone_code" }> =>
+            f.strategy === "phone_code"
+        );
+
+        if (phoneFactor) {
+          await signIn.prepareFirstFactor({
+            strategy: "phone_code",
+            phoneNumberId: phoneFactor.phoneNumberId,
+          });
+          setVerifyHint("Code sent to your phone via SMS");
+          setStep("phone_2fa");
+          return;
+        }
+
+        setApiErrors([
+          {
+            code: "unsupported",
+            message: `Unsupported verification method. Available: ${factors.map((f) => f.strategy).join(", ") || "none"}`,
+            longMessage: `Unsupported verification method. Available: ${factors.map((f) => f.strategy).join(", ") || "none"}`,
+            meta: {},
+          } as ClerkAPIError,
+        ]);
+        return;
       }
 
       if (attempt.status === "needs_second_factor") {
@@ -135,9 +164,27 @@ export function SignInForm() {
         } else if (hasTotp) {
           setVerifyHint("Enter the code from your authenticator app");
           setStep("totp_2fa");
+        } else {
+          setApiErrors([
+            {
+              code: "unsupported_2fa",
+              message: `Two-factor required but no supported method found. Available: ${factors.map((f) => f.strategy).join(", ") || "none"}`,
+              longMessage: `Two-factor required but no supported method found. Available: ${factors.map((f) => f.strategy).join(", ") || "none"}`,
+              meta: {},
+            } as ClerkAPIError,
+          ]);
         }
         return;
       }
+
+      setApiErrors([
+        {
+          code: "unexpected_status",
+          message: `Sign-in returned unexpected status: "${attempt.status}". Please contact support.`,
+          longMessage: `Sign-in returned unexpected status: "${attempt.status}". Please contact support.`,
+          meta: {},
+        } as ClerkAPIError,
+      ]);
     } catch (err) {
       handleError(err);
     } finally {
