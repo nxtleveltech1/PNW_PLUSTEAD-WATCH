@@ -30,11 +30,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot,
-} from "@/components/ui/input-otp";
 
 const signInSchema = z.object({
   email: z.string().min(1, "Email is required").email("Enter a valid email"),
@@ -380,21 +375,15 @@ export function SignInForm() {
               <FormItem>
                 <FormLabel>Verification code</FormLabel>
                 <FormControl>
-                  <InputOTP
+                  <Input
+                    placeholder="000000"
+                    autoComplete="one-time-code"
+                    inputMode="numeric"
                     maxLength={6}
-                    value={field.value}
-                    onChange={field.onChange}
                     autoFocus
-                  >
-                    <InputOTPGroup>
-                      <InputOTPSlot index={0} />
-                      <InputOTPSlot index={1} />
-                      <InputOTPSlot index={2} />
-                      <InputOTPSlot index={3} />
-                      <InputOTPSlot index={4} />
-                      <InputOTPSlot index={5} />
-                    </InputOTPGroup>
-                  </InputOTP>
+                    className="h-11 text-center font-mono text-lg tracking-[0.3em]"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
