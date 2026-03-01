@@ -55,50 +55,47 @@ export function UserAvatarDropdown({ showAdmin = false }: { showAdmin?: boolean 
             <ChevronDown className="h-4 w-4 text-muted-foreground" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent
-          align="end"
-          className="w-56 border-[hsl(220,50%,25%)] bg-[hsl(220,68%,15%)] text-white shadow-xl"
-        >
+        <DropdownMenuContent align="end" className="w-56">
           <div className="px-2 py-2">
             <p className="text-sm font-medium truncate">{displayName}</p>
             <p className="text-xs truncate text-white/50">
               {primaryEmail}
             </p>
           </div>
-          <DropdownMenuSeparator className="bg-white/10" />
+          <DropdownMenuSeparator />
           {showAdmin && (
-            <DropdownMenuItem asChild className="text-white/80 focus:bg-white/10 focus:text-white">
+            <DropdownMenuItem asChild>
               <Link href="/admin" className="flex items-center gap-2 cursor-pointer">
                 <ShieldCheck className="h-4 w-4" />
                 Administration
               </Link>
             </DropdownMenuItem>
           )}
-          <DropdownMenuItem asChild className="text-white/80 focus:bg-white/10 focus:text-white">
+          <DropdownMenuItem asChild>
             <Link href="/account/inbox" className="flex items-center gap-2 cursor-pointer">
               <Mail className="h-4 w-4" />
               Inbox
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem asChild className="text-white/80 focus:bg-white/10 focus:text-white">
+          <DropdownMenuItem asChild>
             <Link href="/dashboard" className="flex items-center gap-2 cursor-pointer">
               <LayoutDashboard className="h-4 w-4" />
               Dashboard
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem asChild className="text-white/80 focus:bg-white/10 focus:text-white">
+          <DropdownMenuItem asChild>
             <Link href="/account" className="flex items-center gap-2 cursor-pointer">
               <User className="h-4 w-4" />
               Account
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem asChild className="text-white/80 focus:bg-white/10 focus:text-white">
+          <DropdownMenuItem asChild>
             <Link href="/account/settings" className="flex items-center gap-2 cursor-pointer">
               <Settings className="h-4 w-4" />
               Settings
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuSeparator className="bg-white/10" />
+          <DropdownMenuSeparator />
           <DropdownMenuItem
             className="text-[hsl(8,85%,65%)] focus:bg-[hsl(8,85%,50%)]/15 focus:text-[hsl(8,85%,60%)] cursor-pointer"
             onClick={handleSignOut}
