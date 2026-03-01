@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Shield, Users, Clock, MapPin } from "lucide-react";
-import { SignInForm } from "@/components/auth/sign-in-form";
+import { SignIn } from "@clerk/nextjs";
 
 export default function SignInPage() {
   return (
@@ -80,19 +80,12 @@ export default function SignInPage() {
         </div>
 
         <div className="flex flex-1 flex-col items-center justify-center px-6 py-12">
-          <div className="w-full max-w-md space-y-8">
-            <div className="text-center lg:text-left">
-              <p className="eyebrow">Secure Access</p>
-              <h2 className="mt-2 font-display text-2xl font-bold tracking-tight text-foreground">
-                Sign in to your account
-              </h2>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Enter your credentials to access your dashboard.
-              </p>
-            </div>
-
-            <SignInForm />
-          </div>
+          <SignIn
+            routing="path"
+            path="/sign-in"
+            signUpUrl="/sign-up"
+            forceRedirectUrl="/dashboard"
+          />
         </div>
       </div>
     </main>

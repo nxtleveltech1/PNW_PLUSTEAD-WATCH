@@ -1,24 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
-import { SignUpForm } from "@/components/auth/sign-up-form";
+import { SignUp } from "@clerk/nextjs";
 
-export default async function SignUpPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ redirect_url?: string }>;
-}) {
-  const { redirect_url } = await searchParams;
-  let afterSignUpUrl = "/dashboard";
-  if (redirect_url) {
-    try {
-      const parsed = new URL(redirect_url, "http://localhost");
-      afterSignUpUrl = parsed.pathname || "/dashboard";
-    } catch {
-      afterSignUpUrl = "/dashboard";
-    }
-  }
-
+export default function SignUpPage() {
   return (
     <main className="grid min-h-screen lg:grid-cols-[1fr_1fr]">
       {/* Branded panel */}
@@ -92,34 +77,12 @@ export default async function SignUpPage({
         </div>
 
         <div className="flex flex-1 flex-col items-center justify-center px-6 py-12">
-          <div className="w-full max-w-md space-y-8">
-            <div className="text-center lg:text-left">
-              <p className="eyebrow">Membership</p>
-              <h2 className="mt-2 font-display text-2xl font-bold tracking-tight text-foreground">
-                Create your account
-              </h2>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Join Plumstead&apos;s safety network in under a minute.
-              </p>
-            </div>
-
-            {/* Mobile benefits strip */}
-            <div className="flex flex-wrap gap-2 lg:hidden">
-              {["Zone alerts", "Community events", "Safety resources"].map(
-                (item) => (
-                  <span
-                    key={item}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary"
-                  >
-                    <CheckCircle2 className="h-3 w-3" />
-                    {item}
-                  </span>
-                )
-              )}
-            </div>
-
-            <SignUpForm afterSignUpUrl={afterSignUpUrl} />
-          </div>
+          <SignUp
+            routing="path"
+            path="/sign-up"
+            signInUrl="/sign-in"
+            forceRedirectUrl="/dashboard"
+          />
         </div>
       </div>
     </main>
