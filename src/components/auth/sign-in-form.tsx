@@ -368,27 +368,28 @@ export function SignInForm() {
 
           {errorBlock}
 
-          <FormField
-            control={codeForm.control}
-            name="code"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Verification code</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="000000"
-                    autoComplete="one-time-code"
-                    inputMode="numeric"
-                    maxLength={6}
-                    autoFocus
-                    className="h-11 text-center font-mono text-lg tracking-[0.3em]"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="space-y-2">
+            <label
+              htmlFor="verification-code"
+              className="text-sm font-medium leading-none"
+            >
+              Verification code
+            </label>
+            <input
+              id="verification-code"
+              type="text"
+              inputMode="numeric"
+              autoComplete="one-time-code"
+              placeholder="000000"
+              maxLength={6}
+              value={codeForm.watch("code")}
+              onChange={(e) => {
+                const val = e.target.value.replace(/\D/g, "");
+                codeForm.setValue("code", val);
+              }}
+              className="flex h-11 w-full rounded-md border border-input bg-transparent px-3 py-1 text-center font-mono text-lg tracking-[0.3em] shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            />
+          </div>
 
           <Button
             type="submit"
