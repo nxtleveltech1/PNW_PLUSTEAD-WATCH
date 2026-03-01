@@ -160,8 +160,8 @@ export function SignInForm() {
         if (emailFactor2fa) {
           await signIn.prepareSecondFactor({
             strategy: "email_code",
-            emailAddressId: emailFactor2fa.emailAddressId,
           } as Parameters<typeof signIn.prepareSecondFactor>[0]);
+          setMfaIsSecondFactor(true);
           setVerifyHint(emailFactor2fa.safeIdentifier ?? values.email);
           setStep("email_verification");
         } else if (hasPhone) {
@@ -241,7 +241,6 @@ export function SignInForm() {
         if (emailFactor2fa) {
           await signIn.prepareSecondFactor({
             strategy: "email_code",
-            emailAddressId: emailFactor2fa.emailAddressId,
           } as Parameters<typeof signIn.prepareSecondFactor>[0]);
           setMfaIsSecondFactor(true);
           setVerifyHint(emailFactor2fa.safeIdentifier ?? "your email");
@@ -275,17 +274,9 @@ export function SignInForm() {
 
     try {
       if (step === "email_verification" && mfaIsSecondFactor) {
-        const factors = signIn.supportedSecondFactors ?? [];
-        const emailFactor = factors.find(
-          (f): f is Extract<typeof f, { strategy: "email_code" }> =>
-            f.strategy === "email_code"
-        );
-        if (emailFactor) {
-          await signIn.prepareSecondFactor({
-            strategy: "email_code",
-            emailAddressId: emailFactor.emailAddressId,
-          } as Parameters<typeof signIn.prepareSecondFactor>[0]);
-        }
+        await signIn.prepareSecondFactor({
+          strategy: "email_code",
+        } as Parameters<typeof signIn.prepareSecondFactor>[0]);
       } else if (step === "email_verification") {
         const factors = signIn.supportedFirstFactors ?? [];
         const emailFactor = factors.find(
