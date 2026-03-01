@@ -10,13 +10,11 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  Eye,
-  EyeOff,
   Loader2,
   ArrowRight,
-  AlertCircle,
-  ShieldCheck,
   ArrowLeft,
+  AlertCircle,
+  CheckCircle2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -34,55 +32,54 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 
-const signInSchema = z.object({
+const emailSchema = z.object({
   email: z.string().min(1, "Email is required").email("Enter a valid email"),
-  password: z.string().min(1, "Password is required"),
 });
 
-const totpSchema = z.object({
-  code: z.string().min(6, "Enter your 6-digit code").max(6),
-});
+const resetSchema = z
+  .object({
+    code: z.string().min(6, "Enter the 6-digit code"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
+    confirmPassword: z.string().min(1, "Confirm your password"),
+  })
+  .refine((v) => v.password === v.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
 
-type SignInValues = z.infer<typeof signInSchema>;
-type TotpValues = z.infer<typeof totpSchema>;
+type EmailValues = z.infer<typeof emailSchema>;
+type ResetValues = z.infer<typeof resetSchema>;
 
-export function SignInForm() {
+type Step = "email" | "reset" | "done";
+
+export function ForgotPasswordForm() {
   const { isLoaded, signIn, setActive } = useSignIn();
   const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false);
+  const [step, setStep] = useState<Step>("email");
   const [apiErrors, setApiErrors] = useState<ClerkAPIError[]>([]);
   const [isPending, setIsPending] = useState(false);
-  const [needsMfa, setNeedsMfa] = useState(false);
 
-  const form = useForm<SignInValues>({
-    resolver: zodResolver(signInSchema),
-    defaultValues: { email: "", password: "" },
+  const emailForm = useForm<EmailValues>({
+    resolver: zodResolver(emailSchema),
+    defaultValues: { email: "" },
   });
 
-  const totpForm = useForm<TotpValues>({
-    resolver: zodResolver(totpSchema),
-    defaultValues: { code: "" },
+  const resetForm = useForm<ResetValues>({
+    resolver: zodResolver(resetSchema),
+    defaultValues: { code: "", password: "", confirmPassword: "" },
   });
 
-  async function onSubmit(values: SignInValues) {
+  async function onRequestCode(values: EmailValues) {
     if (!isLoaded) return;
     setApiErrors([]);
     setIsPending(true);
 
     try {
-      const attempt = await signIn.create({
+      await signIn.create({
+        strategy: "reset_password_email_code",
         identifier: values.email,
-        password: values.password,
       });
-
-      if (attempt.status === "complete") {
-        await setActive({ session: attempt.createdSessionId });
-        router.push("/dashboard");
-      } else if (attempt.status === "needs_second_factor") {
-        setNeedsMfa(true);
-      } else {
-        console.error("Sign-in not complete:", attempt.status);
-      }
+      setStep("reset");
     } catch (err) {
       if (isClerkAPIResponseError(err)) {
         setApiErrors(err.errors);
@@ -101,20 +98,22 @@ export function SignInForm() {
     }
   }
 
-  async function onTotpSubmit(values: TotpValues) {
-    if (!isLoaded || !signIn) return;
+  async function onResetPassword(values: ResetValues) {
+    if (!isLoaded) return;
     setApiErrors([]);
     setIsPending(true);
 
     try {
-      const attempt = await signIn.attemptSecondFactor({
-        strategy: "totp",
+      const attempt = await signIn.attemptFirstFactor({
+        strategy: "reset_password_email_code",
         code: values.code,
+        password: values.password,
       });
 
       if (attempt.status === "complete") {
         await setActive({ session: attempt.createdSessionId });
-        router.push("/dashboard");
+        setStep("done");
+        setTimeout(() => router.push("/dashboard"), 2000);
       }
     } catch (err) {
       if (isClerkAPIResponseError(err)) {
@@ -123,8 +122,8 @@ export function SignInForm() {
         setApiErrors([
           {
             code: "unknown",
-            message: "Invalid code. Please try again.",
-            longMessage: "Invalid code. Please try again.",
+            message: "Invalid code or password. Please try again.",
+            longMessage: "Invalid code or password. Please try again.",
             meta: {},
           } as ClerkAPIError,
         ]);
@@ -148,31 +147,38 @@ export function SignInForm() {
     </div>
   );
 
-  if (needsMfa) {
+  if (step === "done") {
     return (
-      <Form {...totpForm}>
+      <div className="space-y-4 text-center">
+        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-500/10">
+          <CheckCircle2 className="h-6 w-6 text-green-600" />
+        </div>
+        <div>
+          <p className="font-semibold text-foreground">Password reset</p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Your password has been updated. Redirecting to dashboard...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (step === "reset") {
+    return (
+      <Form {...resetForm}>
         <form
-          onSubmit={totpForm.handleSubmit(onTotpSubmit)}
+          onSubmit={resetForm.handleSubmit(onResetPassword)}
           className="space-y-5"
         >
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
-              <ShieldCheck className="h-5 w-5 text-primary" />
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-foreground">
-                Two-factor authentication
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Enter the 6-digit code from your authenticator app.
-              </p>
-            </div>
-          </div>
+          <p className="text-sm text-muted-foreground">
+            We sent a verification code to your email. Enter it below with your
+            new password.
+          </p>
 
           {errorBlock}
 
           <FormField
-            control={totpForm.control}
+            control={resetForm.control}
             name="code"
             render={({ field }) => (
               <FormItem>
@@ -199,6 +205,46 @@ export function SignInForm() {
             )}
           />
 
+          <FormField
+            control={resetForm.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>New password</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="Minimum 8 characters"
+                    autoComplete="new-password"
+                    className="h-11"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={resetForm.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirm password</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="Re-enter your new password"
+                    autoComplete="new-password"
+                    className="h-11"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <Button
             type="submit"
             size="lg"
@@ -209,7 +255,7 @@ export function SignInForm() {
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
               <>
-                Verify
+                Reset password
                 <ArrowRight className="h-4 w-4" />
               </>
             )}
@@ -218,14 +264,14 @@ export function SignInForm() {
           <button
             type="button"
             onClick={() => {
-              setNeedsMfa(false);
+              setStep("email");
               setApiErrors([]);
-              totpForm.reset();
+              resetForm.reset();
             }}
             className="flex w-full items-center justify-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
-            Back to sign in
+            Try a different email
           </button>
         </form>
       </Form>
@@ -233,12 +279,15 @@ export function SignInForm() {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+    <Form {...emailForm}>
+      <form
+        onSubmit={emailForm.handleSubmit(onRequestCode)}
+        className="space-y-5"
+      >
         {errorBlock}
 
         <FormField
-          control={form.control}
+          control={emailForm.control}
           name="email"
           render={({ field }) => (
             <FormItem>
@@ -249,54 +298,9 @@ export function SignInForm() {
                   placeholder="you@example.com"
                   autoComplete="email"
                   className="h-11"
+                  autoFocus
                   {...field}
                 />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <div className="flex items-center justify-between">
-                <FormLabel>Password</FormLabel>
-                <Link
-                  href="/forgot-password"
-                  className="text-xs font-medium text-primary hover:underline"
-                  tabIndex={-1}
-                >
-                  Forgot password?
-                </Link>
-              </div>
-              <FormControl>
-                <div className="relative">
-                  <Input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Enter your password"
-                    autoComplete="current-password"
-                    className="h-11 pr-10"
-                    {...field}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword((v) => !v)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                    tabIndex={-1}
-                    aria-label={
-                      showPassword ? "Hide password" : "Show password"
-                    }
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
-                  </button>
-                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -313,21 +317,19 @@ export function SignInForm() {
             <Loader2 className="h-4 w-4 animate-spin" />
           ) : (
             <>
-              Sign in
+              Send reset code
               <ArrowRight className="h-4 w-4" />
             </>
           )}
         </Button>
 
-        <p className="text-center text-sm text-muted-foreground">
-          Don&apos;t have an account?{" "}
-          <Link
-            href="/sign-up"
-            className="font-semibold text-primary hover:underline"
-          >
-            Create one
-          </Link>
-        </p>
+        <Link
+          href="/sign-in"
+          className="flex items-center justify-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" />
+          Back to sign in
+        </Link>
       </form>
     </Form>
   );
