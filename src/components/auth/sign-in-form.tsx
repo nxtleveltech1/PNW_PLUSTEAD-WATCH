@@ -62,6 +62,7 @@ export function SignInForm() {
   const [isPending, setIsPending] = useState(false);
   const [step, setStep] = useState<Step>("credentials");
   const [verifyHint, setVerifyHint] = useState("");
+  const [mfaIsSecondFactor, setMfaIsSecondFactor] = useState(false);
 
   const form = useForm<SignInValues>({
     resolver: zodResolver(signInSchema),
@@ -154,10 +155,21 @@ export function SignInForm() {
 
       if (attempt.status === "needs_second_factor") {
         const factors = attempt.supportedSecondFactors ?? [];
+        const emailFactor2fa = factors.find(
+          (f): f is Extract<typeof f, { strategy: "email_code" }> =>
+            f.strategy === "email_code"
+        );
         const hasPhone = factors.some((f) => f.strategy === "phone_code");
         const hasTotp = factors.some((f) => f.strategy === "totp");
 
-        if (hasPhone) {
+        if (emailFactor2fa) {
+          await signIn.prepareSecondFactor({
+            strategy: "email_code",
+            emailAddressId: emailFactor2fa.emailAddressId,
+          } as Parameters<typeof signIn.prepareSecondFactor>[0]);
+          setVerifyHint(emailFactor2fa.safeIdentifier ?? values.email);
+          setStep("email_verification");
+        } else if (hasPhone) {
           await signIn.prepareSecondFactor({ strategy: "phone_code" });
           setVerifyHint("Code sent to your phone via SMS");
           setStep("phone_2fa");
@@ -200,26 +212,46 @@ export function SignInForm() {
     try {
       let attempt;
 
-      if (step === "email_verification") {
-        attempt = await signIn.attemptFirstFactor({
-          strategy: "email_code",
-          code: values.code,
-        });
-      } else {
-        const strategy = step === "phone_2fa" ? "phone_code" : "totp";
+      const isSecondFactor =
+        step === "phone_2fa" || step === "totp_2fa" || mfaIsSecondFactor;
+
+      if (isSecondFactor) {
+        const strategy =
+          step === "phone_2fa"
+            ? "phone_code"
+            : step === "totp_2fa"
+              ? "totp"
+              : "email_code";
         attempt = await signIn.attemptSecondFactor({
           strategy,
+          code: values.code,
+        } as Parameters<typeof signIn.attemptSecondFactor>[0]);
+      } else {
+        attempt = await signIn.attemptFirstFactor({
+          strategy: "email_code",
           code: values.code,
         });
       }
 
       if (attempt.status === "needs_second_factor") {
         const factors = attempt.supportedSecondFactors ?? [];
+        const emailFactor2fa = factors.find(
+          (f): f is Extract<typeof f, { strategy: "email_code" }> =>
+            f.strategy === "email_code"
+        );
         const hasPhone = factors.some((f) => f.strategy === "phone_code");
         const hasTotp = factors.some((f) => f.strategy === "totp");
 
         codeForm.reset();
-        if (hasPhone) {
+        if (emailFactor2fa) {
+          await signIn.prepareSecondFactor({
+            strategy: "email_code",
+            emailAddressId: emailFactor2fa.emailAddressId,
+          } as Parameters<typeof signIn.prepareSecondFactor>[0]);
+          setMfaIsSecondFactor(true);
+          setVerifyHint(emailFactor2fa.safeIdentifier ?? "your email");
+          setStep("email_verification");
+        } else if (hasPhone) {
           await signIn.prepareSecondFactor({ strategy: "phone_code" });
           setVerifyHint("Code sent to your phone via SMS");
           setStep("phone_2fa");
@@ -247,7 +279,19 @@ export function SignInForm() {
     setIsPending(true);
 
     try {
-      if (step === "email_verification") {
+      if (step === "email_verification" && mfaIsSecondFactor) {
+        const factors = signIn.supportedSecondFactors ?? [];
+        const emailFactor = factors.find(
+          (f): f is Extract<typeof f, { strategy: "email_code" }> =>
+            f.strategy === "email_code"
+        );
+        if (emailFactor) {
+          await signIn.prepareSecondFactor({
+            strategy: "email_code",
+            emailAddressId: emailFactor.emailAddressId,
+          } as Parameters<typeof signIn.prepareSecondFactor>[0]);
+        }
+      } else if (step === "email_verification") {
         const factors = signIn.supportedFirstFactors ?? [];
         const emailFactor = factors.find(
           (f): f is Extract<typeof f, { strategy: "email_code" }> =>
@@ -378,6 +422,7 @@ export function SignInForm() {
               type="button"
               onClick={() => {
                 setStep("credentials");
+                setMfaIsSecondFactor(false);
                 setApiErrors([]);
                 codeForm.reset();
               }}
