@@ -15,9 +15,10 @@ import {
   Loader2,
   ArrowRight,
   AlertCircle,
+  MailCheck,
   ShieldCheck,
-  ArrowLeft,
   Smartphone,
+  ArrowLeft,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -46,7 +47,12 @@ const codeSchema = z.object({
 
 type SignInValues = z.infer<typeof signInSchema>;
 type CodeValues = z.infer<typeof codeSchema>;
-type MfaStrategy = "totp" | "phone_code";
+
+type Step =
+  | "credentials"
+  | "email_verification"
+  | "phone_2fa"
+  | "totp_2fa";
 
 export function SignInForm() {
   const { isLoaded, signIn, setActive } = useSignIn();
@@ -54,8 +60,8 @@ export function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [apiErrors, setApiErrors] = useState<ClerkAPIError[]>([]);
   const [isPending, setIsPending] = useState(false);
-  const [mfaStrategy, setMfaStrategy] = useState<MfaStrategy | null>(null);
-  const [mfaHint, setMfaHint] = useState("");
+  const [step, setStep] = useState<Step>("credentials");
+  const [verifyHint, setVerifyHint] = useState("");
 
   const form = useForm<SignInValues>({
     resolver: zodResolver(signInSchema),
@@ -66,6 +72,21 @@ export function SignInForm() {
     resolver: zodResolver(codeSchema),
     defaultValues: { code: "" },
   });
+
+  function handleError(err: unknown) {
+    if (isClerkAPIResponseError(err)) {
+      setApiErrors(err.errors);
+    } else {
+      setApiErrors([
+        {
+          code: "unknown",
+          message: "Something went wrong. Please try again.",
+          longMessage: "Something went wrong. Please try again.",
+          meta: {},
+        } as ClerkAPIError,
+      ]);
+    }
+  }
 
   async function onSubmit(values: SignInValues) {
     if (!isLoaded) return;
@@ -81,8 +102,41 @@ export function SignInForm() {
       if (attempt.status === "complete") {
         await setActive({ session: attempt.createdSessionId });
         router.push("/dashboard");
-      } else if (attempt.status === "needs_second_factor") {
-        await handleSecondFactor();
+        return;
+      }
+
+      if (attempt.status === "needs_first_factor") {
+        const factors = attempt.supportedFirstFactors ?? [];
+        const emailFactor = factors.find(
+          (f): f is Extract<typeof f, { strategy: "email_code" }> =>
+            f.strategy === "email_code"
+        );
+
+        if (emailFactor) {
+          await signIn.prepareFirstFactor({
+            strategy: "email_code",
+            emailAddressId: emailFactor.emailAddressId,
+          });
+          setVerifyHint(values.email);
+          setStep("email_verification");
+          return;
+        }
+      }
+
+      if (attempt.status === "needs_second_factor") {
+        const factors = attempt.supportedSecondFactors ?? [];
+        const hasPhone = factors.some((f) => f.strategy === "phone_code");
+        const hasTotp = factors.some((f) => f.strategy === "totp");
+
+        if (hasPhone) {
+          await signIn.prepareSecondFactor({ strategy: "phone_code" });
+          setVerifyHint("Code sent to your phone via SMS");
+          setStep("phone_2fa");
+        } else if (hasTotp) {
+          setVerifyHint("Enter the code from your authenticator app");
+          setStep("totp_2fa");
+        }
+        return;
       }
     } catch (err) {
       handleError(err);
@@ -91,51 +145,43 @@ export function SignInForm() {
     }
   }
 
-  async function handleSecondFactor() {
-    if (!signIn) return;
-
-    const factors = signIn.supportedSecondFactors ?? [];
-    const hasPhone = factors.some((f) => f.strategy === "phone_code");
-    const hasTotp = factors.some((f) => f.strategy === "totp");
-
-    if (hasPhone) {
-      const prepared = await signIn.prepareSecondFactor({
-        strategy: "phone_code",
-      });
-      const phone =
-        prepared.supportedSecondFactors?.find(
-          (f): f is Extract<typeof f, { strategy: "phone_code" }> =>
-            f.strategy === "phone_code"
-        )?.phoneNumberId ?? "";
-      setMfaStrategy("phone_code");
-      setMfaHint(phone ? `Code sent to your phone` : "Code sent via SMS");
-    } else if (hasTotp) {
-      setMfaStrategy("totp");
-      setMfaHint("Enter the code from your authenticator app");
-    } else {
-      setApiErrors([
-        {
-          code: "unsupported_2fa",
-          message:
-            "Your account requires a second factor we don't support yet. Please contact support.",
-          longMessage:
-            "Your account requires a second factor we don't support yet. Please contact support.",
-          meta: {},
-        } as ClerkAPIError,
-      ]);
-    }
-  }
-
   async function onCodeSubmit(values: CodeValues) {
-    if (!isLoaded || !signIn || !mfaStrategy) return;
+    if (!isLoaded || !signIn) return;
     setApiErrors([]);
     setIsPending(true);
 
     try {
-      const attempt = await signIn.attemptSecondFactor({
-        strategy: mfaStrategy,
-        code: values.code,
-      });
+      let attempt;
+
+      if (step === "email_verification") {
+        attempt = await signIn.attemptFirstFactor({
+          strategy: "email_code",
+          code: values.code,
+        });
+      } else {
+        const strategy = step === "phone_2fa" ? "phone_code" : "totp";
+        attempt = await signIn.attemptSecondFactor({
+          strategy,
+          code: values.code,
+        });
+      }
+
+      if (attempt.status === "needs_second_factor") {
+        const factors = attempt.supportedSecondFactors ?? [];
+        const hasPhone = factors.some((f) => f.strategy === "phone_code");
+        const hasTotp = factors.some((f) => f.strategy === "totp");
+
+        codeForm.reset();
+        if (hasPhone) {
+          await signIn.prepareSecondFactor({ strategy: "phone_code" });
+          setVerifyHint("Code sent to your phone via SMS");
+          setStep("phone_2fa");
+        } else if (hasTotp) {
+          setVerifyHint("Enter the code from your authenticator app");
+          setStep("totp_2fa");
+        }
+        return;
+      }
 
       if (attempt.status === "complete") {
         await setActive({ session: attempt.createdSessionId });
@@ -149,32 +195,33 @@ export function SignInForm() {
   }
 
   async function resendCode() {
-    if (!signIn || mfaStrategy !== "phone_code") return;
+    if (!signIn) return;
     setApiErrors([]);
     setIsPending(true);
 
     try {
-      await signIn.prepareSecondFactor({ strategy: "phone_code" });
-      setMfaHint("New code sent via SMS");
+      if (step === "email_verification") {
+        const factors = signIn.supportedFirstFactors ?? [];
+        const emailFactor = factors.find(
+          (f): f is Extract<typeof f, { strategy: "email_code" }> =>
+            f.strategy === "email_code"
+        );
+        if (emailFactor) {
+          await signIn.prepareFirstFactor({
+            strategy: "email_code",
+            emailAddressId: emailFactor.emailAddressId,
+          });
+        }
+      } else if (step === "phone_2fa") {
+        await signIn.prepareSecondFactor({ strategy: "phone_code" });
+      }
+      setVerifyHint((prev) =>
+        prev.startsWith("New code") ? prev : `New code sent`
+      );
     } catch (err) {
       handleError(err);
     } finally {
       setIsPending(false);
-    }
-  }
-
-  function handleError(err: unknown) {
-    if (isClerkAPIResponseError(err)) {
-      setApiErrors(err.errors);
-    } else {
-      setApiErrors([
-        {
-          code: "unknown",
-          message: "Something went wrong. Please try again.",
-          longMessage: "Something went wrong. Please try again.",
-          meta: {},
-        } as ClerkAPIError,
-      ]);
     }
   }
 
@@ -192,8 +239,30 @@ export function SignInForm() {
     </div>
   );
 
-  if (mfaStrategy) {
-    const isPhone = mfaStrategy === "phone_code";
+  /* ── Verification / 2FA step ── */
+  if (step !== "credentials") {
+    const icon =
+      step === "email_verification" ? (
+        <MailCheck className="h-5 w-5 text-primary" />
+      ) : step === "phone_2fa" ? (
+        <Smartphone className="h-5 w-5 text-primary" />
+      ) : (
+        <ShieldCheck className="h-5 w-5 text-primary" />
+      );
+
+    const title =
+      step === "email_verification"
+        ? "Check your email"
+        : step === "phone_2fa"
+          ? "Verify your phone"
+          : "Two-factor authentication";
+
+    const subtitle =
+      step === "email_verification"
+        ? `We sent a 6-digit code to ${verifyHint}`
+        : verifyHint;
+
+    const canResend = step === "email_verification" || step === "phone_2fa";
 
     return (
       <Form {...codeForm}>
@@ -203,17 +272,11 @@ export function SignInForm() {
         >
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
-              {isPhone ? (
-                <Smartphone className="h-5 w-5 text-primary" />
-              ) : (
-                <ShieldCheck className="h-5 w-5 text-primary" />
-              )}
+              {icon}
             </div>
             <div>
-              <p className="text-sm font-semibold text-foreground">
-                {isPhone ? "Verify your phone" : "Two-factor authentication"}
-              </p>
-              <p className="text-xs text-muted-foreground">{mfaHint}</p>
+              <p className="text-sm font-semibold text-foreground">{title}</p>
+              <p className="text-xs text-muted-foreground">{subtitle}</p>
             </div>
           </div>
 
@@ -267,8 +330,7 @@ export function SignInForm() {
             <button
               type="button"
               onClick={() => {
-                setMfaStrategy(null);
-                setMfaHint("");
+                setStep("credentials");
                 setApiErrors([]);
                 codeForm.reset();
               }}
@@ -278,7 +340,7 @@ export function SignInForm() {
               Back
             </button>
 
-            {isPhone && (
+            {canResend && (
               <button
                 type="button"
                 onClick={resendCode}
@@ -294,6 +356,7 @@ export function SignInForm() {
     );
   }
 
+  /* ── Credentials step ── */
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
