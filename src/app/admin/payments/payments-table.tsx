@@ -26,11 +26,20 @@ export type PaymentRow = {
   id: string;
   userName: string;
   email: string;
+  type: "MEMBERSHIP" | "DONATION" | "EVENT_FEE" | "OTHER";
+  description: string | null;
   amount: number;
   method: "PAYSTACK" | "EFT";
   status: "PENDING" | "PAID" | "FAILED";
   createdAt: string;
   paidAt: string | null;
+};
+
+const TYPE_LABELS: Record<PaymentRow["type"], string> = {
+  MEMBERSHIP: "Membership",
+  DONATION: "Donation",
+  EVENT_FEE: "Event Fee",
+  OTHER: "Other",
 };
 
 function StatusBadge({ status }: { status: PaymentRow["status"] }) {
@@ -62,6 +71,15 @@ const columns: ColumnDef<PaymentRow>[] = [
       >
         {row.getValue("email")}
       </a>
+    ),
+  },
+  {
+    accessorKey: "type",
+    header: "Type",
+    cell: ({ row }) => (
+      <span className="text-sm">
+        {TYPE_LABELS[row.getValue("type") as PaymentRow["type"]]}
+      </span>
     ),
   },
   {

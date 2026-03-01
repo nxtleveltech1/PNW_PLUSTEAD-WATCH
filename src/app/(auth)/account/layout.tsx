@@ -10,6 +10,7 @@ const accountNav = [
   { href: "/account/inbox", label: "Inbox" },
   { href: "/account/profile", label: "Profile" },
   { href: "/account/membership", label: "Membership" },
+  { href: "/account/payments", label: "Payments" },
   { href: "/account/settings", label: "Settings" },
   { href: "/account/security", label: "Security" },
 ];

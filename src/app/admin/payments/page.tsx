@@ -15,6 +15,8 @@ export default async function AdminPaymentsPage() {
       [p.user.firstName, p.user.lastName].filter(Boolean).join(" ") ||
       p.user.email,
     email: p.user.email,
+    type: p.type,
+    description: p.description,
     amount: p.amount,
     method: p.method,
     status: p.status,

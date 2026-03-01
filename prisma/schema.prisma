@@ -29,6 +29,13 @@ enum PaymentMethod {
   EFT
 }
 
+enum PaymentType {
+  MEMBERSHIP
+  DONATION
+  EVENT_FEE
+  OTHER
+}
+
 model User {
   id                     String               @id @default(cuid())
   clerkId                String?              @unique
@@ -78,6 +85,8 @@ model MembershipPayment {
   id                 String        @id @default(cuid())
   userId             String
   user               User          @relation(fields: [userId], references: [id])
+  type               PaymentType   @default(MEMBERSHIP)
+  description        String?
   amount             Int
   currency           String        @default("ZAR")
   method             PaymentMethod

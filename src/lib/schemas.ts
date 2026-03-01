@@ -241,6 +241,13 @@ export const paystackVerifySchema = z.object({
 });
 export type PaystackVerifyInput = z.input<typeof paystackVerifySchema>;
 
+export const accountPaymentSchema = z.object({
+  type: z.enum(["MEMBERSHIP", "DONATION", "EVENT_FEE", "OTHER"]),
+  amountCents: z.number().int().min(1000, "Minimum amount is R10"),
+  description: z.string().trim().max(200).optional(),
+});
+export type AccountPaymentInput = z.input<typeof accountPaymentSchema>;
+
 // ── Inbox Messaging ──────────────────────────────────────────────────────
 
 export const composeMessageSchema = z.object({
