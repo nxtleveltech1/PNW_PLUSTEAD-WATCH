@@ -502,6 +502,104 @@
     min-height: 2.75rem;
   }
 
+  /* ---------- Sponsor tier cards ---------- */
+
+  .card-sponsor-premium {
+    @apply overflow-hidden rounded-2xl shadow-[var(--shadow-elevation-3)] transition-all duration-300;
+    border-top: 3px solid #f59e0b;
+    background: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(45 100% 97%) 100%);
+  }
+
+  .dark .card-sponsor-premium {
+    background: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(45 60% 12%) 100%);
+  }
+
+  .card-sponsor-premium:hover {
+    @apply -translate-y-1;
+    box-shadow: var(--shadow-elevation-4), 0 0 32px rgb(245 158 11 / 0.18);
+  }
+
+  .card-sponsor-partner {
+    @apply overflow-hidden rounded-2xl shadow-[var(--shadow-elevation-2)] transition-all duration-300;
+    border-top: 3px solid hsl(var(--primary));
+    background-color: hsl(var(--card));
+  }
+
+  .card-sponsor-partner:hover {
+    @apply -translate-y-0.5;
+    box-shadow: var(--shadow-elevation-3), 0 0 16px hsl(var(--primary) / 0.12);
+  }
+
+  .sponsor-banner {
+    @apply relative overflow-hidden;
+    height: 200px;
+  }
+
+  .sponsor-banner-gradient {
+    @apply absolute inset-0;
+    background: linear-gradient(145deg, hsl(var(--primary) / 0.9) 0%, hsl(var(--accent) / 0.7) 100%);
+  }
+
+  .tier-badge-premium {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider;
+    background: linear-gradient(90deg, #f59e0b, #d97706);
+    color: #fff;
+  }
+
+  .tier-badge-partner {
+    @apply inline-flex items-center gap-1 rounded-full bg-primary/15 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-primary;
+  }
+
+  .tier-badge-supporter {
+    @apply inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground;
+  }
+
+  .sponsor-cta-banner {
+    @apply relative overflow-hidden rounded-2xl;
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.85) 50%, hsl(220 68% 20%) 100%);
+  }
+
+  /* ---------- Advertising package cards ---------- */
+
+  .card-package {
+    @apply relative overflow-hidden rounded-2xl border border-border/60 bg-card shadow-[var(--shadow-elevation-1)] transition-all duration-300;
+  }
+
+  .card-package:hover {
+    @apply -translate-y-0.5 shadow-[var(--shadow-elevation-2)];
+    border-color: hsl(var(--primary) / 0.3);
+  }
+
+  .card-package-featured {
+    @apply relative overflow-hidden rounded-2xl shadow-[var(--shadow-elevation-3)] transition-all duration-300;
+    border: 2px solid hsl(var(--primary) / 0.4);
+    background: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(var(--primary) / 0.04) 100%);
+  }
+
+  .card-package-featured:hover {
+    @apply -translate-y-1;
+    border-color: hsl(var(--primary) / 0.6);
+    box-shadow: var(--shadow-elevation-4), 0 0 24px hsl(var(--primary) / 0.15);
+  }
+
+  .package-ribbon {
+    @apply absolute right-0 top-0 overflow-hidden;
+    width: 80px;
+    height: 80px;
+  }
+
+  .package-ribbon::before {
+    content: "POPULAR";
+    @apply absolute flex items-center justify-center text-[9px] font-black uppercase tracking-widest text-white;
+    background: hsl(var(--primary));
+    transform: rotate(45deg);
+    width: 100px;
+    top: 14px;
+    right: -26px;
+    padding: 3px 0;
+    letter-spacing: 0.15em;
+  }
+
 }
 
 @media print {

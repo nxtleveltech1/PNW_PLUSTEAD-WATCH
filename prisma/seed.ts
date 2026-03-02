@@ -142,25 +142,69 @@ async function main() {
   if (sponsorCount === 0) {
     await prisma.sponsor.createMany({
       data: [
-        { name: "ADT Security", content: "Security services partner", linkUrl: "https://www.adt.co.za", tier: "PREMIUM", order: 1 },
-        { name: "Combat Force", content: "Community security support", linkUrl: "https://combatforce.co.za", tier: "PREMIUM", order: 2 },
-        { name: "Zone Security Services", content: "Neighbourhood security", linkUrl: null, tier: "PARTNER", order: 3 },
-        { name: "Tammy Frankland", content: "Camera Project sponsor", linkUrl: null, tier: "SUPPORTER", order: 4 },
-        { name: "Lance Gordon", content: "Camera Project sponsor", linkUrl: null, tier: "SUPPORTER", order: 5 },
-        { name: "Ooba Solar", content: "Save 25% on electricity — solar partner", linkUrl: "https://www.ooba.co.za", tier: "PARTNER", order: 6 },
+        {
+          name: "ADT Security",
+          content: "South Africa's leading home and business security provider.",
+          tagline: "Protecting homes since 1874",
+          linkUrl: "https://www.adt.co.za",
+          tier: "PREMIUM",
+          order: 1,
+        },
+        {
+          name: "Combat Force",
+          content: "Armed response and community security for Plumstead.",
+          tagline: "Fast armed response, 24/7",
+          linkUrl: "https://combatforce.co.za",
+          tier: "PREMIUM",
+          order: 2,
+        },
+        {
+          name: "Zone Security Services",
+          content: "Dedicated neighbourhood security patrol partner.",
+          tagline: "Your local security partner",
+          linkUrl: null,
+          tier: "PARTNER",
+          order: 3,
+        },
+        {
+          name: "Ooba Solar",
+          content: "Save 25% on electricity — solar solutions for homeowners.",
+          tagline: "Cut your electricity bill with solar",
+          linkUrl: "https://www.ooba.co.za",
+          tier: "PARTNER",
+          order: 4,
+        },
+        {
+          name: "Tammy Frankland",
+          content: "Camera Project sponsor",
+          tagline: null,
+          linkUrl: null,
+          tier: "SUPPORTER",
+          order: 5,
+        },
+        {
+          name: "Lance Gordon",
+          content: "Camera Project sponsor",
+          tagline: null,
+          linkUrl: null,
+          tier: "SUPPORTER",
+          order: 6,
+        },
       ],
     });
   } else {
     const legacySponsorNames = ["Tammy Frankland", "Lance Gordon", "Ooba Solar"];
     const existing = await prisma.sponsor.findMany({ where: { name: { in: legacySponsorNames } }, select: { name: true } });
     const existingNames = new Set(existing.map((s) => s.name));
-    const toAdd: { name: string; content: string; linkUrl: string | null; tier: "PREMIUM" | "PARTNER" | "SUPPORTER"; order: number }[] = [];
-    if (!existingNames.has("Tammy Frankland")) toAdd.push({ name: "Tammy Frankland", content: "Camera Project sponsor", linkUrl: null, tier: "SUPPORTER", order: 100 });
-    if (!existingNames.has("Lance Gordon")) toAdd.push({ name: "Lance Gordon", content: "Camera Project sponsor", linkUrl: null, tier: "SUPPORTER", order: 101 });
-    if (!existingNames.has("Ooba Solar")) toAdd.push({ name: "Ooba Solar", content: "Save 25% on electricity — solar partner", linkUrl: "https://www.ooba.co.za", tier: "PARTNER", order: 102 });
+    const toAdd: { name: string; content: string; tagline: string | null; linkUrl: string | null; tier: "PREMIUM" | "PARTNER" | "SUPPORTER"; order: number }[] = [];
+    if (!existingNames.has("Tammy Frankland")) toAdd.push({ name: "Tammy Frankland", content: "Camera Project sponsor", tagline: null, linkUrl: null, tier: "SUPPORTER", order: 100 });
+    if (!existingNames.has("Lance Gordon")) toAdd.push({ name: "Lance Gordon", content: "Camera Project sponsor", tagline: null, linkUrl: null, tier: "SUPPORTER", order: 101 });
+    if (!existingNames.has("Ooba Solar")) toAdd.push({ name: "Ooba Solar", content: "Save 25% on electricity — solar partner", tagline: "Cut your electricity bill with solar", linkUrl: "https://www.ooba.co.za", tier: "PARTNER", order: 102 });
     if (toAdd.length > 0) await prisma.sponsor.createMany({ data: toAdd });
-    await prisma.sponsor.updateMany({ where: { name: "ADT Security" }, data: { tier: "PREMIUM" } });
-    await prisma.sponsor.updateMany({ where: { name: "Combat Force" }, data: { tier: "PREMIUM" } });
+    await prisma.sponsor.updateMany({ where: { name: "ADT Security" }, data: { tier: "PREMIUM", tagline: "Protecting homes since 1874", content: "South Africa's leading home and business security provider." } });
+    await prisma.sponsor.updateMany({ where: { name: "Combat Force" }, data: { tier: "PREMIUM", tagline: "Fast armed response, 24/7", content: "Armed response and community security for Plumstead." } });
+    await prisma.sponsor.updateMany({ where: { name: "Zone Security Services" }, data: { tagline: "Your local security partner" } });
+    await prisma.sponsor.updateMany({ where: { name: "Ooba Solar" }, data: { tagline: "Cut your electricity bill with solar" } });
   }
 
   const safetyTipCount = await prisma.safetyTip.count();

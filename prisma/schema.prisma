@@ -231,13 +231,15 @@ enum SponsorTier {
 }
 
 model Sponsor {
-  id       String      @id @default(cuid())
-  name     String
-  content  String?
-  linkUrl  String?
-  logoUrl  String?
-  tier     SponsorTier @default(PARTNER)
-  order    Int
+  id        String      @id @default(cuid())
+  name      String
+  content   String?
+  tagline   String?
+  linkUrl   String?
+  logoUrl   String?
+  bannerUrl String?
+  tier      SponsorTier @default(PARTNER)
+  order     Int
 }
 
 model ContactMessage {

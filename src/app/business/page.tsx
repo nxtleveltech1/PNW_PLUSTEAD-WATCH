@@ -6,14 +6,14 @@ import { prisma } from "@/lib/db";
 import { BusinessDirectoryFilters } from "./business-directory-filters";
 import { BusinessDbUnavailable } from "./db-unavailable";
 import { AnimateSection, AnimateItem } from "@/components/ui/animate-section";
+import { SponsorShowcase } from "@/components/sponsors/sponsor-showcase";
+import { AdvertisingPackages } from "@/components/sponsors/advertising-packages";
 import {
   Building2,
   Calendar,
   ExternalLink,
-  Handshake,
   MapPin,
   MessageSquare,
-  Megaphone,
   Store,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -39,6 +39,8 @@ const hubNavLinks = [
   { href: "/business/submit", label: "List Business" },
   { href: `mailto:${ADVERTISE_EMAIL}?subject=${ADVERTISE_SUBJECT}`, label: "Advertise", external: true },
 ];
+
+// ADVERTISE_EMAIL and ADVERTISE_SUBJECT are kept for the hub nav link above
 
 export default async function BusinessNetworkingHubPage({
   searchParams,
@@ -166,94 +168,11 @@ export default async function BusinessNetworkingHubPage({
           </div>
         </AnimateSection>
 
-        {/* Sponsors — elevated card grid */}
+        {/* Sponsors — tier-differentiated showcase */}
         {sponsors.length > 0 && (
-          <AnimateSection className="mt-section" aria-labelledby="sponsors-heading">
-            <AnimateItem className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <span className="text-sm font-semibold uppercase tracking-widest text-primary">
-                  Community Partners
-                </span>
-                <h2 id="sponsors-heading" className="section-heading mt-2">
-                  <span className="headline-gradient">Supported by</span>
-                </h2>
-              </div>
-              <Link
-                href="/sponsors"
-                className="text-sm font-semibold text-primary hover:underline"
-              >
-                View all sponsors
-              </Link>
-            </AnimateItem>
-            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {sponsors.slice(0, 6).map((sponsor) => (
-                <AnimateItem key={sponsor.id}>
-                  <article className="card-elevated group h-full overflow-hidden rounded-2xl border-0 bg-card">
-                    <div className="flex h-full flex-col">
-                      <div className="flex flex-1 items-center justify-center gap-4 border-b border-border/50 bg-gradient-to-br from-primary/5 to-transparent px-6 py-6">
-                        {sponsor.logoUrl ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img
-                            src={sponsor.logoUrl}
-                            alt={sponsor.name}
-                            width={100}
-                            height={50}
-                            className="max-h-12 w-auto object-contain"
-                          />
-                        ) : (
-                          <span className="icon-badge-primary">
-                            <Handshake className="h-6 w-6" />
-                          </span>
-                        )}
-                        <div className="min-w-0 flex-1">
-                          <p className="font-display font-semibold">{sponsor.name}</p>
-                          {sponsor.tier && (
-                            <Badge variant="secondary" className="mt-1 text-xs">
-                              {sponsor.tier}
-                            </Badge>
-                          )}
-                        </div>
-                      </div>
-                      <div className="px-6 py-4">
-                        {sponsor.linkUrl ? (
-                          <a
-                            href={sponsor.linkUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
-                          >
-                            Visit partner
-                            <ExternalLink className="h-4 w-4" />
-                          </a>
-                        ) : (
-                          <span className="text-sm text-muted-foreground">Community partner</span>
-                        )}
-                      </div>
-                    </div>
-                  </article>
-                </AnimateItem>
-              ))}
-            </div>
-            <AnimateItem className="mt-6">
-              <Link
-                href="/contact"
-                className="card-elevated flex items-center gap-4 rounded-2xl border-l-4 border-l-primary bg-gradient-to-br from-primary/10 to-primary/5 px-6 py-5"
-              >
-                <span className="icon-badge-primary">
-                  <Handshake className="h-6 w-6" />
-                </span>
-                <div>
-                  <p className="font-display font-semibold">Become a sponsor</p>
-                  <p className="text-sm text-muted-foreground">
-                    Support patrol operations and build trusted local visibility.
-                  </p>
-                </div>
-                <span className="ml-auto rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground">
-                  Contact us
-                </span>
-              </Link>
-            </AnimateItem>
-          </AnimateSection>
+          <div className="mt-section">
+            <SponsorShowcase sponsors={sponsors} showCta />
+          </div>
         )}
 
         {/* Featured local businesses */}
@@ -466,33 +385,10 @@ export default async function BusinessNetworkingHubPage({
           </AnimateItem>
         </AnimateSection>
 
-        {/* Advertising CTA — card-elevated, icon-badge */}
-        <AnimateSection className="mt-block">
+        {/* Advertising packages */}
+        <AnimateSection className="mt-section">
           <AnimateItem>
-            <div className="card-elevated overflow-hidden rounded-2xl border-l-4 border-l-accent">
-              <div className="border-b border-border/50 bg-gradient-to-br from-alert-muted/80 to-alert-muted/40 px-6 py-6 md:flex md:items-center md:justify-between md:gap-6">
-                <div className="flex items-start gap-4">
-                  <span className="icon-badge-accent">
-                    <Megaphone className="h-6 w-6" />
-                  </span>
-                  <div>
-                    <p className="font-display text-xl font-semibold">Advertise with PNW</p>
-                    <p className="mt-1 text-sm text-muted-foreground">
-                      Support patrol logistics, outreach programs, and safety campaigns while building trusted local
-                      visibility. Contact us to discuss advertising opportunities.
-                    </p>
-                  </div>
-                </div>
-                <a
-                  href={`mailto:${ADVERTISE_EMAIL}?subject=${ADVERTISE_SUBJECT}`}
-                  className="mt-4 inline-flex md:mt-0"
-                >
-                  <Button variant="outline" size="lg" className="border-2 border-primary/40 font-semibold">
-                    Contact to advertise
-                  </Button>
-                </a>
-              </div>
-            </div>
+            <AdvertisingPackages />
           </AnimateItem>
         </AnimateSection>
     </PageShell>
