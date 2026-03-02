@@ -22,20 +22,21 @@ const primaryNavLinks = [
   { href: "/events", label: "Events" },
   { href: "/business", label: "Business" },
   { href: "/find", label: "Zone Map" },
+  { href: "/about", label: "About" },
+  { href: "/help", label: "Help" },
+  { href: "/account", label: "Account" },
 ];
 
 const moreNavLinks = [
   { href: "/safety-tips", label: "Safety Tips" },
   { href: "/volunteer", label: "Volunteer" },
-  { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
-  { href: "/help", label: "Help" },
 ];
 
 export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
   const pathname = usePathname();
   const filteredMoreLinks = showAdmin
-    ? [...moreNavLinks, { href: "/admin", label: "Admin" }, { href: "/account", label: "Account" }]
+    ? [...moreNavLinks, { href: "/admin", label: "Admin" }]
     : moreNavLinks;
 
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
