@@ -8,6 +8,7 @@ node_modules
 out
 build
 dist
+tsconfig.tsbuildinfo
 
 # Env
 .env
@@ -28,3 +29,13 @@ yarn-error.log*
 # OS
 .DS_Store
 Thumbs.db
+
+# Word temp/lock files
+~$*
+~WRL*.tmp
+
+# Docs (not served by app)
+docs/
+*.docx
+*.pdf
+!public/**/*.pdf
