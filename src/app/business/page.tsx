@@ -40,7 +40,6 @@ const hubNavLinks = [
   { href: `mailto:${ADVERTISE_EMAIL}?subject=${ADVERTISE_SUBJECT}`, label: "Advertise", external: true },
 ];
 
-// ADVERTISE_EMAIL and ADVERTISE_SUBJECT are kept for the hub nav link above
 
 export default async function BusinessNetworkingHubPage({
   searchParams,

@@ -118,7 +118,6 @@ function PremiumSponsorCard({ sponsor }: { sponsor: Sponsor }) {
               href={sponsor.linkUrl}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
               className="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-amber-600"
             >
               Visit partner site
@@ -132,13 +131,7 @@ function PremiumSponsorCard({ sponsor }: { sponsor: Sponsor }) {
     </article>
   );
 
-  return sponsor.linkUrl ? (
-    <a href={sponsor.linkUrl} target="_blank" rel="noopener noreferrer" className="block h-full">
-      {content}
-    </a>
-  ) : (
-    content
-  );
+  return content;
 }
 
 function PartnerSponsorCard({ sponsor }: { sponsor: Sponsor }) {
