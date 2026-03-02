@@ -69,8 +69,8 @@ export function Footer() {
     >
       <div className="divider-gradient" />
 
-      <div className="container py-12 md:py-16">
-        <div className="grid gap-10 md:grid-cols-12 md:gap-x-8 lg:gap-x-12">
+      <div className="container py-10 md:py-16">
+        <div className="grid gap-8 md:grid-cols-12 md:gap-x-8 lg:gap-x-12">
           {/* Brand */}
           <section className="md:col-span-4 lg:col-span-3" aria-labelledby="footer-brand">
             <h2 id="footer-brand" className="sr-only">Plumstead Neighbourhood Watch</h2>
@@ -114,7 +114,7 @@ export function Footer() {
 
           {/* Nav columns */}
           <nav className="md:col-span-8 lg:col-span-9" aria-label="Site map">
-            <div className="grid grid-cols-2 gap-6 sm:gap-8 sm:grid-cols-4">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4 sm:gap-x-8">
               <FooterColumn title="Membership" links={membershipLinks} />
               <FooterColumn title="Operations" links={opsLinks} />
               <FooterColumn title="Organisation" links={orgLinks} />

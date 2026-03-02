@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { Menu } from "lucide-react";
-import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { Menu, LogOut } from "lucide-react";
+import { SignedIn, SignedOut, useUser, useClerk } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { UserAvatarDropdown } from "@/components/user/user-avatar-dropdown";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Drawer,
   DrawerContent,
@@ -37,6 +38,52 @@ const accountLinks = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/account", label: "Account" },
 ];
+
+function MobileUserInfo() {
+  const { user, isLoaded } = useUser();
+  const { signOut } = useClerk();
+  const router = useRouter();
+
+  if (!isLoaded || !user) return null;
+
+  const displayName =
+    [user.firstName, user.lastName].filter(Boolean).join(" ") ||
+    user.primaryEmailAddress?.emailAddress ||
+    "Member";
+  const initials = user.firstName
+    ? `${user.firstName[0]}${user.lastName?.[0] ?? ""}`.toUpperCase()
+    : "?";
+
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex items-center gap-3 rounded-lg bg-muted/60 px-3 py-2.5">
+        <Avatar className="h-9 w-9 shrink-0 border-2 border-primary/20">
+          <AvatarImage src={user.imageUrl} alt={displayName} />
+          <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary">
+            {initials}
+          </AvatarFallback>
+        </Avatar>
+        <div className="min-w-0">
+          <p className="truncate text-sm font-medium text-foreground">{displayName}</p>
+          <p className="truncate text-xs text-muted-foreground">
+            {user.primaryEmailAddress?.emailAddress}
+          </p>
+        </div>
+      </div>
+      <Button
+        variant="ghost"
+        className="min-h-[44px] w-full justify-center gap-2 text-destructive hover:bg-destructive/10 hover:text-destructive"
+        onClick={async () => {
+          await signOut({ redirectUrl: "/" });
+          router.push("/");
+        }}
+      >
+        <LogOut className="h-4 w-4" />
+        Sign out
+      </Button>
+    </div>
+  );
+}
 
 export function MobileNav({ showAdmin = false }: { showAdmin?: boolean }) {
   const accountLinksFiltered = showAdmin
@@ -134,9 +181,7 @@ export function MobileNav({ showAdmin = false }: { showAdmin?: boolean }) {
                   </Button>
                 </SignedOut>
                 <SignedIn>
-                  <div className="flex justify-center">
-                    <UserAvatarDropdown showAdmin={showAdmin} />
-                  </div>
+                  <MobileUserInfo />
                 </SignedIn>
               </>
             ) : (

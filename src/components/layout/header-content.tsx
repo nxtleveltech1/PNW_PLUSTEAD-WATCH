@@ -45,7 +45,7 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/90">
       {/* Topbar */}
       <div className="topbar-premium border-b border-accent/15">
-        <div className="container flex min-h-[2.625rem] items-center gap-3 py-1">
+        <div className="container flex min-h-[2.25rem] items-center justify-between gap-2 py-0.5 sm:min-h-[2.625rem] sm:gap-3 sm:py-1">
           <p className="hidden items-center gap-2 text-xs font-semibold tracking-wide text-accent sm:inline-flex">
             <span className="relative flex h-2 w-2" aria-hidden>
               <span className="absolute inline-flex h-full w-full animate-pulse-dot rounded-full bg-accent opacity-75" />
@@ -54,19 +54,19 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
             <AlertTriangle className="h-3.5 w-3.5" aria-hidden />
             Report incidents immediately
           </p>
-          <div className="ml-auto flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:ml-auto sm:gap-2">
             <a
               href="tel:0860002669"
-              className="topbar-phone inline-flex items-center gap-1.5 rounded-md px-2.5 text-xs font-semibold text-accent hover:text-accent/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              className="topbar-phone inline-flex items-center gap-1 rounded-md px-1.5 text-[0.6875rem] font-semibold text-accent hover:text-accent/80 sm:gap-1.5 sm:px-2.5 sm:text-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               aria-label="Call CVIC 0860 002 669"
             >
-              <Phone className="h-3.5 w-3.5" aria-hidden />
+              <Phone className="h-3 w-3 sm:h-3.5 sm:w-3.5" aria-hidden />
               CVIC 0860 002 669
             </a>
             <Button
               asChild
               size="sm"
-              className="topbar-report-btn bg-accent px-3.5 text-xs font-semibold text-accent-foreground shadow-[0_8px_20px_rgb(206_67_44_/_0.38)] hover:bg-accent/90"
+              className="topbar-report-btn h-7 bg-accent px-2.5 text-[0.6875rem] font-semibold text-accent-foreground shadow-[0_8px_20px_rgb(206_67_44_/_0.38)] hover:bg-accent/90 sm:h-8 sm:px-3.5 sm:text-xs"
             >
               <Link href="/incidents">Report</Link>
             </Button>
@@ -76,10 +76,10 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
 
       {/* Main header */}
       <div className="border-b border-border/60">
-          <div className="container flex h-16 items-center gap-4 md:gap-8">
+          <div className="container flex h-16 items-center gap-2 sm:gap-3 md:gap-8">
           <Link
             href="/"
-            className="flex shrink-0 items-center gap-3 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            className="flex min-w-0 items-center gap-2 rounded-md sm:gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             aria-label="Plumstead Neighbourhood Watch home"
           >
             <div className="relative h-10 w-[108px] shrink-0 overflow-hidden md:h-11 md:w-[120px]">
@@ -92,8 +92,8 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
                 priority
               />
             </div>
-            <span className="hidden text-sm font-bold uppercase tracking-wide text-foreground md:inline">
-              Plumstead Neighbourhood Watch
+            <span className="text-[0.6875rem] font-bold uppercase leading-tight tracking-wide text-foreground sm:text-xs md:text-sm">
+              Plumstead<br className="sm:hidden" /> Neighbourhood Watch
             </span>
           </Link>
 
