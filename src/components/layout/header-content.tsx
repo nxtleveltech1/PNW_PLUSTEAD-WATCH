@@ -57,7 +57,7 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
           <div className="ml-auto flex items-center gap-2">
             <a
               href="tel:0860002669"
-              className="topbar-phone inline-flex min-h-[44px] min-w-[44px] items-center gap-1.5 rounded-md px-2.5 text-xs font-semibold text-accent hover:text-accent/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              className="topbar-phone inline-flex items-center gap-1.5 rounded-md px-2.5 text-xs font-semibold text-accent hover:text-accent/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               aria-label="Call CVIC 0860 002 669"
             >
               <Phone className="h-3.5 w-3.5" aria-hidden />
@@ -66,7 +66,7 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
             <Button
               asChild
               size="sm"
-              className="topbar-report-btn min-h-[44px] bg-accent px-3.5 text-xs font-semibold text-accent-foreground shadow-[0_8px_20px_rgb(206_67_44_/_0.38)] hover:bg-accent/90"
+              className="topbar-report-btn bg-accent px-3.5 text-xs font-semibold text-accent-foreground shadow-[0_8px_20px_rgb(206_67_44_/_0.38)] hover:bg-accent/90"
             >
               <Link href="/incidents">Report</Link>
             </Button>

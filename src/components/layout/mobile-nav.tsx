@@ -55,11 +55,11 @@ export function MobileNav({ showAdmin = false }: { showAdmin?: boolean }) {
           <Menu className="h-5 w-5" aria-hidden />
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="h-full w-[min(20rem,85vw)] rounded-l-2xl rounded-r-none border-l border-border/80 bg-background/95">
+      <DrawerContent className="inset-y-0 right-0 h-full w-[min(20rem,85vw)] rounded-l-2xl rounded-r-none border-l border-border/80 bg-background/95">
         <DrawerHeader>
           <DrawerTitle>Navigation</DrawerTitle>
         </DrawerHeader>
-        <nav className="flex flex-col gap-6 px-4 pb-8" aria-label="Mobile navigation">
+        <nav className="flex flex-1 flex-col gap-6 overflow-y-auto px-4 pb-8" aria-label="Mobile navigation">
           <div>
             <h3 className="mb-3 flex items-center gap-2 px-4 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
               <span className="inline-block h-3.5 w-0.5 rounded-full bg-primary" aria-hidden />

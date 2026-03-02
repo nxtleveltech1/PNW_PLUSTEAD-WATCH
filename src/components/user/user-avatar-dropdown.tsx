@@ -66,7 +66,7 @@ export function UserAvatarDropdown({ showAdmin = false }: { showAdmin?: boolean 
         <DropdownMenuContent align="end" className="w-56">
           <div className="px-2 py-2">
             <p className="text-sm font-medium truncate">{displayName}</p>
-            <p className="text-xs truncate text-white/50">
+            <p className="text-xs truncate text-muted-foreground">
               {primaryEmail}
             </p>
           </div>
