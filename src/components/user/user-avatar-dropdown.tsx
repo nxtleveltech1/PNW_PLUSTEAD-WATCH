@@ -41,8 +41,16 @@ export function UserAvatarDropdown({ showAdmin = false }: { showAdmin?: boolean 
   }
 
   return (
-    <div className="flex items-center gap-0.5">
+    <div className="flex items-center gap-2">
       <InboxBadge />
+      <Button
+        variant="ghost"
+        size="sm"
+        className="h-9 px-3 text-[0.8125rem] font-medium text-muted-foreground hover:text-foreground"
+        onClick={handleSignOut}
+      >
+        Sign out
+      </Button>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="flex items-center gap-2 px-2 py-1.5">
