@@ -18,6 +18,8 @@ const sourceSans = Source_Sans_3({
   display: "swap",
 });
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Plumstead Neighbourhood Watch",
   description: "Command-center platform for Plumstead community safety, incident awareness, and coordinated response.",
