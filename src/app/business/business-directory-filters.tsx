@@ -58,13 +58,13 @@ export function BusinessDirectoryFilters({
   }
 
   return (
-    <div className="mt-8 rounded-2xl border border-border/80 bg-background/90 p-6 shadow-[var(--shadow-elevation-1)]">
-      <div className="flex flex-wrap items-end gap-4">
-        <div className="min-w-[200px] flex-1">
+    <div className="mt-8 rounded-2xl border border-border/80 bg-background/90 p-4 shadow-[var(--shadow-elevation-1)] sm:p-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-end">
+        <div className="min-w-0 flex-1">
           <label htmlFor="search" className="mb-1 block text-sm font-medium text-muted-foreground">
             Search
           </label>
-          <div className="relative max-w-sm">
+          <div className="relative">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               id="search"
@@ -81,7 +81,7 @@ export function BusinessDirectoryFilters({
             />
           </div>
         </div>
-        <div className="min-w-[160px]">
+        <div className="w-full sm:w-auto sm:min-w-[160px]">
           <label htmlFor="category" className="mb-1 block text-sm font-medium text-muted-foreground">
             Category
           </label>
@@ -89,7 +89,7 @@ export function BusinessDirectoryFilters({
             value={currentCategory || ALL_SENTINEL}
             onValueChange={(v) => updateFilters({ category: v })}
           >
-            <SelectTrigger id="category" className="h-10">
+            <SelectTrigger id="category" className="h-10 w-full">
               <SelectValue placeholder="All categories" />
             </SelectTrigger>
             <SelectContent>
@@ -101,12 +101,12 @@ export function BusinessDirectoryFilters({
             </SelectContent>
           </Select>
         </div>
-        <div className="min-w-[160px]">
+        <div className="w-full sm:w-auto sm:min-w-[160px]">
           <label htmlFor="zone" className="mb-1 block text-sm font-medium text-muted-foreground">
             Zone
           </label>
           <Select value={currentZone || ALL_SENTINEL} onValueChange={(v) => updateFilters({ zone: v })}>
-            <SelectTrigger id="zone" className="h-10">
+            <SelectTrigger id="zone" className="h-10 w-full">
               <SelectValue placeholder="All zones" />
             </SelectTrigger>
             <SelectContent>
@@ -122,7 +122,7 @@ export function BusinessDirectoryFilters({
         <Button
           variant="outline"
           size="sm"
-          className="h-10"
+          className="h-10 w-full sm:w-auto"
           onClick={() => {
             (document.getElementById("search") as HTMLInputElement).value = "";
             updateFilters({ category: ALL_SENTINEL, zone: ALL_SENTINEL, search: "" });

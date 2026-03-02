@@ -243,7 +243,7 @@ function BecomeSponsorCta() {
   return (
     <AnimateItem className="mt-8">
       <Link href="/contact" className="block">
-        <div className="sponsor-cta-banner group relative px-8 py-8 md:flex md:items-center md:justify-between md:gap-8">
+        <div className="sponsor-cta-banner group relative px-4 py-6 sm:px-8 sm:py-8 md:flex md:items-center md:justify-between md:gap-8">
           {/* Ambient grid overlay */}
           <div
             className="absolute inset-0 opacity-10"
@@ -257,7 +257,7 @@ function BecomeSponsorCta() {
           <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-white/10 blur-3xl" />
           <div className="absolute -bottom-12 left-1/3 h-32 w-32 rounded-full bg-accent/20 blur-2xl" />
 
-          <div className="relative flex items-start gap-5">
+          <div className="relative flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-5">
             <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/15 ring-1 ring-white/25 backdrop-blur-sm">
               <Handshake className="h-7 w-7 text-white" />
             </span>
@@ -275,8 +275,8 @@ function BecomeSponsorCta() {
             </div>
           </div>
 
-          <div className="relative mt-6 shrink-0 md:mt-0">
-            <span className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-bold text-primary shadow-elevation-2 transition-all duration-200 group-hover:shadow-elevation-3 group-hover:scale-[1.02]">
+          <div className="relative mt-5 shrink-0 md:mt-0">
+            <span className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-bold text-primary shadow-elevation-2 transition-all duration-200 group-hover:scale-[1.02] group-hover:shadow-elevation-3">
               Partner with us
               <ArrowRight className="h-4 w-4" />
             </span>

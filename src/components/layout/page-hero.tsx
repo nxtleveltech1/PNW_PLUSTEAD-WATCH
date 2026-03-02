@@ -47,7 +47,7 @@ export function PageHero({
           <div className="accent-bar mt-0.5 hidden h-12 md:block" />
           <div>
             <p className="eyebrow">{eyebrow}</p>
-            <h1 className="section-heading mt-2">
+            <h1 className="section-heading mt-2 [overflow-wrap:anywhere]">
               {gradient ? (
                 <span className="headline-gradient">{title}</span>
               ) : (

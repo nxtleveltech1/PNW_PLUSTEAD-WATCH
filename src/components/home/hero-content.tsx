@@ -96,7 +96,7 @@ function HeroMainSlide() {
         <Button
           asChild
           size="lg"
-          className="btn-glow min-w-[210px] bg-primary px-8 py-6 text-base font-semibold shadow-[0_10px_34px_rgba(25,65,156,0.45)] hover:bg-primary/92"
+          className="btn-glow w-full bg-primary px-8 py-6 text-base font-semibold shadow-[0_10px_34px_rgba(25,65,156,0.45)] hover:bg-primary/92 sm:w-auto sm:min-w-[210px]"
         >
           <Link href="/register">Register as a member</Link>
         </Button>
@@ -104,7 +104,7 @@ function HeroMainSlide() {
           asChild
           size="lg"
           variant="outline"
-          className="min-w-[148px] border-white/60 bg-transparent px-6 py-6 font-medium text-white hover:border-white hover:bg-white/10"
+          className="w-full border-white/60 bg-transparent px-6 py-6 font-medium text-white hover:border-white hover:bg-white/10 sm:w-auto sm:min-w-[148px]"
         >
           <Link href="/donate">Donate</Link>
         </Button>
@@ -225,17 +225,21 @@ export function HeroContent() {
         </CarouselContent>
         <CarouselPrevious className="left-4 border-white/40 bg-white/10 text-white hover:bg-white/20 hover:text-white" />
         <CarouselNext className="right-4 border-white/40 bg-white/10 text-white hover:bg-white/20 hover:text-white" />
-        <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-2">
+        <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2">
           {[0, 1].map((i) => (
             <button
               key={i}
               type="button"
               aria-label={`Go to slide ${i + 1}`}
               onClick={() => api?.scrollTo(i)}
-              className={`h-2 rounded-full transition-all ${
-                i === current ? "w-8 bg-white" : "w-2 bg-white/50 hover:bg-white/70"
-              }`}
-            />
+              className={`flex min-h-[44px] min-w-[44px] items-center justify-center`}
+            >
+              <span
+                className={`block h-2 rounded-full transition-all ${
+                  i === current ? "w-8 bg-white" : "w-2 bg-white/50 hover:bg-white/70"
+                }`}
+              />
+            </button>
           ))}
         </div>
       </Carousel>

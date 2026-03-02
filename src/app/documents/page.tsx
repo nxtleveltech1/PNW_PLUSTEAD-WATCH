@@ -63,7 +63,7 @@ export default async function DocumentsPage({
                         <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary/10">
                           <FileText className="h-5 w-5 text-primary" />
                         </span>
-                        <span className="font-medium text-foreground group-hover:text-primary transition-colors">
+                        <span className="min-w-0 flex-1 break-words font-medium text-foreground transition-colors group-hover:text-primary">
                           {doc.name}
                         </span>
                       </a>

@@ -41,7 +41,7 @@ export default async function AccountLayout({
               <Link
                 key={item.href}
                 href={item.href}
-                className="shrink-0 rounded-lg border bg-background px-4 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                className="inline-flex min-h-[44px] shrink-0 items-center rounded-lg border bg-background px-4 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
               >
                 {item.label}
               </Link>
@@ -49,7 +49,7 @@ export default async function AccountLayout({
             {showAdmin && (
               <Link
                 href="/admin"
-                className="shrink-0 rounded-lg border bg-background px-4 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                className="inline-flex min-h-[44px] shrink-0 items-center rounded-lg border bg-background px-4 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
               >
                 Administration
               </Link>

@@ -24,7 +24,7 @@ export default function StartSchemePage() {
           <div className="mt-6 space-y-4">
             {STEPS.map((s) => (
               <AnimateItem key={s.n}>
-              <div className="card-elevated flex gap-4 rounded-2xl border-0 bg-card p-5">
+              <div className="card-elevated flex gap-3 rounded-2xl border-0 bg-card p-4 sm:gap-4 sm:p-5">
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/15 font-display font-semibold text-primary">
                   {s.n}
                 </span>

@@ -43,7 +43,7 @@ function CommunityCard() {
   const subject = encodeURIComponent("Community advertising enquiry — PNW");
   return (
     <div className="card-package flex h-full flex-col">
-      <div className="border-b border-border/50 bg-muted/30 px-6 py-6">
+      <div className="border-b border-border/50 bg-muted/30 px-4 py-5 sm:px-6 sm:py-6">
         <div className="flex items-center gap-3">
           <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted">
             <Store className="h-5 w-5 text-muted-foreground" />
@@ -54,7 +54,7 @@ function CommunityCard() {
           </div>
         </div>
       </div>
-      <div className="flex flex-1 flex-col px-6 py-5">
+      <div className="flex flex-1 flex-col px-4 py-5 sm:px-6">
         <ul className="flex-1 space-y-0.5">
           {FEATURES.map((f) => (
             <FeatureRow key={f.label} included={f.community} label={f.label} />
@@ -62,7 +62,7 @@ function CommunityCard() {
         </ul>
         <a
           href={`mailto:${ADVERTISE_EMAIL}?subject=${subject}`}
-          className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-muted/50"
+          className="mt-6 inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-muted/50"
         >
           <Mail className="h-4 w-4" />
           Enquire
@@ -78,7 +78,7 @@ function GrowthCard() {
     <div className="card-package-featured flex h-full flex-col">
       {/* Popular ribbon */}
       <div className="package-ribbon" aria-hidden />
-      <div className="border-b border-primary/20 bg-gradient-to-br from-primary/8 to-transparent px-6 py-6">
+      <div className="border-b border-primary/20 bg-gradient-to-br from-primary/8 to-transparent px-4 py-5 sm:px-6 sm:py-6">
         <div className="flex items-center gap-3">
           <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/15">
             <TrendingUp className="h-5 w-5 text-primary" />
@@ -89,7 +89,7 @@ function GrowthCard() {
           </div>
         </div>
       </div>
-      <div className="flex flex-1 flex-col px-6 py-5">
+      <div className="flex flex-1 flex-col px-4 py-5 sm:px-6">
         <ul className="flex-1 space-y-0.5">
           {FEATURES.map((f) => (
             <FeatureRow key={f.label} included={f.growth} label={f.label} />
@@ -97,7 +97,7 @@ function GrowthCard() {
         </ul>
         <a
           href={`mailto:${ADVERTISE_EMAIL}?subject=${subject}`}
-          className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+          className="mt-6 inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
         >
           <Mail className="h-4 w-4" />
           Enquire
@@ -111,7 +111,7 @@ function PremiumAdCard() {
   const subject = encodeURIComponent("Premium advertising enquiry — PNW");
   return (
     <div className="card-package flex h-full flex-col" style={{ borderTop: "3px solid #f59e0b" }}>
-      <div className="border-b border-border/50 bg-gradient-to-br from-amber-50 to-transparent px-6 py-6 dark:from-amber-950/20">
+      <div className="border-b border-border/50 bg-gradient-to-br from-amber-50 to-transparent px-4 py-5 dark:from-amber-950/20 sm:px-6 sm:py-6">
         <div className="flex items-center gap-3">
           <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/15">
             <Crown className="h-5 w-5 text-amber-600 dark:text-amber-400" />
@@ -122,7 +122,7 @@ function PremiumAdCard() {
           </div>
         </div>
       </div>
-      <div className="flex flex-1 flex-col px-6 py-5">
+      <div className="flex flex-1 flex-col px-4 py-5 sm:px-6">
         <ul className="flex-1 space-y-0.5">
           {FEATURES.map((f) => (
             <FeatureRow key={f.label} included={f.premium} label={f.label} />
@@ -130,7 +130,7 @@ function PremiumAdCard() {
         </ul>
         <a
           href={`mailto:${ADVERTISE_EMAIL}?subject=${subject}`}
-          className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-amber-500 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-amber-600"
+          className="mt-6 inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-lg bg-amber-500 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-amber-600"
         >
           <Mail className="h-4 w-4" />
           Enquire
@@ -176,10 +176,10 @@ export function AdvertisingPackages() {
         ))}
       </div>
 
-      {/* Package cards — Growth is centre and slightly taller via -mt-2 / pt offset */}
+      {/* Package cards — Growth is centre and slightly taller via -mt offset on sm+ */}
       <div className="mt-8 grid items-stretch gap-4 sm:grid-cols-3">
         <CommunityCard />
-        <div className="-mt-3 sm:-mt-4">
+        <div className="sm:-mt-4">
           <GrowthCard />
         </div>
         <PremiumAdCard />

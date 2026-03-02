@@ -66,7 +66,7 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
             <Button
               asChild
               size="sm"
-              className="topbar-report-btn min-h-[34px] bg-accent px-3.5 text-xs font-semibold text-accent-foreground shadow-[0_8px_20px_rgb(206_67_44_/_0.38)] hover:bg-accent/90"
+              className="topbar-report-btn min-h-[44px] bg-accent px-3.5 text-xs font-semibold text-accent-foreground shadow-[0_8px_20px_rgb(206_67_44_/_0.38)] hover:bg-accent/90"
             >
               <Link href="/incidents">Report</Link>
             </Button>
@@ -76,7 +76,7 @@ export function HeaderContent({ showAdmin = false }: { showAdmin?: boolean }) {
 
       {/* Main header */}
       <div className="border-b border-border/60">
-        <div className="container flex h-16 items-center gap-8">
+          <div className="container flex h-16 items-center gap-4 md:gap-8">
           <Link
             href="/"
             className="flex shrink-0 items-center gap-3 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"

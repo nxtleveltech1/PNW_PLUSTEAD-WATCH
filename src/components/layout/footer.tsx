@@ -41,12 +41,12 @@ function FooterColumn({ title, links }: { title: string; links: { href: string; 
       <h3 className="text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground">
         {title}
       </h3>
-      <ul className="mt-4 space-y-2.5" role="list">
+      <ul className="mt-3 space-y-0" role="list">
         {links.map((link) => (
           <li key={link.href}>
             <Link
               href={link.href}
-              className="text-sm text-foreground/80 transition-colors hover:text-primary"
+              className="inline-flex min-h-[44px] items-center text-sm text-foreground/80 transition-colors hover:text-primary"
             >
               {link.label}
             </Link>
@@ -99,7 +99,7 @@ export function Footer() {
             <address className="mt-5 not-italic">
               <a
                 href={CVIC_TEL}
-                className="inline-flex items-center gap-2 rounded-lg bg-alert-muted px-3.5 py-2.5 text-sm font-semibold text-accent transition-colors hover:bg-alert-muted/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-alert-muted px-3.5 py-2.5 text-sm font-semibold text-accent transition-colors hover:bg-alert-muted/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 aria-label={`Call CVIC emergency line: ${CVIC_NUMBER}`}
               >
                 <span className="relative flex h-2 w-2 shrink-0" aria-hidden>
@@ -114,7 +114,7 @@ export function Footer() {
 
           {/* Nav columns */}
           <nav className="md:col-span-8 lg:col-span-9" aria-label="Site map">
-            <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+            <div className="grid grid-cols-2 gap-6 sm:gap-8 sm:grid-cols-4">
               <FooterColumn title="Membership" links={membershipLinks} />
               <FooterColumn title="Operations" links={opsLinks} />
               <FooterColumn title="Organisation" links={orgLinks} />
@@ -125,10 +125,10 @@ export function Footer() {
 
         {/* CTA row */}
         <div className="mt-10 flex flex-wrap gap-3">
-          <Button asChild size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90">
+          <Button asChild size="sm" className="min-h-[44px] bg-accent text-accent-foreground hover:bg-accent/90">
             <Link href="/incidents">Report incident</Link>
           </Button>
-          <Button asChild variant="outline" size="sm">
+          <Button asChild variant="outline" size="sm" className="min-h-[44px]">
             <Link href="/register">Join us</Link>
           </Button>
         </div>

@@ -55,7 +55,7 @@ export function MobileNav({ showAdmin = false }: { showAdmin?: boolean }) {
           <Menu className="h-5 w-5" aria-hidden />
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="h-full w-80 rounded-l-2xl rounded-r-none border-l border-border/80 bg-background/95">
+      <DrawerContent className="h-full w-[min(20rem,85vw)] rounded-l-2xl rounded-r-none border-l border-border/80 bg-background/95">
         <DrawerHeader>
           <DrawerTitle>Navigation</DrawerTitle>
         </DrawerHeader>
@@ -65,12 +65,12 @@ export function MobileNav({ showAdmin = false }: { showAdmin?: boolean }) {
               <span className="inline-block h-3.5 w-0.5 rounded-full bg-primary" aria-hidden />
               Operations
             </h3>
-            <ul className="space-y-1" role="list">
+            <ul className="space-y-0.5" role="list">
               {operationsLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="block rounded-lg px-4 py-3 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                    className="flex min-h-[44px] items-center rounded-lg px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted"
                   >
                     {link.label}
                   </Link>
@@ -83,12 +83,12 @@ export function MobileNav({ showAdmin = false }: { showAdmin?: boolean }) {
               <span className="inline-block h-3.5 w-0.5 rounded-full bg-primary" aria-hidden />
               Organisation
             </h3>
-            <ul className="space-y-1" role="list">
+            <ul className="space-y-0.5" role="list">
               {organisationLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="block rounded-lg px-4 py-3 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                    className="flex min-h-[44px] items-center rounded-lg px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted"
                   >
                     {link.label}
                   </Link>
@@ -102,12 +102,12 @@ export function MobileNav({ showAdmin = false }: { showAdmin?: boolean }) {
                 <span className="inline-block h-3.5 w-0.5 rounded-full bg-primary" aria-hidden />
                 Account
               </h3>
-              <ul className="space-y-1" role="list">
+              <ul className="space-y-0.5" role="list">
                 {accountLinksFiltered.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="block rounded-lg px-4 py-3 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                      className="flex min-h-[44px] items-center rounded-lg px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted"
                     >
                       {link.label}
                     </Link>

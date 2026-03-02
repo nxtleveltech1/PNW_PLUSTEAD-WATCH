@@ -47,7 +47,7 @@ export default function DonatePage() {
                   <div className="detail-row">
                     <dt>Account number</dt>
                     <dd className="flex items-center gap-2">
-                      <span className="font-mono text-lg">631 463 987 05</span>
+                      <span className="break-all font-mono text-lg">631 463 987 05</span>
                       <CopyButton value="6314639870 5" label="Account number copied" />
                     </dd>
                   </div>

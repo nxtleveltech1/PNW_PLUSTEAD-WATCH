@@ -36,7 +36,7 @@ export default async function AdminLayout({
 
         <div className="flex flex-col gap-4 lg:flex-row lg:gap-4">
           <nav
-            className="flex shrink-0 flex-wrap gap-2 lg:w-56 lg:flex-col lg:gap-1"
+            className="flex shrink-0 snap-x gap-2 overflow-x-auto pb-2 lg:w-56 lg:flex-col lg:gap-1 lg:overflow-x-visible lg:pb-0"
             aria-label="Admin navigation"
           >
             {adminNav.map((item) => {
@@ -45,10 +45,10 @@ export default async function AdminLayout({
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="inline-flex min-h-[44px] items-center gap-2 rounded-lg border bg-card px-4 py-2.5 text-sm font-medium transition-colors hover:border-primary/30 hover:bg-primary/5"
+                  className="inline-flex min-h-[44px] shrink-0 snap-start items-center gap-2 rounded-lg border bg-card px-4 py-2.5 text-sm font-medium transition-colors hover:border-primary/30 hover:bg-primary/5 lg:shrink lg:w-full"
                 >
                   <Icon className="h-4 w-4 shrink-0" />
-                  {item.label}
+                  <span className="whitespace-nowrap lg:whitespace-normal">{item.label}</span>
                 </Link>
               );
             })}

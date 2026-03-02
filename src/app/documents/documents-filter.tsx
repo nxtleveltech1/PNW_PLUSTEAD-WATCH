@@ -27,15 +27,15 @@ export function DocumentsFilter({
   }
 
   return (
-    <div className="flex items-center gap-3">
-      <label htmlFor="doc-category" className="text-sm font-medium text-muted-foreground">
+    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+      <label htmlFor="doc-category" className="shrink-0 text-sm font-medium text-muted-foreground">
         Filter by category
       </label>
       <select
         id="doc-category"
         value={current ?? ""}
         onChange={handleChange}
-        className="flex h-9 min-w-[200px] rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+        className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring sm:w-auto sm:min-w-[200px]"
       >
         <option value="">All categories</option>
         {categories.map((cat) => (

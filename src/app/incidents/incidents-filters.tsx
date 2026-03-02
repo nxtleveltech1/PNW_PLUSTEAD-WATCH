@@ -27,12 +27,12 @@ export function IncidentsFilters({
   const types = ["Theft", "Arrest", "Burglary", "Assault", "Other"];
 
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
       {zones.length > 1 && (
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-muted-foreground">Zone:</span>
+          <span className="shrink-0 text-sm font-medium text-muted-foreground">Zone:</span>
           <select
-            className="rounded-md border border-input bg-transparent px-3 py-1.5 text-sm"
+            className="h-9 min-h-[36px] w-full rounded-md border border-input bg-transparent px-3 py-1.5 text-sm sm:w-auto"
             value={currentZone ?? ""}
             onChange={(e) => setFilter("zone", e.target.value || null)}
             aria-label="Filter by zone"
@@ -49,6 +49,7 @@ export function IncidentsFilters({
         <Button
           variant={!currentType ? "default" : "outline"}
           size="sm"
+          className="h-9"
           onClick={() => setFilter("type", "")}
         >
           All
@@ -58,6 +59,7 @@ export function IncidentsFilters({
             key={t}
             variant={currentType === t ? "default" : "outline"}
             size="sm"
+            className="h-9"
             onClick={() => setFilter("type", currentType === t ? "" : t)}
           >
             {t}

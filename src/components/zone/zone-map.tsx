@@ -92,7 +92,7 @@ export function ZoneMap({ sectionStats = {} }: ZoneMapProps) {
         <button
           type="button"
           onClick={() => setSelectedId(null)}
-          className={`rounded-lg px-3.5 py-2 text-sm font-semibold transition-colors ${
+          className={`min-h-[44px] rounded-lg px-3.5 py-2 text-sm font-semibold transition-colors ${
             !selectedId
               ? "bg-primary text-primary-foreground shadow-sm"
               : "bg-muted hover:bg-muted/80"
@@ -107,7 +107,7 @@ export function ZoneMap({ sectionStats = {} }: ZoneMapProps) {
               key={s.id}
               type="button"
               onClick={() => setSelectedId(selectedId === s.id ? null : s.id)}
-              className={`flex items-center gap-2 rounded-lg px-3.5 py-2 text-sm font-semibold transition-all ${
+              className={`flex min-h-[44px] items-center gap-2 rounded-lg px-3.5 py-2 text-sm font-semibold transition-all ${
                 selectedId === s.id
                   ? "bg-primary text-primary-foreground shadow-sm"
                   : "bg-muted hover:bg-muted/80"
@@ -131,7 +131,7 @@ export function ZoneMap({ sectionStats = {} }: ZoneMapProps) {
       {/* Map + detail panel */}
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2">
-          <div className="h-[500px] w-full overflow-hidden rounded-2xl border border-border shadow-[var(--shadow-elevation-1)]">
+          <div className="h-[350px] w-full overflow-hidden rounded-2xl border border-border shadow-[var(--shadow-elevation-1)] sm:h-[500px]">
             <ZoneMapInner selectedId={selectedId} onSelect={handleSelect} />
           </div>
         </div>
@@ -154,7 +154,7 @@ export function ZoneMap({ sectionStats = {} }: ZoneMapProps) {
                 <h3 className="font-display text-lg font-bold">{selected.name}</h3>
               </div>
 
-              <div className="grid grid-cols-2 gap-px bg-border">
+              <div className="grid grid-cols-1 gap-px bg-border sm:grid-cols-2">
                 <div className="flex flex-col items-center gap-1 bg-card px-4 py-4">
                   <Navigation className="h-4 w-4 text-primary" />
                   <span className="text-2xl font-bold">{selectedStats.streetCount}</span>
@@ -189,7 +189,7 @@ export function ZoneMap({ sectionStats = {} }: ZoneMapProps) {
               <div className="border-t border-border px-6 py-4">
                 <a
                   href={`/register?section=${selected.id}`}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition-all hover:-translate-y-0.5 hover:bg-accent/90 active:scale-[0.98]"
+                  className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition-all hover:-translate-y-0.5 hover:bg-accent/90 active:scale-[0.98]"
                 >
                   Join {selected.name}
                 </a>

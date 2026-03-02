@@ -139,7 +139,7 @@ export default async function BusinessNetworkingHubPage({
                     <a
                       key={item.label}
                       href={item.href}
-                      className="inline-flex items-center rounded-full border border-primary/30 bg-background/80 px-4 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary/10 hover:border-primary/50"
+                      className="inline-flex min-h-[44px] items-center rounded-full border border-primary/30 bg-background/80 px-4 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary/10 hover:border-primary/50"
                     >
                       {item.label}
                     </a>
@@ -147,7 +147,7 @@ export default async function BusinessNetworkingHubPage({
                     <Link
                       key={item.label}
                       href={item.href}
-                      className="inline-flex items-center rounded-full border border-primary/30 bg-background/80 px-4 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary/10 hover:border-primary/50"
+                      className="inline-flex min-h-[44px] items-center rounded-full border border-primary/30 bg-background/80 px-4 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary/10 hover:border-primary/50"
                     >
                       {item.label}
                     </Link>
@@ -156,7 +156,7 @@ export default async function BusinessNetworkingHubPage({
                 {userId && (
                   <Link
                     href="/business/messages"
-                    className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-background/80 px-4 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary/10 hover:border-primary/50"
+                    className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-primary/30 bg-background/80 px-4 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary/10 hover:border-primary/50"
                   >
                     <MessageSquare className="h-4 w-4" />
                     Messages

@@ -51,7 +51,7 @@ export default async function SafetyTipsPage() {
                   <a
                   key={category}
                   href={`#category-${category}`}
-                  className="rounded-full border border-primary/20 bg-primary/5 px-3 py-1.5 text-xs font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+                  className="inline-flex min-h-[36px] items-center rounded-full border border-primary/20 bg-primary/5 px-3 py-1.5 text-xs font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
                 >
                   {CATEGORY_LABELS[category] ?? category}
                 </a>
@@ -64,16 +64,16 @@ export default async function SafetyTipsPage() {
                 return (
                   <AnimateItem key={category}>
                   <section id={`category-${category}`} className="card-elevated overflow-hidden rounded-2xl border-0 bg-card">
-                    <div className="panel-header flex items-center justify-between gap-4">
-                      <h2 className="flex items-center gap-2 font-display text-2xl font-semibold">
-                        <Shield className="h-5 w-5 text-primary/40" />
+                    <div className="panel-header flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+                      <h2 className="flex items-center gap-2 font-display text-xl font-semibold sm:text-2xl">
+                        <Shield className="h-5 w-5 shrink-0 text-primary/40" />
                         {CATEGORY_LABELS[category] ?? category}
                       </h2>
-                      <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                      <span className="self-start rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary sm:self-auto">
                         {categoryTips.length} guidance item{categoryTips.length === 1 ? "" : "s"}
                       </span>
                     </div>
-                    <div className="grid gap-4 p-5 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
+                    <div className="grid gap-4 p-4 sm:p-5 [grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))]">
                       {categoryTips.map((tip) => (
                         <Link
                           key={tip.id}

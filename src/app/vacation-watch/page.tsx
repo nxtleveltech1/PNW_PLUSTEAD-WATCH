@@ -11,7 +11,7 @@ export default function VacationWatchPage() {
       <PageHero eyebrow="Property Watch" title="Vacation Watch" description="Register your property for visual checks while you're away." />
 
       <AnimateSection className="mt-section">
-          <section className="card-elevated rounded-2xl border border-amber-500/30 bg-amber-500/5 p-6">
+          <section className="card-elevated rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 sm:p-6">
           <h2 className="font-display font-semibold text-foreground">Eligibility</h2>
           <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
             <li>Property unoccupied for 1 week or longer</li>
@@ -28,7 +28,7 @@ export default function VacationWatchPage() {
           <AnimateItem>
           <Card className="card-elevated max-w-md border-0">
             <CardHeader>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
                 <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/15">
                   <Home className="h-6 w-6 text-primary" />
                 </span>

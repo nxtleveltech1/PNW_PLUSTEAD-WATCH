@@ -48,7 +48,7 @@ export default async function HomePage() {
         {/* Emergency alert: prominent, urgent */}
         <section className="relative border-b-2 border-accent/30 bg-gradient-to-r from-alert-muted via-alert-muted/95 to-alert-muted py-5">
           <div className="container">
-            <p className="text-center text-lg font-bold tracking-wide text-accent md:text-xl">
+            <p className="text-center text-base font-bold tracking-wide text-accent md:text-lg lg:text-xl">
               REPORT ALL INCIDENTS TO CVIC: 0860 002 669
             </p>
             <p className="mt-2 text-center text-sm text-accent/90">
@@ -128,7 +128,7 @@ export default async function HomePage() {
                       <div className="detail-row">
                         <dt>Account</dt>
                         <dd className="flex items-center gap-2">
-                          <span className="font-mono text-lg">631 463 987 05</span>
+                          <span className="break-all font-mono text-lg">631 463 987 05</span>
                           <CopyButton value="6314639870 5" label="Account number copied" />
                         </dd>
                       </div>
@@ -316,9 +316,9 @@ export default async function HomePage() {
           <AnimateSection id="sponsors" className="bg-background py-10 lg:py-12">
             <div className="container">
               <AnimateItem>
-                <div className="glass-card rounded-xl px-6 py-5">
-                  <p className="text-center text-sm font-medium text-muted-foreground">
-                    Supported by{" "}
+                <div className="glass-card rounded-xl px-4 py-5 sm:px-6">
+                  <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-sm font-medium text-muted-foreground">
+                    <span>Supported by</span>
                     {sponsors.map((s, i) => (
                       <span key={s.id}>
                         {s.linkUrl ? (
@@ -328,11 +328,12 @@ export default async function HomePage() {
                         ) : (
                           <span className="font-semibold">{s.name}</span>
                         )}
-                        {i < sponsors.length - 1 ? ", " : ""}
+                        {i < sponsors.length - 1 ? "," : ""}
                       </span>
                     ))}
-                    {" "} | <Link href="/sponsors" className="font-semibold text-primary hover:underline">View all sponsors</Link>
-                  </p>
+                    <span className="hidden sm:inline">|</span>
+                    <Link href="/sponsors" className="font-semibold text-primary hover:underline">View all sponsors</Link>
+                  </div>
                 </div>
               </AnimateItem>
             </div>

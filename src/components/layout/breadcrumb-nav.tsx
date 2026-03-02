@@ -21,7 +21,7 @@ export function BreadcrumbNav({ items }: { items: BreadcrumbNavItem[] }) {
             {i > 0 && <BreadcrumbSeparator />}
             {item.href ? (
               <BreadcrumbLink asChild>
-                <Link href={item.href}>{item.label}</Link>
+                <Link href={item.href} className="inline-flex min-h-[2.75rem] items-center py-1">{item.label}</Link>
               </BreadcrumbLink>
             ) : (
               <BreadcrumbPage>{item.label}</BreadcrumbPage>

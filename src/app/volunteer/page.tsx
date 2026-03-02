@@ -51,7 +51,7 @@ export default async function VolunteerPage() {
         </div>
       </AnimateSection>
 
-      <AnimateSection className="mt-section section-gradient-primary rounded-2xl px-6 py-8">
+      <AnimateSection className="mt-section section-gradient-primary rounded-2xl px-4 py-6 sm:px-6 sm:py-8">
         <h2 className="block-title">Roles</h2>
         <div className="mt-6 grid gap-6 sm:grid-cols-2">
           {ROLES.map((r) => (

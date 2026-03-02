@@ -63,7 +63,7 @@ export default function SignInPage() {
 
       {/* Auth panel */}
       <div className="flex flex-col bg-background">
-        <div className="flex items-center gap-3 border-b border-border/60 px-6 py-4 lg:hidden">
+        <div className="flex items-center gap-3 border-b border-border/60 px-4 py-3 sm:px-6 sm:py-4 lg:hidden">
           <Link href="/">
             <Image
               src="/images/header%20logo.jpg"
@@ -79,7 +79,7 @@ export default function SignInPage() {
           </span>
         </div>
 
-        <div className="flex flex-1 flex-col items-center justify-center px-6 py-12">
+        <div className="flex flex-1 flex-col items-center justify-center px-4 py-10 sm:px-6 sm:py-12">
           <div className="w-full max-w-md space-y-8">
             <div className="text-center lg:text-left">
               <p className="eyebrow">Secure Access</p>

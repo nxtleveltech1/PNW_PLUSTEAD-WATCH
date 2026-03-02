@@ -18,9 +18,9 @@ export default async function RegisterPage({
   return (
     <PageShell>
       <div className="w-full max-w-5xl">
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <p className="eyebrow">Onboarding</p>
-          <h1 className="text-2xl font-semibold leading-none tracking-tight">Register as a member</h1>
+          <h1 className="text-xl font-semibold leading-none tracking-tight sm:text-2xl">Register as a member</h1>
           <p className="mt-2 text-sm text-muted-foreground">
             You live in the Plumstead area. Complete your details before signing up.{" "}
             <Link href="/find" className="text-primary hover:underline">Find your zone</Link>

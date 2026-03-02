@@ -6,7 +6,7 @@ export default function DisclaimerPage() {
   return (
     <PageShell>
       <PageHero eyebrow="Legal" title="Disclaimer" />
-      <AnimateSection className="mt-section section-gradient-muted rounded-2xl px-6 py-8">
+      <AnimateSection className="mt-section section-gradient-muted rounded-2xl px-4 py-6 sm:px-6 sm:py-8">
         <article className="panel max-w-4xl overflow-hidden">
           <div className="panel-header">
             <h2 className="flex items-center gap-2 font-display text-lg font-semibold">
