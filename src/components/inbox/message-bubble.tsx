@@ -1,4 +1,4 @@
-import { Bell } from "lucide-react";
+import { Bell, Check, CheckCheck } from "lucide-react";
 import type { ThreadMessage } from "@/lib/messaging";
 
 function formatTime(iso: string) {
@@ -10,6 +10,16 @@ function formatTime(iso: string) {
   if (isToday) return time;
 
   return `${d.toLocaleDateString("en-ZA", { day: "numeric", month: "short" })} ${time}`;
+}
+
+function MessageTicks({ status }: { status?: string }) {
+  if (!status) return null;
+
+  if (status === "read") {
+    return <CheckCheck className="h-3.5 w-3.5 shrink-0 text-blue-400" />;
+  }
+
+  return <Check className="h-3.5 w-3.5 shrink-0 text-blue-400" />;
 }
 
 export function MessageBubble({ message }: { message: ThreadMessage }) {
@@ -58,13 +68,14 @@ export function MessageBubble({ message }: { message: ThreadMessage }) {
           </p>
         )}
         <p className="text-sm whitespace-pre-wrap break-words">{message.body}</p>
-        <p
-          className={`mt-1 text-[10px] ${
+        <div
+          className={`mt-1 flex items-center justify-end gap-1 text-[10px] ${
             message.isCurrentUser ? "text-primary-foreground/60" : "text-muted-foreground"
           }`}
         >
-          {formatTime(message.createdAt)}
-        </p>
+          <span>{formatTime(message.createdAt)}</span>
+          {message.isCurrentUser && <MessageTicks status={message.status} />}
+        </div>
       </div>
     </div>
   );

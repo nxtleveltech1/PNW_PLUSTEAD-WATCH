@@ -30,6 +30,7 @@ const primaryNavLinks = [
 const moreNavLinks = [
   { href: "/safety-tips", label: "Safety Tips" },
   { href: "/volunteer", label: "Volunteer" },
+  { href: "/associations", label: "Associations" },
   { href: "/contact", label: "Contact" },
 ];
 

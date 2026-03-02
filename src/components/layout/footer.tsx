@@ -15,6 +15,7 @@ const opsLinks = [
 
 const orgLinks = [
   { href: "/about", label: "About" },
+  { href: "/associations", label: "Associations" },
   { href: "/contact", label: "Contact" },
   { href: "/help", label: "Help" },
   { href: "/donate", label: "Donate" },

@@ -139,6 +139,8 @@ export async function getConversations(
 
 // ── Conversation Messages ────────────────────────────────────────────────
 
+export type MessageStatus = "sent" | "delivered" | "read";
+
 export type ThreadMessage = {
   id: string;
   body: string;
@@ -147,6 +149,7 @@ export type ThreadMessage = {
   isCurrentUser: boolean;
   metadata: Record<string, unknown> | null;
   createdAt: string;
+  status?: MessageStatus;
 };
 
 export type ConversationDetail = {
@@ -181,9 +184,8 @@ export async function getConversationMessages(
         },
       },
       participants: {
-        where: { userId: { not: user.id } },
         include: {
-          user: { select: { firstName: true, lastName: true, email: true } },
+          user: { select: { id: true, firstName: true, lastName: true, email: true } },
         },
       },
       businessListing: { select: { id: true, name: true } },
@@ -198,15 +200,29 @@ export async function getConversationMessages(
     data: { lastReadAt: new Date() },
   });
 
+  const otherParticipants = conversation.participants.filter(
+    (cp) => cp.userId !== user.id
+  );
+
+  function getMessageStatus(messageCreatedAt: Date): MessageStatus {
+    if (otherParticipants.length === 0) return "delivered";
+    const allRead = otherParticipants.every(
+      (cp) => cp.lastReadAt && cp.lastReadAt >= messageCreatedAt
+    );
+    return allRead ? "read" : "delivered";
+  }
+
   return {
     id: conversation.id,
     subject: conversation.subject,
     type: conversation.type,
     businessListingId: conversation.businessListing?.id ?? null,
     businessListingName: conversation.businessListing?.name ?? null,
-    participantNames: conversation.participants.map((cp) =>
-      [cp.user.firstName, cp.user.lastName].filter(Boolean).join(" ") || cp.user.email
-    ),
+    participantNames: conversation.participants
+      .filter((cp) => cp.userId !== user.id)
+      .map((cp) =>
+        [cp.user.firstName, cp.user.lastName].filter(Boolean).join(" ") || cp.user.email
+      ),
     messages: conversation.messages.map((m) => ({
       id: m.id,
       body: m.body,
@@ -217,6 +233,7 @@ export async function getConversationMessages(
       isCurrentUser: m.senderId === user.id,
       metadata: m.metadata as Record<string, unknown> | null,
       createdAt: m.createdAt.toISOString(),
+      ...(m.senderId === user.id ? { status: getMessageStatus(m.createdAt) } : {}),
     })),
   };
 }
