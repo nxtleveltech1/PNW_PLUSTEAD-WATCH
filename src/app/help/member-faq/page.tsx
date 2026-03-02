@@ -13,12 +13,6 @@ export default function MemberFaqPage() {
           <Link href="/register" className="text-primary hover:underline">Register here</Link>.
         </p>
 
-        <h2 className="font-display mt-8 text-xl font-semibold">Who can register as a guest?</h2>
-        <p>
-          If you do not live in the area but wish to stay informed about PNW activities, you may register as a guest.{" "}
-          <Link href="/register/guest" className="text-primary hover:underline">Register as a guest</Link>.
-        </p>
-
         <h2 className="font-display mt-8 text-xl font-semibold">I forgot my password. What do I do?</h2>
         <p>
           On the sign-in page, use the &quot;Forgot password?&quot; link. You will receive an email with instructions to reset your password.

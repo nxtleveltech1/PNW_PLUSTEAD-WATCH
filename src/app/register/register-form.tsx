@@ -31,14 +31,7 @@ const memberFormSchema = z.object({
   whatsappPhone: z.string().trim().nullable(),
 });
 
-const guestFormSchema = registrationPreparationSchema.pick({
-  emailPrefs: true,
-  whatsappOptIn: true,
-  whatsappPhone: true,
-});
-
 type MemberSchema = z.infer<typeof memberFormSchema>;
-type GuestSchema = z.infer<typeof guestFormSchema>;
 
 type Zone = { id: string; name: string };
 type Street = { id: string; name: string; zoneId: string };
@@ -54,10 +47,8 @@ export function RegisterForm({
   streets?: Street[];
   defaultZoneId?: string | null;
 }) {
-  const isMember = memberType === "MEMBER";
-  const zoneStreets = isMember && defaultZoneId ? streets.filter((s) => s.zoneId === defaultZoneId) : [];
 
-  const memberForm = useForm<MemberSchema>({
+  const form = useForm<MemberSchema>({
     resolver: zodResolver(memberFormSchema),
     defaultValues: {
       zoneId: defaultZoneId ?? zones[0]?.id ?? null,
@@ -74,50 +65,38 @@ export function RegisterForm({
     },
   });
 
-  const guestForm = useForm<GuestSchema>({
-    resolver: zodResolver(guestFormSchema),
-    defaultValues: {
-      emailPrefs: undefined,
-      whatsappOptIn: false,
-      whatsappPhone: null,
-    },
-  });
+  const whatsappOptIn = form.watch("whatsappOptIn");
 
-  const form = isMember ? memberForm : guestForm;
-  const whatsappOptIn = isMember ? memberForm.watch("whatsappOptIn") : guestForm.watch("whatsappOptIn");
-
-  async function onSubmit(values: MemberSchema | GuestSchema) {
+  async function onSubmit(values: MemberSchema) {
     await prepareRegistration({
-      zoneId: isMember ? (values as MemberSchema).zoneId ?? null : null,
+      zoneId: values.zoneId ?? null,
       memberType,
-      streetId: isMember ? (values as MemberSchema).streetId ?? null : null,
-      houseNumber: isMember ? (values as MemberSchema).houseNumber ?? null : null,
-      hideFromNeighbours: isMember ? (values as MemberSchema).hideFromNeighbours ?? false : false,
-      patrolOptIn: isMember ? (values as MemberSchema).patrolOptIn ?? false : false,
-      secondaryContactName: isMember ? (values as MemberSchema).secondaryContactName ?? null : null,
-      secondaryContactPhone: isMember ? (values as MemberSchema).secondaryContactPhone ?? null : null,
-      secondaryContactEmail: isMember
-        ? ((values as MemberSchema).secondaryContactEmail === "" ? null : (values as MemberSchema).secondaryContactEmail)
-        : null,
-      emailPrefs: "emailPrefs" in values ? values.emailPrefs : undefined,
+      streetId: values.streetId ?? null,
+      houseNumber: values.houseNumber ?? null,
+      hideFromNeighbours: values.hideFromNeighbours ?? false,
+      patrolOptIn: values.patrolOptIn ?? false,
+      secondaryContactName: values.secondaryContactName ?? null,
+      secondaryContactPhone: values.secondaryContactPhone ?? null,
+      secondaryContactEmail: values.secondaryContactEmail === "" ? null : values.secondaryContactEmail ?? null,
+      emailPrefs: values.emailPrefs,
       whatsappOptIn: values.whatsappOptIn,
       whatsappPhone: values.whatsappOptIn && values.whatsappPhone ? values.whatsappPhone : null,
     });
   }
 
-  const selectedZoneId = isMember ? memberForm.watch("zoneId") : null;
-  const streetsForZone = isMember && selectedZoneId ? streets.filter((s) => s.zoneId === selectedZoneId) : [];
+  const selectedZoneId = form.watch("zoneId");
+  const streetsForZone = selectedZoneId ? streets.filter((s) => s.zoneId === selectedZoneId) : [];
 
-  return isMember ? (
-    <Form {...memberForm}>
-      <form onSubmit={memberForm.handleSubmit(onSubmit)}>
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 gap-x-10 gap-y-6 md:grid-cols-2">
           {/* Left column — Location & preferences */}
           <div className="space-y-6">
             {zones.length > 0 && (
               <>
                 <FormField
-                  control={memberForm.control}
+                  control={form.control}
                   name="zoneId"
                   render={({ field }) => (
                     <FormItem>
@@ -129,7 +108,7 @@ export function RegisterForm({
                           value={field.value ?? ""}
                           onChange={(e) => {
                             field.onChange(e.target.value || null);
-                            memberForm.setValue("streetId", null);
+                            form.setValue("streetId", null);
                           }}
                         >
                           {zones.map((z) => (
@@ -145,7 +124,7 @@ export function RegisterForm({
                 />
                 {streetsForZone.length > 0 && (
                   <FormField
-                    control={memberForm.control}
+                    control={form.control}
                     name="streetId"
                     render={({ field }) => (
                       <FormItem>
@@ -171,7 +150,7 @@ export function RegisterForm({
                   />
                 )}
                 <FormField
-                  control={memberForm.control}
+                  control={form.control}
                   name="houseNumber"
                   render={({ field }) => (
                     <FormItem>
@@ -188,7 +167,7 @@ export function RegisterForm({
                   )}
                 />
                 <FormField
-                  control={memberForm.control}
+                  control={form.control}
                   name="hideFromNeighbours"
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-start space-x-3 space-y-0">
@@ -206,7 +185,7 @@ export function RegisterForm({
                   )}
                 />
                 <FormField
-                  control={memberForm.control}
+                  control={form.control}
                   name="patrolOptIn"
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-start space-x-3 space-y-0">
@@ -235,7 +214,7 @@ export function RegisterForm({
                 Someone we or a neighbour can contact if you cannot be reached at your premises.
               </p>
               <FormField
-                control={memberForm.control}
+                control={form.control}
                 name="secondaryContactName"
                 render={({ field }) => (
                   <FormItem>
@@ -252,7 +231,7 @@ export function RegisterForm({
                 )}
               />
               <FormField
-                control={memberForm.control}
+                control={form.control}
                 name="secondaryContactPhone"
                 render={({ field }) => (
                   <FormItem>
@@ -269,7 +248,7 @@ export function RegisterForm({
                 )}
               />
               <FormField
-                control={memberForm.control}
+                control={form.control}
                 name="secondaryContactEmail"
                 render={({ field }) => (
                   <FormItem>
@@ -288,7 +267,7 @@ export function RegisterForm({
               />
             </div>
             <FormField
-              control={memberForm.control}
+              control={form.control}
               name="whatsappOptIn"
               render={({ field }) => (
                 <FormItem className="flex flex-row items-start space-x-3 space-y-0">
@@ -307,7 +286,7 @@ export function RegisterForm({
             />
             {whatsappOptIn && (
               <FormField
-                control={memberForm.control}
+                control={form.control}
                 name="whatsappPhone"
                 render={({ field }) => (
                   <FormItem>
@@ -332,51 +311,6 @@ export function RegisterForm({
             Continue to sign up
           </Button>
         </div>
-      </form>
-    </Form>
-  ) : (
-    <Form {...guestForm}>
-      <form onSubmit={guestForm.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-          control={guestForm.control}
-          name="whatsappOptIn"
-          render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-              <FormControl>
-                <input
-                  type="checkbox"
-                  className="h-4 w-4 rounded border-input"
-                  checked={field.value}
-                  onChange={(e) => field.onChange(e.target.checked)}
-                />
-              </FormControl>
-              <FormLabel className="font-normal">Opt in to WhatsApp updates</FormLabel>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {whatsappOptIn && (
-          <FormField
-            control={guestForm.control}
-            name="whatsappPhone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>WhatsApp number</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="082 123 4567"
-                    value={field.value ?? ""}
-                    onChange={(e) => field.onChange(e.target.value || null)}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        )}
-        <Button type="submit" className="w-full">
-          Continue to sign up
-        </Button>
       </form>
     </Form>
   );

@@ -23,8 +23,7 @@ const orgLinks = [
 ];
 
 const membershipLinks = [
-  { href: "/register", label: "Register (member)" },
-  { href: "/register/guest", label: "Register (guest)" },
+  { href: "/register", label: "Register" },
 ];
 
 const legalLinks = [

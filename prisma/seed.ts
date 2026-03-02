@@ -128,7 +128,6 @@ async function main() {
   if (baseDocCount < 5) {
     const baseDocs = [
       { name: "Membership Application Form", categoryId: forms.id, fileUrl: "/documents/membership-form.pdf" },
-      { name: "Guest Registration Form", categoryId: forms.id, fileUrl: "/documents/guest-form.pdf" },
       { name: "Terms of Use", categoryId: policies.id, fileUrl: "/terms" },
       { name: "Privacy Policy", categoryId: policies.id, fileUrl: "/privacy" },
       { name: "Newsletter January 2026", categoryId: newsletter.id, fileUrl: "/documents/newsletter-jan-2026.pdf" },

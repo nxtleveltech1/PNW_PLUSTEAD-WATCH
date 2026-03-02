@@ -79,16 +79,6 @@ export default function GlossaryHelpPage() {
       ],
     },
     {
-      letter: "G",
-      items: [
-        {
-          term: "Guest",
-          definition:
-            "A person who does not reside in the area but would like to be kept informed of activities of the organisation and who has registered on the website.",
-        },
-      ],
-    },
-    {
       letter: "H",
       items: [
         {

@@ -129,9 +129,6 @@ export function MobileNav({ showAdmin = false }: { showAdmin?: boolean }) {
                   <Button asChild variant="outline" className="min-h-[44px] w-full justify-center">
                     <Link href="/sign-in">Sign in</Link>
                   </Button>
-                  <Button asChild variant="outline" className="min-h-[44px] w-full justify-center">
-                    <Link href="/register/guest">Register guest</Link>
-                  </Button>
                   <Button asChild className="min-h-[44px] w-full justify-center">
                     <Link href="/register">Join us</Link>
                   </Button>
@@ -146,9 +143,6 @@ export function MobileNav({ showAdmin = false }: { showAdmin?: boolean }) {
               <>
                 <Button asChild variant="outline" className="min-h-[44px] w-full justify-center">
                   <Link href="/sign-in">Sign in</Link>
-                </Button>
-                <Button asChild variant="outline" className="min-h-[44px] w-full justify-center">
-                  <Link href="/register/guest">Register guest</Link>
                 </Button>
                 <Button asChild className="min-h-[44px] w-full justify-center">
                   <Link href="/register">Join us</Link>
