@@ -30,7 +30,7 @@ export default async function HomePage() {
       <Header />
       <main id="main" className="flex-1">
         {/* Hero: full viewport, refined gradient, motion */}
-        <section className="relative min-h-[70svh] w-full overflow-hidden ambient-grid md:min-h-[80svh] lg:min-h-[calc(100svh-4.5rem)]">
+        <section className="relative min-h-[80svh] w-full overflow-hidden ambient-grid md:min-h-[80svh] lg:min-h-[calc(100svh-4.5rem)]">
           <Image
             src="/images/hero-2.png"
             alt=""
