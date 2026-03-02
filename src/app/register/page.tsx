@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { PageShell } from "@/components/layout/page-shell";
 import { RegisterForm } from "./register-form";
 import { prisma } from "@/lib/db";

@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { Handshake } from "lucide-react";
 import { PageShell } from "@/components/layout/page-shell";
 import { PageHero } from "@/components/layout/page-hero";

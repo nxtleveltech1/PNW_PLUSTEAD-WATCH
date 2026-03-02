@@ -1,15 +1,24 @@
 # PNW Release Runbook (Vercel + Neon + Clerk)
 
 ## 1. Pre-Release Checks
+- Confirm Vercel platform health before deploy:
+  - https://www.vercel-status.com/
+  - If any active incident affects deploys/serverless/middleware, delay release and redeploy after resolution.
 - Confirm environment variables in Vercel project:
   - `DATABASE_URL`
   - `DIRECT_URL`
   - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
   - `CLERK_SECRET_KEY`
   - `CLERK_WEBHOOK_SECRET`
+  - `ADMIN_EMAILS`
   - `NEXT_PUBLIC_APP_URL`
+  - `NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY`
+  - `PAYSTACK_SECRET_KEY`
+- Security gate:
+  - If any required auth/payment env var is missing, do not release.
 - Run full verification:
   - `bun run lint`
+  - `bun run test`
   - `bun run build:bun`
   - `bun run build:node`
 

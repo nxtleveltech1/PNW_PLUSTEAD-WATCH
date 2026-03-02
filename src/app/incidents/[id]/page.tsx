@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { notFound } from "next/navigation";
 import { PageShell } from "@/components/layout/page-shell";
 import { BreadcrumbNav } from "@/components/layout/breadcrumb-nav";

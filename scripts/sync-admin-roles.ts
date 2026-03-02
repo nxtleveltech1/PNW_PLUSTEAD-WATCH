@@ -4,14 +4,14 @@
  * Run once to fix existing admins created before the webhook or when webhook failed.
  *
  * Usage: bun run scripts/sync-admin-roles.ts
- * Requires: DATABASE_URL, ADMIN_EMAILS (optional, defaults to gambew@gmail.com)
+ * Requires: DATABASE_URL, ADMIN_EMAILS
  */
 
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const adminEmails = (process.env.ADMIN_EMAILS ?? "gambew@gmail.com")
+const adminEmails = (process.env.ADMIN_EMAILS ?? "")
   .split(",")
   .map((e) => e.trim().toLowerCase())
   .filter(Boolean);

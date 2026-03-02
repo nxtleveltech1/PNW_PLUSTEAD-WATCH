@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { Shield } from "lucide-react";
 import { PageShell } from "@/components/layout/page-shell";

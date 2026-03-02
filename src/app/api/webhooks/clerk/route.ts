@@ -1,7 +1,8 @@
-import { Webhook } from "svix";
 import { headers } from "next/headers";
 import type { WebhookEvent } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/db";
+import { parseAdminEmails } from "@/lib/admin-emails";
+import { verifyClerkWebhook } from "@/lib/clerk-webhook";
 
 async function resolveRoleId(isAdmin: boolean): Promise<string | undefined> {
   const roleName = isAdmin ? "Super Admin" : "Member";
@@ -24,24 +25,16 @@ export async function POST(req: Request) {
     return Response.json({ error: "Missing svix headers" }, { status: 400 });
   }
 
-  const payload = await req.json();
-  const body = JSON.stringify(payload);
-  const wh = new Webhook(secret);
+  const body = await req.text();
   let evt: WebhookEvent;
 
   try {
-    evt = wh.verify(body, {
-      "svix-id": svixId,
-      "svix-timestamp": svixTimestamp,
-      "svix-signature": svixSignature,
-    }) as WebhookEvent;
+    evt = verifyClerkWebhook(body, secret, { svixId, svixTimestamp, svixSignature });
   } catch {
     return Response.json({ error: "Invalid signature" }, { status: 400 });
   }
 
-  const adminEmails = (process.env.ADMIN_EMAILS ?? "gambew@gmail.com")
-    .split(",")
-    .map((e) => e.trim().toLowerCase());
+  const adminEmails = parseAdminEmails();
 
   if (evt.type === "user.created") {
     const { id, first_name, last_name, email_addresses, primary_email_address_id } = evt.data;

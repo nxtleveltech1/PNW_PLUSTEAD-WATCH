@@ -2,9 +2,13 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? "gambew@gmail.com";
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 
 async function main() {
+  if (!ADMIN_EMAIL || ADMIN_EMAIL.trim().length === 0) {
+    throw new Error("ADMIN_EMAIL is required");
+  }
+
   const result = await prisma.user.updateMany({
     where: { email: { equals: ADMIN_EMAIL, mode: "insensitive" } },
     data: { role: "ADMIN" },

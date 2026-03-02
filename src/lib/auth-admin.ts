@@ -2,11 +2,9 @@ import { auth, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { PERMISSIONS } from "@/lib/permissions";
+import { parseAdminEmails } from "@/lib/admin-emails";
 
-const adminEmails = (process.env.ADMIN_EMAILS ?? "gambew@gmail.com")
-  .split(",")
-  .map((e) => e.trim().toLowerCase())
-  .filter(Boolean);
+const adminEmails = parseAdminEmails();
 
 async function ensureSuperAdminRole(userId: string) {
   const superAdminRole = await prisma.role.findUnique({ where: { name: "Super Admin" } });
